@@ -1,0 +1,698 @@
+City,Region,Country,Postal Code,Latitude,Longitude,Timezone,ISP,Organization,Autonomous System,IP_Masked
+Warangal,Telangana,India,506003,17.9958,79.5782,Asia/Kolkata,BSNL Internet,,AS9829 National Internet Backbone,117.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.412,-122.148,America/Los_Angeles,HP Inc.,HP Inc,,15.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,11.xxx.xxx.xxx
+Banqiao,Taipei,Taiwan,,25.0114,121.462,Asia/Taipei,"Far EastTone Telecommunication Co., Ltd.","Far EasTone Telecommunication Co., Ltd.","AS9674 Far EastTone Telecommunication Co., Ltd.",27.xxx.xxx.xxx
+Fort Collins,Colorado,United States,80526,40.5603,-105.081,America/Denver,USDA,USDA Office of Operations,AS4152 USDA,199.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",100.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Seattle,Washington,United States,98109,47.6222,-122.337,America/Los_Angeles,Amazon Technologies Inc.,Amazon Technologies Inc,,3.xxx.xxx.xxx
+Paris,Île-de-France,France,75009,48.8323,2.4075,Europe/Paris,Orange,,AS3215 Orange S.A.,90.xxx.xxx.xxx
+Sao Cristovao,Rio de Janeiro,Brazil,,-22.9027,-43.2194,America/Sao_Paulo,TIM S/A,Tim Celular S.A.,AS26615 TIM S/A,191.xxx.xxx.xxx
+Shenzhen,Guangdong,China,,22.5431,114.058,Asia/Shanghai,China Mobile,China Mobile Communications Corporation,"AS9808 China Mobile Communications Group Co., Ltd.",36.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Bremen,Bremen,Germany,28195,53.0832,8.78828,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,80.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (eastus2),AS8075 Microsoft Corporation,20.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,TalkTalk,TalkTalk Communications Limited,,79.xxx.xxx.xxx
+New York,New York,United States,10271,40.7085,-74.0106,America/New_York,JPMorgan Chase & Co.,JPMorgan Chase & Co.,,169.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"AT&T Services, Inc.","AT&T Global Network Services, LLC","AS7018 AT&T Services, Inc.",32.xxx.xxx.xxx
+Cincinnati,Ohio,United States,45201,39.1032,-84.5053,America/New_York,The Procter and Gamble Company,The Procter and Gamble Company,AS11003 The Procter and Gamble Company,143.xxx.xxx.xxx
+Richmond Hill,Ontario,Canada,L4C,43.8678,-79.442,America/Toronto,Rogers Communications Canada Inc.,Rogers Cable Inc. HNSN,AS812 Rogers Communications Canada Inc.,99.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Centreville,Virginia,United States,20120,38.8397,-77.4335,America/New_York,American Registry Internet Numbers,American Registry Internet Numbers,,23.xxx.xxx.xxx
+Cairo,Cairo Governorate,Egypt,,30.0444,31.2357,Africa/Cairo,Etisalat Misr,Mobile,AS36992 ETISALAT MISR,156.xxx.xxx.xxx
+Bernardsville,New Jersey,United States,7920,40.6954,-74.5785,America/New_York,Avaya Inc.,Avaya Inc.,AS18676 Avaya Inc.,135.xxx.xxx.xxx
+Jinrongjie,Beijing,China,,39.9136,116.363,Asia/Shanghai,CTTNET,China TieTong Telecommunications Corporation,,110.xxx.xxx.xxx
+Concord,California,United States,94520,37.974,-122.033,America/Los_Angeles,Bank of America,"Bank of America, National Association",,171.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Paris,Île-de-France,France,75000,48.8566,2.35222,Europe/Paris,TVCCONV,France Telecom services,,92.xxx.xxx.xxx
+Jinrongjie,Beijing,China,,39.9136,116.363,Asia/Shanghai,CTTNET,China TieTong Telecommunications Corporation,,110.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,01000-000,-23.5558,-46.6396,America/Sao_Paulo,TIM S/A,TIM S/A,AS26615 TIM S/A,179.xxx.xxx.xxx
+Raleigh,North Carolina,United States,27668,35.838,-78.6122,America/New_York,United States Postal Service.,United States Postal Service,,56.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett Packard Enterprise Company,Hewlett Packard Enterprise Company,,16.xxx.xxx.xxx
+Paris,Île-de-France,France,75015,48.8422,2.29277,Europe/Paris,BOUYGUES Telecom,,AS5410 Bouygues Telecom SA,176.xxx.xxx.xxx
+Raleigh,North Carolina,United States,27668,35.838,-78.6122,America/New_York,United States Postal Service.,United States Postal Service,,56.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,57.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,22.xxx.xxx.xxx
+Haidian,Beijing,China,,39.8997,116.334,Asia/Shanghai,North Star Information Hi.tech Ltd. Co,North Star Information Hi.tech Ltd. Co,,175.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Durham,North Carolina,United States,27709,35.905,-78.8566,America/New_York,IBM,IBM,,9.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,1000,-23.6283,-46.6409,America/Sao_Paulo,Vivo,TELEF�NICA BRASIL S.A,AS27699 TELEFÔNICA BRASIL S.A,177.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+Haidian,Beijing,China,,39.8997,116.334,Asia/Shanghai,North Star Information Hi.tech Ltd. Co,North Star Information Hi.tech Ltd. Co,,175.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+Dublin,Ohio,United States,43017,40.0992,-83.1141,America/New_York,"Amazon.com, Inc.",AWS EC2 (us-east-2),"AS16509 Amazon.com, Inc.",3.xxx.xxx.xxx
+Mitcham,England,United Kingdom,CR4,51.3873,-0.1596,Europe/London,BT Public Internet Service,,AS2856 British Telecommunications PLC,86.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB CORP,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+High Wycombe,England,United Kingdom,HP15,51.657,-0.7185,Europe/London,BT Public Internet Service,,AS2856 British Telecommunications PLC,86.xxx.xxx.xxx
+Portland,Oregon,United States,97207,45.5235,-122.676,America/Los_Angeles,"Amazon.com, Inc.",AWS EC2 (us-west-2),"AS16509 Amazon.com, Inc.",35.xxx.xxx.xxx
+Mexico City,Mexico City,Mexico,1120,19.4,-99.2072,America/Mexico_City,UNINET,Gestión de direccionamiento UniNet,AS8151 UNINET,189.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,14.xxx.xxx.xxx
+Sao Cristovao,Rio de Janeiro,Brazil,,-22.9027,-43.2194,America/Sao_Paulo,TIM S/A,Tim Celular S.A.,AS26615 TIM S/A,191.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-0001,35.694,139.754,Asia/Tokyo,Amazon Technologies Inc,Amazon Technologies Inc,,3.xxx.xxx.xxx
+Portland,Oregon,United States,97207,45.5235,-122.676,America/Los_Angeles,"Amazon.com, Inc.",AWS EC2 (us-west-2),"AS16509 Amazon.com, Inc.",35.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Huizhou,Guangdong,China,,23.1072,114.3997,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,119.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46285,39.7559,-86.1531,America/Chicago,Eli Lilly and Company,Eli Lilly and Company,AS4249 Eli Lilly and Company,40.xxx.xxx.xxx
+Montgomery,Alabama,United States,36114,32.4033,-86.2383,America/Chicago,DoD Network Information Center,Air Force Systems Networking,AS721 DoD Network Information Center,137.xxx.xxx.xxx
+Albany,New York,United States,12209,42.6406,-73.7906,America/New_York,Charter Communications,Spectrum,AS11351 Charter Communications Inc,24.xxx.xxx.xxx
+Richardson,Texas,United States,75082,32.9918,-96.7108,America/Chicago,"AT&T Services, Inc.",PPPoX Pool - AACE5 RCSNTX,"AS7018 AT&T Services, Inc.",99.xxx.xxx.xxx
+St. Marys,Ontario,Canada,N4X,43.2657,-81.1655,America/Toronto,Rogers Communications Canada Inc.,Rogers Cable Inc. MTMC,AS812 Rogers Communications Canada Inc.,99.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Iztapalapa,Mexico City,Mexico,9830,19.3458,-99.088,America/Mexico_City,Uninet S.A. de C.V.,UNINET,AS8151 UNINET,187.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Lagos,Lagos,Nigeria,,6.43327,3.42939,Africa/Lagos,MTN NIGERIA Communication limited,MTN Nigeria,AS29465 MTN NIGERIA Communication limited,102.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Dagenham,England,United Kingdom,RM8,51.5477,0.1115,Europe/London,EE Limited,EEMobile,AS12576 EE Limited,31.xxx.xxx.xxx
+Shenzhen,Guangdong,China,,22.5559,114.0577,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,121.xxx.xxx.xxx
+Tucson,Arizona,United States,85737,32.413,-110.942,America/Phoenix,"Comcast Cable Communications, LLC","Comcast Cable Communications, LLC","AS33653 Comcast Cable Communications, LLC",76.xxx.xxx.xxx
+Indaiatuba,São Paulo,Brazil,13330,-23.0889,-47.2127,America/Sao_Paulo,Claro NXT Telecomunicacoes Ltda,Claro NXT Telecomunicacoes Ltda,AS28573 Claro NXT Telecomunicacoes Ltda,177.xxx.xxx.xxx
+Atlanta,Georgia,United States,30334,33.7477,-84.3892,America/New_York,Georgia Technology Authority,Georgia Technology Authority,AS2897 Georgia Technology Authority,167.xxx.xxx.xxx
+Cupertino,California,United States,95014,37.3219,-122.03,America/Los_Angeles,Apple Inc.,Apple Inc,AS714 Apple Inc.,17.xxx.xxx.xxx
+Seminole,Florida,United States,33776,27.8556,-82.8231,America/New_York,Charter Communications,Spectrum,"AS33363 Charter Communications, Inc",35.xxx.xxx.xxx
+Martinengo,Lombardy,Italy,24057,45.5707,9.7726,Europe/Rome,INTERBUSINESS,,AS3269 Telecom Italia S.p.A.,79.xxx.xxx.xxx
+Taipei,Taiwan,Taiwan,,25.033,121.565,Asia/Taipei,"Chunghwa Telecom Co., Ltd.",Chunghwa Telecom Co. Ltd.,AS3462 Data Communication Business Group,210.xxx.xxx.xxx
+Houston,Texas,United States,77006,29.7373,-95.3972,America/Chicago,"AT&T Services, Inc.",Stratford Visitingnurse Associ,"AS7018 AT&T Services, Inc.",99.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,105-0012,35.6552,139.761,Asia/Tokyo,SOFTBANK Corp,SOFTBANK Corp,,126.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett-Packard Company,Hewlett-Packard Company,,15.xxx.xxx.xxx
+Karlsruhe,Baden-Wurttemberg,Germany,76131,49.0067,8.417,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,84.xxx.xxx.xxx
+Muping,Sichuan,China,,30.2638,102.805,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,171.xxx.xxx.xxx
+San Ramon,California,United States,94583,37.7583,-121.958,America/Los_Angeles,Chevron Corporation,Chevron Corporation,,146.xxx.xxx.xxx
+Durham,North Carolina,United States,27709,35.905,-78.8566,America/New_York,IBM,IBM,,9.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Toronto,Ontario,Canada,M4S,43.7012,-79.3877,America/Toronto,Rogers Communications Canada Inc.,Rogers Cable Inc. BAWK,AS812 Rogers Communications Canada Inc.,99.xxx.xxx.xxx
+Ratchathewi,Bangkok,Thailand,10400,13.7683,100.54,Asia/Bangkok,Advanced Wireless Network Company Limited,Advanced Wireless Network Company Limited,AS131445 Advance Wireless Network,49.xxx.xxx.xxx
+Durham,North Carolina,United States,27709,35.905,-78.8566,America/New_York,IBM,IBM,,9.xxx.xxx.xxx
+Houston,Texas,United States,77002,29.7646,-95.3657,America/Chicago,"AT&T Services, Inc.",AT&T IP Team,"AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+Roppongi,Tokyo,Japan,106-0031,35.6608,139.7448,Asia/Tokyo,Kddi Corporation,Kddi Corporation,AS2516 KDDI CORPORATION,210.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS721 DoD Network Information Center,214.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,01000-000,-23.5558,-46.6396,America/Sao_Paulo,Claro S.A.,Claro S.A,AS4230 CLARO S.A.,201.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,18.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS721 DoD Network Information Center,214.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,22.xxx.xxx.xxx
+Seongnam-si,Gyeonggi-do,South Korea,13606,37.3638,127.122,Asia/Seoul,Korea Telecom,Korea Telecom,AS4766 Korea Telecom,119.xxx.xxx.xxx
+Edmonton,Alberta,Canada,T5T,53.5171,-113.6617,America/Edmonton,TELUS Communications Inc,TELUS-FIBRE-EDTNABXW,AS852 TELUS Communications Inc.,209.xxx.xxx.xxx
+Palermo,Buenos Aires F.D.,Argentina,1870,-34.5751,-58.4359,America/Argentina/Buenos_Aires,Telecom Argentina S.A.,Telecom Personal Bs,AS7303 Telecom Argentina S.A.,181.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (eastus2euap),AS8075 Microsoft Corporation,20.xxx.xxx.xxx
+Muping,Sichuan,China,,30.2638,102.805,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,118.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46285,39.7559,-86.1531,America/Chicago,Eli Lilly and Company,Eli Lilly and Company,AS4249 Eli Lilly and Company,40.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,Dren,AS668 DoD Network Information Center,6.xxx.xxx.xxx
+Boynton Beach,Florida,United States,33435,26.5226,-80.06,America/New_York,Comcast Cable Communications,"Comcast IP Services, L.L.C.","AS20214 Comcast Cable Communications, LLC",73.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Shanghai,Shanghai,China,,31.2304,121.474,Asia/Shanghai,China Telecom (Group),Chinanet SH,AS4812 China Telecom (Group),180.xxx.xxx.xxx
+Montreal,Quebec,Canada,H4X,45.5019,-73.5674,America/Toronto,IBM,IBM,,9.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,18.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5072,-0.127586,Europe/London,MICROSOFT,Microsoft Limited,AS8075 Microsoft Corporation,57.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,139.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Tsing Yi,Kwai Tsing,Hong Kong,,22.3484,114.112,Asia/Hong_Kong,HGC Global Communications Limited,HGC Global Communications Limited,AS9304 HGC Global Communications Limited,223.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Verizon Business,AS22394 Verizon Business,174.xxx.xxx.xxx
+Phaya Thai,Bangkok,Thailand,10400,13.7864,100.547,Asia/Bangkok,Advanced Wireless Network Company Limited,Advanced Info Service Public Company Limited,AS45458 SBN-ISP/AWN-ISP and SBN-NIX/AWN-NIX,49.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Societe Internationale de Telecommunications Aeronautiques,Societe Internationale de Telecommunications Aeronautiques,,57.xxx.xxx.xxx
+Sanger,California,United States,93657,36.7783,-119.418,America/Los_Angeles,"University of California, San Diego",Amateur Radio Digital Communications,"AS7377 University of California, San Diego",44.xxx.xxx.xxx
+Ilion,New York,United States,13357,43.0151,-75.0354,America/New_York,Charter Communications,Spectrum,AS11351 Charter Communications Inc,24.xxx.xxx.xxx
+Council Bluffs,Iowa,United States,,41.2619,-95.8608,America/Chicago,Google LLC,Google Cloud (us-central1),AS396982 Google LLC,34.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,35.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Shenzhen,Guangdong,China,,22.5559,114.0577,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,183.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,AWS EC2 (eu-west-2),"AS16509 Amazon.com, Inc.",3.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett Packard Enterprise Company,Hewlett Packard Enterprise Company,,16.xxx.xxx.xxx
+Kuala Lumpur,Kuala Lumpur,Malaysia,50515,3.1408,101.6852,Asia/Kuala_Lumpur,TM TECHNOLOGY SERVICES SDN BHD,Adsl Streamyx,AS4788 TM TECHNOLOGY SERVICES SDN. BHD.,115.xxx.xxx.xxx
+Fort Collins,Colorado,United States,80526,40.5603,-105.081,America/Denver,USDA,USDA Office of Operations,AS4152 USDA,199.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett-Packard Company,Hewlett-Packard Company,,15.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,139.xxx.xxx.xxx
+Ashburn,Virginia,United States,20149,39.0438,-77.4874,America/New_York,Amazon Technologies Inc.,AWS EC2 (us-east-1),"AS14618 Amazon.com, Inc.",3.xxx.xxx.xxx
+Redwood City,California,United States,94065,37.5307,-122.262,America/Los_Angeles,Oracle Corporation,Oracle Corporation,,192.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Microsoft Corporation,Microsoft Corporation,,4.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK Corp.,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+Aurora,Illinois,United States,60506,41.7688,-88.3405,America/Chicago,"AT&T Services, Inc.","HYPER-IT SERVICES, LLC","AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+Beijing,Beijing,China,,39.9042,116.407,Asia/Shanghai,Alibaba.com Singapore E-Commerce Private Limited,Aliyun Computing Co.,,8.xxx.xxx.xxx
+Norfolk,Virginia,United States,23501,36.9151,-76.1866,America/New_York,DoD Network Information Center,Navy Network Information Center,AS647 DoD Network Information Center,205.xxx.xxx.xxx
+Mountain View,California,United States,94043,37.422,-122.084,America/Los_Angeles,Google LLC,Google LLC,AS396982 Google LLC,34.xxx.xxx.xxx
+Raleigh,North Carolina,United States,27668,35.838,-78.6122,America/New_York,United States Postal Service.,United States Postal Service,,56.xxx.xxx.xxx
+Seongnam-si,Gyeonggi-do,South Korea,13606,37.3638,127.122,Asia/Seoul,Korea Telecom,Kornet,AS4766 Korea Telecom,49.xxx.xxx.xxx
+Round Rock,Texas,United States,78665,30.5154,-97.6689,America/Chicago,"AT&T Services, Inc.",AT&T Corp,"AS7018 AT&T Services, Inc.",70.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett Packard Enterprise Company,Hewlett Packard Enterprise Company,,16.xxx.xxx.xxx
+Zhoutou,Hebei,China,,37.8957,114.904,Asia/Shanghai,China Unicom China169 Network,,AS4837 CHINA UNICOM China169 Backbone,120.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc.",,16.xxx.xxx.xxx
+Montgomery,Alabama,United States,36114,32.4033,-86.2383,America/Chicago,DoD Network Information Center,Air Force Systems Networking,AS367 DoD Network Information Center,132.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK Corp.,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+Shanghai,Shanghai,China,,31.2304,121.474,Asia/Shanghai,China Telecom (Group),Chinanet SH,AS4812 China Telecom (Group),180.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+Givors,Auvergne-Rhône-Alpes,France,69700,45.5851,4.7773,Europe/Paris,Societe Francaise Du Radiotelephone - SFR SA,SFR User Data,AS15557 Societe Francaise Du Radiotelephone - SFR SA,77.xxx.xxx.xxx
+Mountain View,California,United States,94043,37.422,-122.084,America/Los_Angeles,Google LLC,Google LLC,AS396982 Google LLC,34.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,13.xxx.xxx.xxx
+Redwood City,California,United States,94065,37.5307,-122.262,America/Los_Angeles,Oracle Corporation,Oracle Corporation,,192.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,119.xxx.xxx.xxx
+Mechanicsburg,Pennsylvania,United States,17055,40.1788,-77.0047,America/New_York,Comcast Cable Communications,"Comcast IP Services, L.L.C.","AS7016 Comcast Cable Communications, LLC",73.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Ann Arbor,Michigan,United States,48108,42.2139,-83.745,America/Detroit,Merit Network Inc.,Merit Network Inc,AS237 Merit Network Inc.,35.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"CenturyLink Communications, LLC","CenturyLink Communications, LLC","AS3561 CenturyLink Communications, LLC",208.xxx.xxx.xxx
+Huamu,Shanghai,China,,31.2069,121.599,Asia/Shanghai,Oriental Cable Network Co,"Oriental Cable Network Co., Ltd.","AS9812 Oriental Cable Network Co., Ltd.",114.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Verizon Business,AS22394 Verizon Business,72.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Bedlington,England,United Kingdom,NE22,55.1312,-1.5887,Europe/London,BT Public Internet Service,,AS2856 British Telecommunications PLC,86.xxx.xxx.xxx
+Ningbo,Zhejiang,China,,29.8752,121.5564,Asia/Shanghai,Chinanet,,AS4134 CHINANET-BACKBONE,36.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5072,-0.127586,Europe/London,DWP,,,51.xxx.xxx.xxx
+San Jose,California,United States,95141,37.3382,-121.886,America/Los_Angeles,Akamai International B.V.,"Akamai Technologies, Inc.",AS20940 Akamai International B.V.,172.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,159.xxx.xxx.xxx
+Cairo,Cairo Governorate,Egypt,,30.0588,31.2268,Africa/Cairo,TE Data,TE Data,AS8452 TE-AS,41.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",8.xxx.xxx.xxx
+Cupertino,California,United States,95014,37.3219,-122.03,America/Los_Angeles,Apple Inc.,Apple Inc,AS714 Apple Inc.,17.xxx.xxx.xxx
+Taipei,Taiwan,Taiwan,,25.033,121.565,Asia/Taipei,"Chunghwa Telecom Co., Ltd.",Chunghwa Telecom Co. Ltd.,AS3462 Data Communication Business Group,210.xxx.xxx.xxx
+Shenzhen,Guangdong,China,518000,22.5431,114.058,Asia/Shanghai,China Internet Network Information Center,"Tencent cloud computing (Beijing) Co., Ltd.",AS45090 Shenzhen Tencent Computer Systems Company Limited,121.xxx.xxx.xxx
+Negishi,Saitama,Japan,336-0021,35.8553,139.6416,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,206-0042,35.6673,139.751,Asia/Tokyo,"NTT PC Communications, Inc.","NTT PC Communications, Inc.","AS2514 NTT PC Communications, Inc.",128.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB CORP,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+Raleigh,North Carolina,United States,27668,35.838,-78.6122,America/New_York,United States Postal Service.,United States Postal Service,,56.xxx.xxx.xxx
+Seattle,Washington,United States,98109,47.6222,-122.337,America/Los_Angeles,Amazon Technologies Inc.,Amazon Technologies Inc,,35.xxx.xxx.xxx
+Singapore,North West,Singapore,858877,1.35208,103.82,Asia/Singapore,"Alibaba (US) Technology Co., Ltd.",Alibaba.com LLC,"AS45102 Alibaba (US) Technology Co., Ltd.",47.xxx.xxx.xxx
+Atlanta,Georgia,United States,30308,33.7793,-84.3895,America/New_York,NCR Corporation,NCR Corporation,AS14962 NCR Corporation,153.xxx.xxx.xxx
+Banqiao,Taipei,Taiwan,,25.0114,121.462,Asia/Taipei,"Far EastTone Telecommunication Co., Ltd.","Far EasTone Telecommunication Co., Ltd.","AS9674 Far EastTone Telecommunication Co., Ltd.",27.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Council Bluffs,Iowa,United States,,41.2619,-95.8608,America/Chicago,Google LLC,Google Cloud (us-central1),AS396982 Google LLC,34.xxx.xxx.xxx
+Kloten,Zurich,Switzerland,8302,47.4541,8.5648,Europe/Zurich,Provider:Swisscom IP-Plus,Bundesamt fuer Meteorologie und Klimatologie,AS559 SWITCH,141.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",100.xxx.xxx.xxx
+Chennai,Tamil Nadu,India,600001,13.0827,80.2707,Asia/Kolkata,SoftLayer,"SoftLayer Technologies, Inc",AS36351 SoftLayer Technologies Inc.,169.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Dublin,Ohio,United States,43017,40.0992,-83.1141,America/New_York,"Amazon.com, Inc.",AWS EC2 (us-east-2),"AS16509 Amazon.com, Inc.",18.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Redmond,Washington,United States,98052,47.6423,-122.137,America/Los_Angeles,Microsoft Corporation,Microsoft Corporation,AS8075 Microsoft Corporation,40.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,A100 ROW Inc,A100 ROW Inc,,51.xxx.xxx.xxx
+Beijing,Beijing,China,100000,39.9042,116.407,Asia/Shanghai,"Hangzhou Alibaba Advertising Co., Ltd.",Aliyun Computing Co.,"AS37963 Hangzhou Alibaba Advertising Co.,Ltd.",43.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,139.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Microsoft Corporation,Microsoft Limited,AS8075 Microsoft Corporation,48.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Ann Arbor,Michigan,United States,48108,42.2139,-83.745,America/Detroit,Merit Network Inc.,Merit Network Inc,,35.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc.",,16.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+San Diego,California,United States,92111,32.819,-117.179,America/Los_Angeles,"University of California, San Diego",Amateur Radio Digital Communications,"AS7377 University of California, San Diego",44.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett-Packard Company,Hewlett-Packard Company,,15.xxx.xxx.xxx
+Montgomery,Alabama,United States,36114,32.4033,-86.2383,America/Chicago,DoD Network Information Center,Air Force Systems Networking,AS749 DoD Network Information Center,164.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,01000-000,-23.5558,-46.6396,America/Sao_Paulo,Vivo,TELEF�NICA BRASIL S.A,AS26599 TELEFÔNICA BRASIL S.A,177.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS721 DoD Network Information Center,214.xxx.xxx.xxx
+Ashburn,Virginia,United States,20147,39.0519,-77.4523,America/New_York,DXC US Latin America Corporation,DXC US Latin America Corporation,,20.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46204,39.7709,-86.1585,America/Chicago,AT&T Services,"AT&T Services, Inc.",,135.xxx.xxx.xxx
+Nairobi,Nairobi County,Kenya,9831,-1.2841,36.8155,Africa/Nairobi,Airtel KE Mobile & Fixed Internet,,AS327708 Airtel Rwanda Ltd,102.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",162.xxx.xxx.xxx
+Wuxi,Jiangsu,China,,31.5618,120.2864,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,49.xxx.xxx.xxx
+Muping,Sichuan,China,,30.2638,102.805,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,125.xxx.xxx.xxx
+Ebene CyberCity,Plaines Wilhems District,Mauritius,,-20.2431,57.4962,Indian/Mauritius,African Network Information Center - ( AfriNIC Ltd. ),,,102.xxx.xxx.xxx
+San Ramon,California,United States,94583,37.7583,-121.958,America/Los_Angeles,Chevron Corporation,Chevron Corporation,,146.xxx.xxx.xxx
+Tucson,Arizona,United States,85742,32.4063,-111.0633,America/Phoenix,"Comcast Cable Communications, LLC","Comcast Cable Communications, LLC","AS33653 Comcast Cable Communications, LLC",76.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,11.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-8111,35.6906,139.77,Asia/Tokyo,Kddi Corporation,KDDI,AS2516 KDDI CORPORATION,210.xxx.xxx.xxx
+Leicester,England,United Kingdom,LE5,52.6513,-1.0876,Europe/London,TalkTalk,TalkTalk Communications Limited,AS13285 TalkTalk Communications Limited,92.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"CenturyLink Communications, LLC","CenturyLink Communications, LLC","AS3561 CenturyLink Communications, LLC",208.xxx.xxx.xxx
+Beijing,Beijing,China,100000,39.9042,116.407,Asia/Shanghai,"Hangzhou Alibaba Advertising Co., Ltd.",Aliyun Computing Co.,"AS37963 Hangzhou Alibaba Advertising Co.,Ltd.",43.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,183.xxx.xxx.xxx
+Tsing Yi,Kwai Tsing,Hong Kong,,22.3484,114.112,Asia/Hong_Kong,HGC Global Communications Limited,HGC Global Communications Limited,AS9304 HGC Global Communications Limited,223.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Margate,England,United Kingdom,CT9,51.3926,1.4046,Europe/London,BT Public Internet Service,,AS2856 British Telecommunications PLC,86.xxx.xxx.xxx
+Redmond,Washington,United States,98052,47.6423,-122.137,America/Los_Angeles,Microsoft Corporation,Microsoft Corporation,AS8075 Microsoft Corporation,40.xxx.xxx.xxx
+Brent,England,United Kingdom,NW2,51.5591,-0.2283,Europe/London,TalkTalk,Carphone Warehouse Broadband Services,AS13285 TalkTalk Communications Limited,92.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+Hong Kong,Central and Western District,Hong Kong,,22.3193,114.1693,Asia/Hong_Kong,Google LLC,Google Cloud (asia-east2),AS15169 Google LLC,35.xxx.xxx.xxx
+Montgomery,Alabama,United States,36114,32.4033,-86.2383,America/Chicago,DoD Network Information Center,Air Force Systems Networking,AS749 DoD Network Information Center,164.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS138 DoD Network Information Center,131.xxx.xxx.xxx
+Fort Collins,Colorado,United States,80526,40.5603,-105.081,America/Denver,USDA,USDA Office of Operations,AS4152 USDA,199.xxx.xxx.xxx
+Basking Ridge,New Jersey,United States,7920,40.6953,-74.5784,America/New_York,Avaya Inc.,Avaya Inc,AS18676 Avaya Inc.,135.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB Corp.,AS17676 SoftBank Corp.,221.xxx.xxx.xxx
+Kloten,Zurich,Switzerland,8302,47.4541,8.5648,Europe/Zurich,Provider:Swisscom IP-Plus,Bundesamt fuer Meteorologie und Klimatologie,AS559 SWITCH,141.xxx.xxx.xxx
+Cleveland,Ohio,United States,44192,41.4993,-81.6944,America/New_York,Cogent Communications,Cogent communications - IPENG,AS174 Cogent Communications,38.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,205.xxx.xxx.xxx
+Foshan,Guangdong,China,,23.0261,113.1371,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,121.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"AT&T Services, Inc.",AT&T Corp,"AS7018 AT&T Services, Inc.",99.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB Corp.,AS17676 SoftBank Corp.,221.xxx.xxx.xxx
+Washington,District of Columbia,United States,20418,38.907,-77.0526,America/New_York,Cogent Communications,Cogent communications - IPENG,AS174 Cogent Communications,38.xxx.xxx.xxx
+Lagos,Lagos,Nigeria,,6.43327,3.42939,Africa/Lagos,MTN NIGERIA Communication limited,MTN Nigeria,AS29465 MTN NIGERIA Communication limited,102.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Shenzhen,Guangdong,China,,22.5559,114.0577,Asia/Shanghai,Hangzhou Alibaba Advertising Co,"Aliyun Computing Co., LTD","AS37963 Hangzhou Alibaba Advertising Co.,Ltd.",120.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Montevideo,Montevideo Department,Uruguay,11100,-34.9055,-56.1944,America/Montevideo,Administracion Nacional de Telecomunicaciones,Administracion Nacional de Telecomunicaciones,AS6057 Administracion Nacional de Telecomunicaciones,167.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Richardson,Texas,United States,75080,32.9483,-96.7299,America/Chicago,"AT&T Services, Inc.",AT&T Corp,"AS7018 AT&T Services, Inc.",99.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,01000-000,-23.5558,-46.6396,America/Sao_Paulo,Claro S.A.,Claro S.A,AS4230 CLARO S.A.,201.xxx.xxx.xxx
+Handan,Hebei,China,,36.6229,114.4698,Asia/Shanghai,China Unicom China169 Network,,AS4837 CHINA UNICOM China169 Backbone,120.xxx.xxx.xxx
+Hickory Hills,Illinois,United States,60457,41.7256,-87.8251,America/Chicago,Verizon Business,Service Provider Corporation,AS6167 Verizon Business,166.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Cleveland,Ohio,United States,44192,41.4993,-81.6944,America/New_York,Cogent Communications,Cogent Communications - IPENG,AS174 Cogent Communications,38.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,A100 ROW Inc,A100 ROW Inc,,51.xxx.xxx.xxx
+Foshan,Guangdong,China,,23.0261,113.1371,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,183.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,3.xxx.xxx.xxx
+Échirolles,Auvergne-Rhône-Alpes,France,38130,45.1463,5.6886,Europe/Paris,Societe Francaise Du Radiotelephone - SFR SA,SFR SA,AS15557 Societe Francaise Du Radiotelephone - SFR SA,77.xxx.xxx.xxx
+Montreal,Quebec,Canada,H4X,45.5019,-73.5674,America/Toronto,IBM,IBM,,9.xxx.xxx.xxx
+Basking Ridge,New Jersey,United States,7920,40.6953,-74.5784,America/New_York,Avaya Inc.,Avaya Inc,AS18676 Avaya Inc.,135.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,22.xxx.xxx.xxx
+Dublin,Ohio,United States,43017,40.0992,-83.1141,America/New_York,"Amazon.com, Inc.",AWS EC2 (us-east-2),"AS16509 Amazon.com, Inc.",18.xxx.xxx.xxx
+Dallas,Texas,United States,75240,32.9363,-96.8231,America/Chicago,SoftLayer,"SoftLayer Technologies, Inc",,13.xxx.xxx.xxx
+Yingge District,Taipei,Taiwan,,24.9493,121.337,Asia/Taipei,TANET,,AS1659 Taiwan Academic Network (TANet) Information Center,120.xxx.xxx.xxx
+Pacific Grove,California,United States,93950,36.6139,-121.9189,America/Los_Angeles,California State University,Monterey COE,"AS2152 California State University, Office of the Chancellor",205.xxx.xxx.xxx
+San Diego,California,United States,92111,32.819,-117.179,America/Los_Angeles,"University of California, San Diego",Amateur Radio Digital Communications,"AS7377 University of California, San Diego",44.xxx.xxx.xxx
+New York,New York,United States,10271,40.7085,-74.0106,America/New_York,JPMorgan Chase & Co.,JPMorgan Chase & Co.,,169.xxx.xxx.xxx
+Wiesloch,Baden-Wurttemberg,Germany,69168,49.2962,8.7015,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,91.xxx.xxx.xxx
+Shilu,Jiangsu,China,,31.3117,120.594,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,49.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Cointrin,Geneva,Switzerland,1216,46.2241,6.10673,Europe/Zurich,SITA Switzerland Sarl,SITA Switzerland Sarl,,57.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Montgomery,Alabama,United States,36114,32.4033,-86.2383,America/Chicago,DoD Network Information Center,Air Force Systems Networking,AS721 DoD Network Information Center,137.xxx.xxx.xxx
+Tokyo,Tokyo,Japan,151-0071,35.6837,139.6805,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Auburndale,Florida,United States,33823,28.0699,-81.8107,America/New_York,Charter Communications,Spectrum,"AS33363 Charter Communications, Inc",72.xxx.xxx.xxx
+Nanjing,Jiangsu,China,,32.0589,118.7738,Asia/Shanghai,China Mobile communications corporation,China Mobile,AS56046 China Mobile communications corporation,223.xxx.xxx.xxx
+Nanjing,Jiangsu,China,210000,32.0607,118.763,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,49.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Nanjing,Jiangsu,China,,32.0607,118.763,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,222.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Societe Internationale de Telecommunications Aeronautiques,Societe Internationale de Telecommunications Aeronautiques,,57.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46285,39.7559,-86.1531,America/Chicago,Eli Lilly and Company,Eli Lilly and Company,AS4249 Eli Lilly and Company,40.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Cellco Partnership DBA Verizon Wireless,AS22394 Verizon Business,174.xxx.xxx.xxx
+Seattle,Washington,United States,98109,47.6222,-122.337,America/Los_Angeles,Amazon Technologies Inc.,Amazon Technologies Inc,,3.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (eastus),AS8075 Microsoft Corporation,40.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,TalkTalk,TalkTalk Communications Limited,AS31655 Gamma Telecom Holdings Ltd,79.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,105-0012,35.6552,139.761,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Mountain View,California,United States,94043,37.422,-122.084,America/Los_Angeles,Google LLC,Google LLC,AS396982 Google LLC,34.xxx.xxx.xxx
+Toledo,Castille-La Mancha,Spain,45007,39.8566,-4.0177,Europe/Madrid,Telefonica de Espana SAU,RIMA (Red IP Multi Acceso),AS3352 TELEFONICA DE ESPANA S.A.U.,83.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Sovico,Lombardy,Italy,20845,45.6508,9.2668,Europe/Rome,INTERBUSINESS,,AS3269 Telecom Italia S.p.A.,79.xxx.xxx.xxx
+Gustavo Adolfo Madero,Mexico City,Mexico,7420,19.5006,-99.0887,America/Mexico_City,UNINET,Gestión de direccionamiento UniNet,AS8151 UNINET,189.xxx.xxx.xxx
+Barrow in Furness,England,United Kingdom,LA14,54.1145,-3.2457,Europe/London,Sky UK Limited,Sky Broadband,AS5607 Sky UK Limited,90.xxx.xxx.xxx
+Ebene CyberCity,Plaines Wilhems District,Mauritius,,-20.2431,57.4962,Indian/Mauritius,African Network Information Center - ( AfriNIC Ltd. ),,,102.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Changzhou,Jiangsu,China,,31.7685,119.9527,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,114.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,14.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Hong Kong,Central and Western District,Hong Kong,,22.3193,114.1693,Asia/Hong_Kong,Google LLC,Google Cloud (asia-east2),AS15169 Google LLC,35.xxx.xxx.xxx
+Montreal,Quebec,Canada,H4X,45.5019,-73.5674,America/Toronto,IBM,IBM,,9.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-8111,35.6916,139.768,Asia/Tokyo,NET-JP-ERX,Jpnic NET JP ERX,,133.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Fano,The Marches,Italy,61032,43.8397,13.0125,Europe/Rome,INTERBUSINESS,NAS DHCP Pool Nola,AS3269 Telecom Italia S.p.A.,79.xxx.xxx.xxx
+Sao Cristovao,Rio de Janeiro,Brazil,,-22.9027,-43.2194,America/Sao_Paulo,TIM S/A,Tim Celular S.A.,AS26615 TIM S/A,191.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Montreal,Quebec,Canada,H4X,45.5019,-73.5674,America/Toronto,IBM,IBM,,9.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",8.xxx.xxx.xxx
+Norfolk,Virginia,United States,23501,36.9151,-76.1866,America/New_York,DoD Network Information Center,Navy Network Information Center,AS721 DoD Network Information Center,205.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB Corp.,AS17676 SoftBank Corp.,221.xxx.xxx.xxx
+Dublin,Ohio,United States,43017,40.0992,-83.1141,America/New_York,"Amazon.com, Inc.",AWS EC2 (us-east-2),"AS16509 Amazon.com, Inc.",3.xxx.xxx.xxx
+Ancona,The Marches,Italy,60100,43.6158,13.5189,Europe/Rome,INTERBUSINESS,NAS DHCP Pool ANCONA,AS3269 Telecom Italia S.p.A.,79.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS721 DoD Network Information Center,214.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-8111,35.6916,139.768,Asia/Tokyo,SOFTBANK Corp,SOFTBANK Corp,,126.xxx.xxx.xxx
+New Kensington,Pennsylvania,United States,15068,40.5662,-79.7078,America/New_York,Comcast Cable Communications,"Comcast IP Services, L.L.C.","AS7016 Comcast Cable Communications, LLC",73.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-0001,35.694,139.754,Asia/Tokyo,Amazon Technologies Inc,Amazon Technologies Inc,,3.xxx.xxx.xxx
+New York,New York,United States,10271,40.7085,-74.0106,America/New_York,JPMorgan Chase & Co.,JPMorgan Chase & Co.,,169.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"AT&T Services, Inc.","AT&T Services, Inc.","AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,139.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+Beijing,Beijing,China,,39.9042,116.407,Asia/Shanghai,Alibaba.com Singapore E-Commerce Private Limited,Aliyun Computing Co.,,8.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46204,39.7709,-86.1585,America/Chicago,AT&T Services,"AT&T Services, Inc.",,135.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (eastus),AS8075 Microsoft Corporation,20.xxx.xxx.xxx
+Ashburn,Virginia,United States,20149,39.0438,-77.4874,America/New_York,Amazon Technologies Inc.,AWS EC2 (us-east-1),"AS14618 Amazon.com, Inc.",3.xxx.xxx.xxx
+Rome,Lazio,Italy,187,41.9626,12.4644,Europe/Rome,Telecom Italia S.p.A,DATACOM,AS3269 Telecom Italia S.p.A.,81.xxx.xxx.xxx
+Lagos,Lagos,Nigeria,,6.46529,3.42517,Africa/Lagos,Airtel Networks Limited,Airtel Networks Limited,,105.xxx.xxx.xxx
+Lewisham,England,United Kingdom,SE15,51.4647,-0.0509,Europe/London,Sky UK Limited,Sky Broadband,AS5607 Sky UK Limited,90.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Cellco Partnership DBA Verizon Wireless,AS22394 Verizon Business,97.xxx.xxx.xxx
+Yingge District,Taipei,Taiwan,,24.9493,121.337,Asia/Taipei,TANET,,AS1659 Taiwan Academic Network (TANet) Information Center,120.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46285,39.7559,-86.1531,America/Chicago,Eli Lilly and Company,Eli Lilly and Company,AS4249 Eli Lilly and Company,40.xxx.xxx.xxx
+Lipu,Zhejiang,China,,29.1416,119.789,Asia/Shanghai,Chinanet,Chinanet ZJ,AS4134 CHINANET-BACKBONE,36.xxx.xxx.xxx
+Ann Arbor,Michigan,United States,48108,42.2139,-83.745,America/Detroit,Merit Network Inc.,Merit Network Inc,AS237 Merit Network Inc.,35.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",4.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,136.xxx.xxx.xxx
+Tamm,Baden-Wurttemberg,Germany,71732,48.9216,9.112,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,93.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.412,-122.148,America/Los_Angeles,HP Inc.,HP Inc,,15.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-8111,35.6906,139.77,Asia/Tokyo,Kddi Corporation,WIMAX,AS2516 KDDI CORPORATION,106.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,3.xxx.xxx.xxx
+Frisco,Texas,United States,75035,33.1371,-96.7488,America/Chicago,"AT&T Services, Inc.",AT&T Corp,"AS7018 AT&T Services, Inc.",70.xxx.xxx.xxx
+Muping,Sichuan,China,,30.2638,102.805,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,171.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Cellco Partnership DBA Verizon Wireless,AS22394 Verizon Business,97.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,22.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,205.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS721 DoD Network Information Center,214.xxx.xxx.xxx
+Ebene CyberCity,Plaines Wilhems District,Mauritius,,-20.2431,57.4962,Indian/Mauritius,African Network Information Center - ( AfriNIC Ltd. ),,,102.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,206-0042,35.6673,139.751,Asia/Tokyo,"NTT PC Communications, Inc.","NTT PC Communications, Inc.","AS2514 NTT PC Communications, Inc.",128.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett Packard Enterprise Company,Hewlett Packard Enterprise Company,,16.xxx.xxx.xxx
+Lagos,Lagos,Nigeria,,6.46529,3.42517,Africa/Lagos,Airtel Networks Limited,Airtel Networks Limited,,105.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Lagos,Lagos,Nigeria,,6.46529,3.42517,Africa/Lagos,Airtel Networks Limited,Airtel Networks Limited,,105.xxx.xxx.xxx
+Yingge District,Taipei,Taiwan,,24.9493,121.337,Asia/Taipei,TANET,,AS1659 Taiwan Academic Network (TANet) Information Center,120.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett Packard Enterprise Company,Hewlett Packard Enterprise Company,,16.xxx.xxx.xxx
+Yintai,Shaanxi,China,,35.394,109.188,Asia/Shanghai,Chinanet,Chinanet SN,AS4134 CHINANET-BACKBONE,1.xxx.xxx.xxx
+Haidian,Beijing,China,,39.8997,116.334,Asia/Shanghai,North Star Information Hi.tech Ltd. Co,North Star Information Hi.tech Ltd. Co,,175.xxx.xxx.xxx
+Buenos Aires,Buenos Aires F.D.,Argentina,1871,-34.6037,-58.3816,America/Argentina/Buenos_Aires,Telecom Argentina S.A.,Telecom Personal Bs,AS7303 Telecom Argentina S.A.,181.xxx.xxx.xxx
+Brussels,Brussels Capital,Belgium,1000,50.8503,4.35171,Europe/Brussels,Orange Business Communications Technology Limited,Orange Business Communications Technology Limited,,57.xxx.xxx.xxx
+Shanghai,Shanghai,China,,31.2222,121.4581,Asia/Shanghai,China Telecom (Group),Chinanet SH,AS4812 China Telecom (Group),114.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Microsoft Corporation,Microsoft Limited,AS8075 Microsoft Corporation,48.xxx.xxx.xxx
+Marina,California,United States,93933,36.6841,-121.7886,America/Los_Angeles,California State University,Moss Landing Marine Laboratory,"AS2152 California State University, Office of the Chancellor",205.xxx.xxx.xxx
+Beijing,Beijing,China,100000,39.9042,116.407,Asia/Shanghai,China TieTong Telecommunications Corporation,China TieTong Telecommunications Corporation,AS9394 China TieTong Telecommunications Corporation,101.xxx.xxx.xxx
+Denver,Colorado,United States,80294,39.7523,-104.984,America/Denver,"Comcast Cable Communications, LLC","Comcast IP Services, L.L.C.","AS7922 Comcast Cable Communications, LLC",96.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,18.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",8.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,105-0012,35.6552,139.761,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Singapore,North West,Singapore,858877,1.35208,103.82,Asia/Singapore,"Alibaba (US) Technology Co., Ltd.",Alibaba.com LLC,"AS45102 Alibaba (US) Technology Co., Ltd.",47.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,129.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,11.xxx.xxx.xxx
+Washington,District of Columbia,United States,56972,38.894,-77.0365,America/New_York,Cogent Communications,Cogent Communications - IPENG,AS174 Cogent Communications,38.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5072,-0.127586,Europe/London,MICROSOFT,Microsoft Limited,AS8075 Microsoft Corporation,57.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46204,39.7709,-86.1585,America/Chicago,AT&T Services,"AT&T Services, Inc.",,135.xxx.xxx.xxx
+Ann Arbor,Michigan,United States,48108,42.2139,-83.745,America/Detroit,Merit Network Inc.,Merit Network Inc,,35.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB CORP,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Shenzhen,Guangdong,China,518000,22.5431,114.058,Asia/Shanghai,China Mobile communications corporation,China Mobile Communications Corporation - shanghai company,"AS9808 China Mobile Communications Group Co., Ltd.",117.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,148.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Beijing,Beijing,China,,39.9042,116.407,Asia/Shanghai,Alibaba.com Singapore E-Commerce Private Limited,Aliyun Computing Co.,,8.xxx.xxx.xxx
+San Francisco,California,United States,94142,37.7809,-122.4245,America/Los_Angeles,"AT&T Services, Inc.",AT&T Worldnet Services,"AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS721 DoD Network Information Center,164.xxx.xxx.xxx
+Citrus Heights,California,United States,95610,38.6975,-121.2714,America/Los_Angeles,"Comcast Cable Communications, LLC","Comcast Cable Communications, Inc","AS33667 Comcast Cable Communications, LLC",67.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"AT&T Services, Inc.","AT&T Global Network Services, LLC","AS7018 AT&T Services, Inc.",32.xxx.xxx.xxx
+Ashburn,Virginia,United States,20147,39.011,-77.4711,America/New_York,Verizon Online LLC,Verizon Online LLC,,108.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,28.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,129.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,18.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,CHINANET-GD,Chinanet GD,,101.xxx.xxx.xxx
+Portland,Oregon,United States,97207,45.5235,-122.676,America/Los_Angeles,"Amazon.com, Inc.",AWS EC2 (us-west-2),"AS16509 Amazon.com, Inc.",35.xxx.xxx.xxx
+Tsing Yi,Kwai Tsing,Hong Kong,,22.3484,114.112,Asia/Hong_Kong,HGC Global Communications Limited,HGC Global Communications Limited,AS9304 HGC Global Communications Limited,223.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS5972 DoD Network Information Center,214.xxx.xxx.xxx
+Montreal,Quebec,Canada,H4X,45.5019,-73.5674,America/Toronto,IBM,IBM,,9.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",100.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,35.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46285,39.7559,-86.1531,America/Chicago,Eli Lilly and Company,Eli Lilly and Company,AS4249 Eli Lilly and Company,40.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5072,-0.127586,Europe/London,MICROSOFT,Microsoft Limited,AS8075 Microsoft Corporation,57.xxx.xxx.xxx
+Haidian,Beijing,China,,39.9786,116.302,Asia/Shanghai,Tencent Cloud Computing (Beijing) Co,"Tencent Cloud Computing (Beijing) Co., Ltd",,43.xxx.xxx.xxx
+Seattle,Washington,United States,98109,47.6222,-122.337,America/Los_Angeles,Amazon Technologies Inc.,Amazon Technologies Inc,,35.xxx.xxx.xxx
+Nanjing,Jiangsu,China,,32.0607,118.763,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,222.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,22.xxx.xxx.xxx
+Macon,Georgia,United States,31210,32.8936,-83.743,America/New_York,Georgia Technology Authority,Georgia Technology Authority,AS2897 Georgia Technology Authority,167.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.412,-122.148,America/Los_Angeles,HP Inc.,HP Inc,,15.xxx.xxx.xxx
+Ebene CyberCity,Plaines Wilhems District,Mauritius,,-20.2431,57.4962,Indian/Mauritius,African Network Information Center - ( AfriNIC Ltd. ),,,102.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS6042 DoD Network Information Center,134.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+Cairo,Cairo Governorate,Egypt,,30.0588,31.2268,Africa/Cairo,TE Data,TE Data,AS8452 TE-AS,41.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett-Packard Company,Hewlett-Packard Company,,15.xxx.xxx.xxx
+Durham,North Carolina,United States,27709,35.905,-78.8566,America/New_York,IBM,IBM,,9.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Seongnam-si,Gyeonggi-do,South Korea,13606,37.3638,127.122,Asia/Seoul,Korea Telecom,Kornet,AS4766 Korea Telecom,49.xxx.xxx.xxx
+Raleigh,North Carolina,United States,27668,35.838,-78.6122,America/New_York,United States Postal Service.,United States Postal Service,,56.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",8.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett Packard Enterprise Company,Hewlett Packard Enterprise Company,,16.xxx.xxx.xxx
+Cupertino,California,United States,95014,37.3219,-122.03,America/Los_Angeles,Apple Inc.,Apple Inc,AS714 Apple Inc.,17.xxx.xxx.xxx
+Mexico City,Mexico City,Mexico,5120,19.3893,-99.2579,America/Mexico_City,Uninet S.A. de C.V.,UNINET,AS8151 UNINET,187.xxx.xxx.xxx
+Chicago,Illinois,United States,60602,41.8874,-87.6318,America/Chicago,Nokia of America Corporation,Nokia of America Corporation,AS10455 Nokia of America Corporation,135.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Verizon Business,AS22394 Verizon Business,97.xxx.xxx.xxx
+Cincinnati,Ohio,United States,45201,39.1032,-84.5053,America/New_York,The Procter and Gamble Company,The Procter and Gamble Company,AS11003 The Procter and Gamble Company,143.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,18.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Detroit,Michigan,United States,48202,42.3643,-83.0696,America/Detroit,Merit Network Inc.,Wayne State University,AS237 Merit Network Inc.,35.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,1000,-23.6283,-46.6409,America/Sao_Paulo,Vivo,TELEF�NICA BRASIL S.A,AS26599 TELEFÔNICA BRASIL S.A,177.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan Nation-wide Network of Softbank Corp.,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,35.xxx.xxx.xxx
+Raleigh,North Carolina,United States,27668,35.838,-78.6122,America/New_York,United States Postal Service.,United States Postal Service,,56.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Chicago,Illinois,United States,60606,41.8838,-87.6388,America/Chicago,The Boeing Company,The Boeing Company,,136.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Haidian,Beijing,China,,39.8997,116.334,Asia/Shanghai,North Star Information Hi.tech Ltd. Co,North Star Information Hi.tech Ltd. Co,,175.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Rome,Lazio,Italy,187,41.9626,12.4644,Europe/Rome,Telecom Italia S.p.A,DATACOM,AS3269 Telecom Italia S.p.A.,81.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Haidian,Beijing,China,,39.9786,116.302,Asia/Shanghai,Tencent Cloud Computing (Beijing) Co,"Tencent Cloud Computing (Beijing) Co., Ltd",,43.xxx.xxx.xxx
+Beijing,Beijing,China,,39.911,116.395,Asia/Shanghai,Hangzhou Alibaba Advertising Co,"Aliyun Computing Co., LTD","AS37963 Hangzhou Alibaba Advertising Co.,Ltd.",39.xxx.xxx.xxx
+Tokyo,Tokyo,Japan,151-0071,35.6837,139.6805,Asia/Tokyo,Kddi Corporation,KDDI,AS2516 KDDI CORPORATION,106.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-8111,35.6916,139.768,Asia/Tokyo,NET-JP-ERX,Jpnic NET JP ERX,,133.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS6042 DoD Network Information Center,134.xxx.xxx.xxx
+Guangzhou,Guangdong,China,,23.1181,113.2539,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,119.xxx.xxx.xxx
+Wujin,Sichuan,China,,30.4113,103.813,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,118.xxx.xxx.xxx
+Ashburn,Virginia,United States,20147,39.011,-77.4711,America/New_York,Verizon Online LLC,Verizon Online LLC,,108.xxx.xxx.xxx
+Broomfield,Colorado,United States,80021,39.9209,-105.144,America/Denver,"Level 3 Communications, Inc.","Level 3 Communications, Inc.","AS3356 Level 3 Parent, LLC",4.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,7.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5072,-0.127586,Europe/London,DWP,,,51.xxx.xxx.xxx
+Toronto,Ontario,Canada,M5A,43.671,-79.3794,America/Toronto,Rogers Communications Canada Inc.,Rogers Cable Communications Inc.,AS812 Rogers Communications Canada Inc.,99.xxx.xxx.xxx
+Denver,Colorado,United States,80294,39.7523,-104.984,America/Denver,"Comcast Cable Communications, LLC","Comcast Cable Communications, LLC","AS7922 Comcast Cable Communications, LLC",96.xxx.xxx.xxx
+Jinrongjie,Beijing,China,,39.9136,116.363,Asia/Shanghai,CTTNET,China TieTong Telecommunications Corporation,,110.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,13.xxx.xxx.xxx
+Rongcheng,Anhui,China,,30.6007,117.925,Asia/Shanghai,Chinanet,Chinanet AH,AS4134 CHINANET-BACKBONE,36.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",100.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc.",,16.xxx.xxx.xxx
+Brussels,Brussels Capital,Belgium,1000,50.8503,4.35171,Europe/Brussels,Orange Business Communications Technology Limited,Orange Business Communications Technology Limited,,57.xxx.xxx.xxx
+Paris,Île-de-France,France,75000,48.8566,2.35222,Europe/Paris,BOUYGUES Telecom,,AS5410 Bouygues Telecom SA,176.xxx.xxx.xxx
+Cointrin,Geneva,Switzerland,1216,46.2241,6.10673,Europe/Zurich,SITA Switzerland Sarl,SITA Switzerland Sarl,,57.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Coffeyville,Kansas,United States,67337,37.0902,-95.7129,America/Chicago,HamWAN,Amateur Radio Digital Communications,AS63479 HamWAN,44.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,205.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,11.xxx.xxx.xxx
+Atlanta,Georgia,United States,30308,33.7793,-84.3895,America/New_York,NCR Corporation,NCR Corporation,AS14962 NCR Corporation,153.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Hatfield,England,United Kingdom,AL10 9BW,51.7703,-0.251031,Europe/London,EE Limited,MBB Pools,AS12576 EE Limited,31.xxx.xxx.xxx
+Utrecht,Utrecht,The Netherlands,3512,52.0907,5.12142,Europe/Amsterdam,SURFnet III b,SURFnet bv,AS1101 SURF B.V.,145.xxx.xxx.xxx
+Sydney,New South Wales,Australia,2015,-33.8715,151.2006,Australia/Sydney,Telstra Internet,,AS1221 Telstra Corporation Ltd,203.xxx.xxx.xxx
+Meyzieu,Auvergne-Rhône-Alpes,France,69330,45.7609,5.0111,Europe/Paris,Societe Francaise Du Radiotelephone - SFR SA,,AS15557 Societe Francaise Du Radiotelephone - SFR SA,77.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,CONUS-YPG,USAISC,AS749 DoD Network Information Center,6.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+Washington,District of Columbia,United States,20418,38.907,-77.0526,America/New_York,Cogent Communications,Cogent communications - IPENG,AS174 Cogent Communications,38.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"AT&T Services, Inc.","AT&T Global Network Services, LLC","AS7018 AT&T Services, Inc.",32.xxx.xxx.xxx
+Seongnam-si,Gyeonggi-do,South Korea,13606,37.3588,127.115,Asia/Seoul,Korea Telecom,Korea Telecom,AS4766 Korea Telecom,119.xxx.xxx.xxx
+Washington,District of Columbia,United States,20418,38.907,-77.0526,America/New_York,Cogent Communications,Cogent communications - IPENG,AS174 Cogent Communications,38.xxx.xxx.xxx
+Bradenton,Florida,United States,34209,27.4749,-82.6186,America/New_York,Charter Communications,Spectrum,"AS33363 Charter Communications, Inc",35.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46204,39.7709,-86.1585,America/Chicago,AT&T Services,"AT&T Services, Inc.",,135.xxx.xxx.xxx
+Chennai,Tamil Nadu,India,600053,12.8996,80.2209,Asia/Kolkata,SoftLayer,"SoftLayer Technologies, Inc",AS36351 SoftLayer Technologies Inc.,169.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,13.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+Euless,Texas,United States,76039,32.8548,-97.0819,America/Chicago,Charter Communications,Spectrum,AS11427 Charter Communications Inc,72.xxx.xxx.xxx
+Durham,North Carolina,United States,27709,35.905,-78.8566,America/New_York,IBM,IBM,,9.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,33.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS357 DoD Network Information Center,55.xxx.xxx.xxx
+Concord,California,United States,94520,37.974,-122.033,America/Los_Angeles,Bank of America,"Bank of America, National Association",,171.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (eastus),AS8075 Microsoft Corporation,20.xxx.xxx.xxx
+Dallas,Texas,United States,75240,32.9363,-96.8231,America/Chicago,SoftLayer,"SoftLayer Technologies, Inc.",,13.xxx.xxx.xxx
+Brétigny-sur-Orge,Île-de-France,France,91220,48.6103,2.3165,Europe/Paris,Proxad / Free SAS,ProXad network / Free,AS12322 Free SAS,88.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,11.xxx.xxx.xxx
+Haidian,Beijing,China,,39.8997,116.334,Asia/Shanghai,North Star Information Hi.tech Ltd. Co,North Star Information Hi.tech Ltd. Co,,175.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Saint-Martin-du-Tertre,Île-de-France,France,95270,49.1098,2.3453,Europe/Paris,Proxad / Free SAS,ProXad network / Free,AS12322 Free SAS,88.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Verizon Business,AS701 Verizon Business,63.xxx.xxx.xxx
+Milpitas,California,United States,95035,37.4371,-121.8954,America/Los_Angeles,"AT&T Services, Inc.",Acc-american Motors Corporati,"AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+Coffeyville,Kansas,United States,67337,37.0902,-95.7129,America/Chicago,HamWAN,Amateur Radio Digital Communications,AS63479 HamWAN,44.xxx.xxx.xxx
+Montgomery,Alabama,United States,36114,32.4033,-86.2383,America/Chicago,DoD Network Information Center,Air Force Systems Networking,AS367 DoD Network Information Center,132.xxx.xxx.xxx
+Indianapolis,Indiana,United States,46204,39.7709,-86.1585,America/Chicago,AT&T Services,"AT&T Services, Inc.",,135.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.4146,-122.146,America/Los_Angeles,Hewlett-Packard Company,Hewlett-Packard Company,,15.xxx.xxx.xxx
+Banqiao,Taipei,Taiwan,,25.0114,121.462,Asia/Taipei,"Far EastTone Telecommunication Co., Ltd.","Far EasTone Telecommunication Co., Ltd.","AS9674 Far EastTone Telecommunication Co., Ltd.",27.xxx.xxx.xxx
+Rio Claro,São Paulo,Brazil,,-23.71,-46.294,America/Sao_Paulo,Claro NXT Telecomunicacoes Ltda,Claro NXT Telecomunicacoes Ltda,AS28573 Claro NXT Telecomunicacoes Ltda,177.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,214.xxx.xxx.xxx
+Shenzhen,Guangdong,China,,22.5431,114.058,Asia/Shanghai,China Mobile,China Mobile Communications Corporation,"AS9808 China Mobile Communications Group Co., Ltd.",36.xxx.xxx.xxx
+Dagenham,England,United Kingdom,RM8,51.5477,0.1115,Europe/London,EE Limited,EEMobile,AS12576 EE Limited,31.xxx.xxx.xxx
+Madrid,Madrid,Spain,28050,40.5167,-3.66479,Europe/Madrid,RIMA (Red IP Multi Acceso),,AS3352 TELEFONICA DE ESPANA S.A.U.,80.xxx.xxx.xxx
+Toronto,Ontario,Canada,M5A,43.67,-79.3794,America/Toronto,Rogers Communications Canada Inc.,Rogers Cable Inc. YM,AS812 Rogers Communications Canada Inc.,99.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,14.xxx.xxx.xxx
+Niizo,Saitama,Japan,335-0021,35.8104,139.6696,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Rongcheng,Anhui,China,,30.6007,117.925,Asia/Shanghai,Chinanet,Chinanet AH,AS4134 CHINANET-BACKBONE,36.xxx.xxx.xxx
+Riverside,California,United States,92509,34.0062,-117.4432,America/Los_Angeles,Verizon Business,Cellco Partnership DBA Verizon Wireless,AS6167 Verizon Business,97.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,57.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Beijing,Beijing,China,100000,39.9042,116.407,Asia/Shanghai,China TieTong Telecommunications Corporation,China TieTong Telecommunications Corporation,AS9394 China TieTong Telecommunications Corporation,101.xxx.xxx.xxx
+Montevideo,Montevideo Department,Uruguay,11200,-34.9064,-56.1629,America/Montevideo,Administracion Nacional de Telecomunicaciones,Administracion Nacional de Telecomunicaciones,AS6057 Administracion Nacional de Telecomunicaciones,167.xxx.xxx.xxx
+Shenzhen,Guangdong,China,,22.5559,114.0577,Asia/Shanghai,Hangzhou Alibaba Advertising Co,"Aliyun Computing Co., LTD","AS37963 Hangzhou Alibaba Advertising Co.,Ltd.",120.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,22.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",8.xxx.xxx.xxx
+Bristol,England,United Kingdom,BS5,51.4623,-2.5502,Europe/London,TalkTalk,Carphone Warehouse Broadband Services,AS13285 TalkTalk Communications Limited,92.xxx.xxx.xxx
+Cuauhtémoc,Mexico City,Mexico,6720,19.4129,-99.1478,America/Mexico_City,Uninet S.A. de C.V.,UNINET,AS8151 UNINET,187.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.412,-122.148,America/Los_Angeles,HP Inc.,HP Inc,,15.xxx.xxx.xxx
+Chicago,Illinois,United States,60602,41.8874,-87.6318,America/Chicago,Nokia of America Corporation,Nokia of America Corporation,AS10455 Nokia of America Corporation,135.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,Chinanet,Chinanet GD,AS4134 CHINANET-BACKBONE,183.xxx.xxx.xxx
+Chicago,Illinois,United States,60606,41.8838,-87.6388,America/Chicago,The Boeing Company,The Boeing Company,,136.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,105-0012,35.6552,139.761,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Yintai,Shaanxi,China,,35.394,109.188,Asia/Shanghai,Chinanet,Chinanet SN,AS4134 CHINANET-BACKBONE,1.xxx.xxx.xxx
+Utrecht,Utrecht,The Netherlands,3512,52.0907,5.12142,Europe/Amsterdam,SURFnet III b,SURFnet bv,AS1101 SURF B.V.,145.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,139.xxx.xxx.xxx
+Chiyoda,Tokyo,Japan,100-8111,35.6906,139.77,Asia/Tokyo,Kddi Corporation,KDDI,AS2516 KDDI CORPORATION,106.xxx.xxx.xxx
+Nairobi,Nairobi County,Kenya,,-1.32501,36.8489,Africa/Nairobi,Airtel KE Mobile & Fixed Internet,,AS327708 Airtel Rwanda Ltd,102.xxx.xxx.xxx
+Centreville,Virginia,United States,20120,38.8397,-77.4335,America/New_York,American Registry Internet Numbers,American Registry Internet Numbers,,23.xxx.xxx.xxx
+Rahway,New Jersey,United States,7065,40.6123,-74.267,America/New_York,Merck and Co,"Merck and Co., Inc",,54.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",4.xxx.xxx.xxx
+Shanghai,Shanghai,China,,31.2222,121.4581,Asia/Shanghai,China Telecom (Group),Chinanet SH,AS4812 China Telecom (Group),114.xxx.xxx.xxx
+Melbourne,Victoria,Australia,3910,-38.1532,145.1944,Australia/Melbourne,SingTel Optus Pty Ltd,Optus Internet Pty Ltd,AS4804 Microplex PTY LTD,49.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,AWS CloudFront (GLOBAL),,3.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB Corp.,AS17676 SoftBank Corp.,221.xxx.xxx.xxx
+Madrid,Madrid,Spain,28001,40.4299,-3.6691,Europe/Madrid,RIMA (Red IP Multi Acceso),,AS3352 TELEFONICA DE ESPANA S.A.U.,80.xxx.xxx.xxx
+Kuala Lumpur,Kuala Lumpur,Malaysia,50515,3.1408,101.6852,Asia/Kuala_Lumpur,TM TECHNOLOGY SERVICES SDN BHD,Adsl Streamyx,AS4788 TM TECHNOLOGY SERVICES SDN. BHD.,115.xxx.xxx.xxx
+Dublin,Leinster,Ireland,D02,53.3379,-6.2591,Europe/Dublin,NTL Ireland,,AS6830 Liberty Global B.V.,89.xxx.xxx.xxx
+Talavera de la Reina,Castille-La Mancha,Spain,45600,39.9607,-4.8247,Europe/Madrid,Telefonica de Espana SAU,RIMA (Red IP Multi Acceso),AS3352 TELEFONICA DE ESPANA S.A.U.,83.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Xiaolou,Guangdong,China,,23.379,113.763,Asia/Shanghai,CHINANET-GD,Chinanet GD,,101.xxx.xxx.xxx
+Ashburn,Virginia,United States,20147,39.0519,-77.4523,America/New_York,DXC US Latin America Corporation,DXC US Latin America Corporation,AS21877 DXC US Latin America Corporation,20.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",162.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (usgovvirginia),AS8070 Microsoft Corporation,20.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+Komone,Tokyo,Japan,173-0031,35.7458,139.6911,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Monroe,Louisiana,United States,71203,32.5896,-92.0669,America/Chicago,"Level 3 Communications, Inc.","Level 3, LLC","AS3356 Level 3 Parent, LLC",4.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,"AT&T Services, Inc.",AT&T Internet Services,"AS7018 AT&T Services, Inc.",99.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+Orlando,Florida,United States,32837,28.3939,-81.4216,America/New_York,Charter Communications,Spectrum,"AS33363 Charter Communications, Inc",35.xxx.xxx.xxx
+Heilbronn,Baden-Wurttemberg,Germany,74072,49.1408,9.2149,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,84.xxx.xxx.xxx
+Beijing,Beijing,China,,39.911,116.395,Asia/Shanghai,Hangzhou Alibaba Advertising Co,"Aliyun Computing Co., LTD","AS37963 Hangzhou Alibaba Advertising Co.,Ltd.",39.xxx.xxx.xxx
+Shenzhen,Guangdong,China,518000,22.5431,114.058,Asia/Shanghai,China Internet Network Information Center,"Tencent cloud computing (Beijing) Co., Ltd.",AS45090 Shenzhen Tencent Computer Systems Company Limited,121.xxx.xxx.xxx
+Durham,North Carolina,United States,27709,35.905,-78.8566,America/New_York,IBM,IBM,,9.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Societe Internationale de Telecommunications Aeronautiques,Societe Internationale de Telecommunications Aeronautiques,,57.xxx.xxx.xxx
+Irwin,Pennsylvania,United States,15642,40.3177,-79.7223,America/New_York,Comcast Cable Communications,"Comcast IP Services, L.L.C.","AS7016 Comcast Cable Communications, LLC",73.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+Paris,Île-de-France,France,75000,48.8566,2.35222,Europe/Paris,TVCCONV,France Telecom services,,92.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,131.xxx.xxx.xxx
+Shanghai,Shanghai,China,,31.2304,121.474,Asia/Shanghai,China Telecom (Group),Chinanet SH,AS4812 China Telecom (Group),222.xxx.xxx.xxx
+Suzhou,Jiangsu,China,215000,31.299,120.585,Asia/Shanghai,China Mobile communications corporation,China Mobile,AS56046 China Mobile communications corporation,223.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Utrecht,Utrecht,The Netherlands,3512,52.0907,5.12142,Europe/Amsterdam,SURFnet III b,SURFnet bv,AS1101 SURF B.V.,145.xxx.xxx.xxx
+Chengdu,Sichuan,China,,30.6498,104.0555,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,125.xxx.xxx.xxx
+Boydton,Virginia,United States,23917,36.677696,-78.37471,America/New_York,Microsoft Corporation,Microsoft Azure Cloud (eastus),AS8075 Microsoft Corporation,40.xxx.xxx.xxx
+Bremen,Bremen,Germany,28195,53.0832,8.78828,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,80.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+San Jose,California,United States,95141,37.3382,-121.886,America/Los_Angeles,Akamai International B.V.,"Akamai Technologies, Inc.",AS20940 Akamai International B.V.,172.xxx.xxx.xxx
+Rahway,New Jersey,United States,7065,40.6123,-74.267,America/New_York,Merck and Co,"Merck and Co., Inc",,54.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Amazon Technologies Inc.,Amazon Technologies Inc,,18.xxx.xxx.xxx
+Santa Clara,California,United States,95052,37.3862,-121.964,America/Los_Angeles,Intel Corporation,Intel Corporation,,143.xxx.xxx.xxx
+Citrus Heights,California,United States,95610,38.6975,-121.2714,America/Los_Angeles,"Comcast Cable Communications, LLC","Comcast Cable Communications, Inc.","AS33667 Comcast Cable Communications, LLC",67.xxx.xxx.xxx
+Haidian,Beijing,China,,39.9786,116.302,Asia/Shanghai,Tencent Cloud Computing (Beijing) Co,"Tencent Cloud Computing (Beijing) Co., Ltd",,43.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+Cairo,Cairo Governorate,Egypt,,30.0588,31.2268,Africa/Cairo,TE Data,,AS8452 TE-AS,41.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Santa Clara,California,United States,95052,37.3862,-121.964,America/Los_Angeles,Intel Corporation,Intel Corporation,,143.xxx.xxx.xxx
+Auburndale,Florida,United States,33823,28.0699,-81.8107,America/New_York,Charter Communications,Spectrum,"AS33363 Charter Communications, Inc",72.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,136.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+Nanjing,Jiangsu,China,,32.0589,118.7738,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,49.xxx.xxx.xxx
+West Palm Beach,Florida,United States,33411,26.6642,-80.1732,America/New_York,Comcast Cable Communications,"Comcast IP Services, L.L.C.","AS20214 Comcast Cable Communications, LLC",73.xxx.xxx.xxx
+Broomfield,Colorado,United States,80021,39.9209,-105.144,America/Denver,"Level 3 Communications, Inc.",Level 3,"AS3356 Level 3 Parent, LLC",4.xxx.xxx.xxx
+Portland,Oregon,United States,97207,45.5235,-122.676,America/Los_Angeles,"Amazon.com, Inc.",AWS EC2 (us-west-2),"AS16509 Amazon.com, Inc.",52.xxx.xxx.xxx
+Sierra Vista,Arizona,United States,85613,31.5552,-110.35,America/Phoenix,DoD Network Information Center,USAISC,AS721 DoD Network Information Center,55.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,A100 ROW Inc,A100 ROW Inc,,51.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.412,-122.148,America/Los_Angeles,HP Inc.,HP Inc,,15.xxx.xxx.xxx
+Shenzhen,Guangdong,China,518000,22.5431,114.058,Asia/Shanghai,China Mobile communications corporation,China Mobile,"AS9808 China Mobile Communications Group Co., Ltd.",117.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70184,48.767,9.1827,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,91.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Nanjing,Jiangsu,China,210000,32.0607,118.763,Asia/Shanghai,Chinanet,Chinanet JS,AS4134 CHINANET-BACKBONE,114.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Verizon Business,AS22394 Verizon Business,72.xxx.xxx.xxx
+Ludwigsburg,Baden-Wurttemberg,Germany,71640,48.8894,9.2184,Europe/Berlin,Deutsche Telekom AG,Deutsche Telekom AG,AS3320 Deutsche Telekom AG,93.xxx.xxx.xxx
+Minato-ku,Tokyo,Japan,104-0045,35.6629,139.761,Asia/Tokyo,Softbank BB Corp.,Japan nation-wide Network of SOFTBANK BB CORP,AS17676 SoftBank Corp.,219.xxx.xxx.xxx
+San Diego,California,United States,92115,32.7638,-117.07,America/Los_Angeles,Verizon Business,Cellco Partnership DBA Verizon Wireless,AS6167 Verizon Business,97.xxx.xxx.xxx
+New York,New York,United States,10271,40.7085,-74.0106,America/New_York,JPMorgan Chase & Co.,JPMorgan Chase & Co.,,169.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,148.xxx.xxx.xxx
+San Diego,California,United States,92111,32.819,-117.179,America/Los_Angeles,"University of California, San Diego",Amateur Radio Digital Communications,"AS7377 University of California, San Diego",44.xxx.xxx.xxx
+San Diego,California,United States,92111,32.819,-117.179,America/Los_Angeles,"University of California, San Diego",Amateur Radio Digital Communications,"AS7377 University of California, San Diego",44.xxx.xxx.xxx
+New York,New York,United States,10123,40.7128,-74.006,America/New_York,Verizon Business,Cellco Partnership DBA Verizon Wireless,AS22394 Verizon Business,97.xxx.xxx.xxx
+Concord,California,United States,94520,37.974,-122.033,America/Los_Angeles,Bank of America,"Bank of America, National Association",,171.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,A100 ROW Inc,A100 ROW Inc,,51.xxx.xxx.xxx
+New York,New York,United States,10271,40.7085,-74.0106,America/New_York,JPMorgan Chase & Co.,JPMorgan Chase & Co.,,169.xxx.xxx.xxx
+Denver,Colorado,United States,80294,39.7523,-104.984,America/Denver,"Comcast Cable Communications, LLC","Comcast IP Services, L.L.C.","AS7922 Comcast Cable Communications, LLC",96.xxx.xxx.xxx
+San Diego,California,United States,92111,32.819,-117.179,America/Los_Angeles,"University of California, San Diego",Amateur Radio Digital Communications,"AS7377 University of California, San Diego",44.xxx.xxx.xxx
+Melbourne,Victoria,Australia,3046,-37.7059,144.9259,Australia/Melbourne,SingTel Optus Pty Ltd,Optus Internet Pty Ltd,AS4804 Microplex PTY LTD,49.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,29.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,159.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5072,-0.127586,Europe/London,MICROSOFT,Microsoft Limited,AS8075 Microsoft Corporation,57.xxx.xxx.xxx
+Reston,Virginia,United States,20190,38.9586,-77.357,America/New_York,DoD Network Information Center,Navy Network Information Center,AS367 DoD Network Information Center,205.xxx.xxx.xxx
+Sydney,New South Wales,Australia,2000,-33.8715,151.2006,Australia/Sydney,Telstra Internet,,AS1221 Telstra Corporation Ltd,203.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,30.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Paris,Île-de-France,France,75000,48.8566,2.35222,Europe/Paris,Orange,,AS3215 Orange S.A.,90.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,1000,-23.6283,-46.6409,America/Sao_Paulo,TIM S/A,TIM S/A,AS26615 TIM S/A,179.xxx.xxx.xxx
+Chicago,Illinois,United States,60666,41.8781,-87.6298,America/Chicago,"T-Mobile USA, Inc.","T-Mobile USA, Inc.","AS21928 T-Mobile USA, Inc.",100.xxx.xxx.xxx
+Seattle,Washington,United States,98108,47.6229,-122.337,America/Los_Angeles,Amazon.com,"Amazon.com, Inc",,13.xxx.xxx.xxx
+Dublin,Leinster,Ireland,D6W,53.2972,-6.3038,Europe/Dublin,NTL Ireland,,AS6830 Liberty Global B.V.,89.xxx.xxx.xxx
+Fort Worth,Texas,United States,76111,32.7825,-97.2993,America/Chicago,"AT&T Services, Inc.","AT&T Services, Inc.","AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+Palo Alto,California,United States,94304,37.412,-122.148,America/Los_Angeles,HP Inc.,HP Inc,,15.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,21.xxx.xxx.xxx
+São Paulo,São Paulo,Brazil,1000,-23.6283,-46.6409,America/Sao_Paulo,Vivo,TELEF�NICA BRASIL S.A,AS27699 TELEFÔNICA BRASIL S.A,177.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Stuttgart,Baden-Wurttemberg,Germany,70327,48.7863,9.23807,Europe/Berlin,Mercedes-Benz Group AG,Daimler AG,AS31399 Mercedes-Benz Group AG,53.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,164.xxx.xxx.xxx
+Albany,New York,United States,12201,42.6526,-73.7562,America/New_York,Verizon Business,Verizon Business,AS701 Verizon Business,63.xxx.xxx.xxx
+Newark,New Jersey,United States,7102,40.7369,-74.172,America/New_York,The Prudential Insurance Company of America,The Prudential Insurance Company of America,,48.xxx.xxx.xxx
+Norfolk,Virginia,United States,23501,36.9151,-76.1866,America/New_York,DoD Network Information Center,Navy Network Information Center,AS721 DoD Network Information Center,205.xxx.xxx.xxx
+Lagos,Lagos,Nigeria,,6.46529,3.42517,Africa/Lagos,Airtel Networks Limited,Airtel Networks Limited,,105.xxx.xxx.xxx
+Cairo,Cairo Governorate,Egypt,,30.0204,31.4122,Africa/Cairo,Etisalat Misr,Eti-Mob,AS36992 ETISALAT MISR,156.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,26.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Chicago,Illinois,United States,60639,41.923,-87.7531,America/Chicago,Verizon Business,Service Provider Corporation,AS6167 Verizon Business,166.xxx.xxx.xxx
+Shanghai,Shanghai,China,,31.2304,121.474,Asia/Shanghai,China Telecom (Group),Chinanet SH,AS4812 China Telecom (Group),222.xxx.xxx.xxx
+San Antonio,Texas,United States,78249,29.5652,-98.6145,America/Chicago,Charter Communications,Spectrum,AS11427 Charter Communications Inc,72.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,Microsoft Corporation,Microsoft Corporation,,4.xxx.xxx.xxx
+Muping,Sichuan,China,,30.2638,102.805,Asia/Shanghai,Chinanet,Chinanet SC,AS4134 CHINANET-BACKBONE,171.xxx.xxx.xxx
+Kinuta,Tokyo,Japan,157-0071,35.6544,139.6142,Asia/Tokyo,Softbank BB Corp.,SOFTBANK Corp,AS17676 SoftBank Corp.,126.xxx.xxx.xxx
+Whitehall,Ohio,United States,43218,39.9747,-82.8947,America/New_York,DoD Network Information Center,DoD Network Information Center,AS749 DoD Network Information Center,215.xxx.xxx.xxx
+Portland,Oregon,United States,97207,45.5235,-122.676,America/Los_Angeles,"Amazon.com, Inc.",AWS EC2 (us-west-2),"AS16509 Amazon.com, Inc.",52.xxx.xxx.xxx
+Hyderabad,Telangana,India,500018,17.3724,78.4378,Asia/Kolkata,BSNL Internet,,AS9829 National Internet Backbone,117.xxx.xxx.xxx
+Houston,Texas,United States,77010,29.7547,-95.3582,America/Chicago,"AT&T Services, Inc.",Marriott Corporationattn JOH,"AS7018 AT&T Services, Inc.",12.xxx.xxx.xxx
+London,England,United Kingdom,W1B,51.5074,-0.127758,Europe/London,UK Ministry of Defence,UK Ministry of Defence,,25.xxx.xxx.xxx
+Calgary,Alberta,Canada,T2X,50.8833,-114.0334,America/Edmonton,TELUS Communications Inc,TELUS-FIBRE-CLGRAB49,AS852 TELUS Communications Inc.,209.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx
+Huamu,Shanghai,China,,31.2069,121.599,Asia/Shanghai,Oriental Cable Network Co,"Oriental Cable Network Co., Ltd.","AS9812 Oriental Cable Network Co., Ltd.",114.xxx.xxx.xxx
+Dearborn,Michigan,United States,48121,42.3223,-83.1763,America/Detroit,Ford Motor Company,Ford Motor Company,,19.xxx.xxx.xxx

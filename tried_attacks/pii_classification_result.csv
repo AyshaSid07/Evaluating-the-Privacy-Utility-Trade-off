@@ -1,0 +1,12 @@
+Column,PII Classification
+IP Address,Direct personal identifier
+City,Indirect identifier
+Region,Indirect identifier
+Country,Indirect identifier
+Postal Code,Indirect identifier
+Latitude,High-risk indirect identifier
+Longitude,High-risk indirect identifier
+Timezone,Low-risk contextual data
+ISP,Indirect identifier
+Organization,Indirect identifier
+Autonomous System,Indirect identifier
