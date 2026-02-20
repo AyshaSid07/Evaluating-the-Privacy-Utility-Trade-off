@@ -1,0 +1,96 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+
+def preprocess_data(df, target_col):
+
+    df_clean = df.copy()
+    
+    df_clean = df_clean.dropna(subset=[target_col])
+    
+    df_clean = df_clean.fillna("Unknown")
+    
+    le = LabelEncoder()
+    for col in df_clean.columns:
+        if df_clean[col].dtype == 'object':
+            df_clean[col] = le.fit_transform(df_clean[col].astype(str))
+            
+    return df_clean
+
+def evaluate_dataset_utility(df, target_col):
+
+    df_processed = preprocess_data(df, target_col)
+    
+    X = df_processed.drop(columns=[target_col])
+    y = df_processed[target_col]
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    clf = RandomForestClassifier(n_estimators=50, random_state=42)
+    clf.fit(X_train, y_train)
+    
+    y_pred = clf.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    return accuracy
+
+from sklearn.model_selection import GroupShuffleSplit
+
+def evaluate_kanonymity_utility(df, target_col, quasi_identifiers): # got some problems with k-anonymity datasets
+    df_processed = preprocess_data(df, target_col)
+    
+    groups = df_processed[quasi_identifiers].apply(lambda x: '-'.join(x.astype(str)), axis=1)
+    
+    X = df_processed.drop(columns=[target_col])
+    y = df_processed[target_col]
+    
+    gss = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+    
+    for train_idx, test_idx in gss.split(X, y, groups):
+        X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+        y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+        
+    clf = RandomForestClassifier(n_estimators=50, random_state=42)
+    clf.fit(X_train, y_train)
+    
+    y_pred = clf.predict(X_test)
+    return accuracy_score(y_test, y_pred)
+
+def plot_utility_results(results_dict, target_col):
+    names = list(results_dict.keys())
+    accuracies = list(results_dict.values())
+    
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(names, accuracies, color=['blue', 'orange', 'green'])
+    
+    plt.ylabel('Accuracy (utility)', fontsize=12)
+    plt.xlabel('Dataset', fontsize=12)
+    plt.title(f'Comparisons of Data Utility after different de-identification methods for target column: {target_col}')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    plt.show()
+
+if __name__ == "__main__":
+    df_original = pd.read_csv('datasets/mendeley_data.csv') # original data always
+    #data_anon1 = pd.read_csv('datasets/k2.csv') # Choose one or more de-identification methods, e.g., K-anonymity k = 2
+    #data_anon2 = pd.read_csv('datasets/k4.csv') 
+    ip_masked = pd.read_csv('datasets/masked_ip.csv')
+    ip_hashed = pd.read_csv('datasets/hashed_ip.csv')
+    target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
+
+    #quasi_identifiers = ["Region", "City", "ISP", "Organization", "Country"]  # Adjust based on your dataset's structure
+
+
+    results = {
+        "Original Data": evaluate_dataset_utility(df_original, target_col),
+        "IP Masked": evaluate_dataset_utility(ip_masked, target_col),
+        "IP Hashed": evaluate_dataset_utility(ip_hashed, target_col)
+    }
+    
+    for method, acc in results.items():
+        print(f"{method}: Accuracy = {acc:.4f}")
+        
+    plot_utility_results(results, target_col)
