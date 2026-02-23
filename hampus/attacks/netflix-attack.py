@@ -52,7 +52,7 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
         
     return results 
         
-def evaluate_attack(results, df_original):
+def evaluate_attack(results, df_original, defense_name):
     correct_links = 0
     
     for row in results:
@@ -70,33 +70,51 @@ def evaluate_attack(results, df_original):
         return
     hit_precision = (correct_links / total_attacks) * 100
 
-    print(f"Attack Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
+    print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
 
-def plot_results(hit_accuracy):
-    plt.figure(figsize=(6, 4))
-    plt.bar(['Attack Hit Accuracy'], [hit_accuracy], color='red')
+def plot_results(results_dict):
+    plt.figure(figsize=(10, 6)) # Gjorde grafen lite bredare för att få plats med flera staplar
+    
+    # Plocka ut namnen och värdena från lexikonet
+    methods = list(results_dict.keys())
+    accuracies = list(results_dict.values())
+    
+    # Skapa staplarna
+    for i in range(len(methods)):
+        bars = plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
+    
     plt.ylim(0, 100)
-    plt.ylabel('Hit accuracy (%)')
-    plt.title('Netflix Attack Hit Accuracy')
+    plt.ylabel('Hit Accuracy (%)', fontsize=12)
+    plt.xlabel('Defense Method', fontsize=12)
+    plt.title('Netflix Attack Precision Across Defenses', fontsize=14)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
+                 
+    plt.tight_layout()
     plt.show()
 
 
 if __name__ == "__main__":
     df_original = pd.read_csv('../datasets/mendeley_data.csv')
-    #df_protected = pd.read_csv('../datasets/masked_ip.csv') # take a protected dataset
-    #df_protected = pd.read_csv('../datasets/hashed_ip.csv') # take a protected dataset
-    df_protected = pd.read_csv('../datasets/generalized_lat_long.csv') # take a protected dataset, with generalized lat/long, but still with IP address, should be interesting to see how much the attack is affected by this
-    # simulated dataset for the attacker, with only quasi-identifiers and IP, 50 random samples at the moment
+
     df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'City', 'ISP', 'Latitude', 'Longitude']] 
     QIs = ['City', 'ISP', 'Latitude', 'Longitude']
     
-    # first calculate the weights based on the protected dataset, which the attacker have access to
-    weights = calculate_weights(df_protected, ['City', 'ISP'])
+    datasets_to_test = {
+        "No Defense (Baseline)": df_original,
+        "Masked IP": pd.read_csv('../datasets/masked_ip.csv'),
+        "Hashed IP": pd.read_csv('../datasets/hashed_ip.csv'),
+        "Generalized Lat/Long": pd.read_csv('../datasets/generalized_lat_long.csv')
+    }
+    final_results = {}
     
-    # then perform the attack using these weights
-    results = perform_attack(df_protected, df_attacker, QIs, weights)
-    
-    hit_accuracy = evaluate_attack(results, df_original)
-    plot_results(hit_accuracy)
+    for defense_name, df_protected in datasets_to_test.items():
+        
+        weights = calculate_weights(df_protected, ['City', 'ISP'])
+        
+        results = perform_attack(df_protected, df_attacker, QIs, weights)
+        
+        hit_accuracy = evaluate_attack(results, df_original, defense_name)
+        final_results[defense_name] = hit_accuracy
+        
+    plot_results(final_results)
