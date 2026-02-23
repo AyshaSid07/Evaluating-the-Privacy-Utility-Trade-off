@@ -21,7 +21,7 @@ def preprocess_data(df, target_col):
     return df_clean
 
 def evaluate_dataset_utility(df, target_col):
-
+#https://jisem-journal.com/index.php/journal/article/view/1198/456
     df_processed = preprocess_data(df, target_col)
     
     X = df_processed.drop(columns=[target_col])
