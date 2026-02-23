@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # we assume the attacker only has access to some of the quasi-identifiers, and not the protected IP address, and also only 50 random records to link.
     # we can change this if necessary
     df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'City', 'ISP', 'Latitude', 'Longitude']] 
-    QIs = ['City', 'ISP', 'Latitude', 'Longitude']
+    quasi_identifiers = ['City', 'ISP', 'Latitude', 'Longitude']
     
     # add more defenses here
     datasets_to_test = {
@@ -109,14 +109,14 @@ if __name__ == "__main__":
         "Hashed IP": pd.read_csv('../datasets/hashed_ip.csv'),
         "Generalized Lat/Long": pd.read_csv('../datasets/generalized_lat_long.csv')
     }
-    
+
     final_results = {}
     
     for defense_name, df_protected in datasets_to_test.items():
         
         weights = calculate_weights(df_protected, ['City', 'ISP'])
         
-        results = perform_attack(df_protected, df_attacker, QIs, weights)
+        results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
         
         hit_accuracy = evaluate_attack(results, df_original, defense_name)
         final_results[defense_name] = hit_accuracy
