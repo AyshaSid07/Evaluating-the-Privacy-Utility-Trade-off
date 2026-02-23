@@ -97,15 +97,19 @@ def plot_results(results_dict):
 if __name__ == "__main__":
     df_original = pd.read_csv('../datasets/mendeley_data.csv')
 
+    # we assume the attacker only has access to some of the quasi-identifiers, and not the protected IP address, and also only 50 random records to link.
+    # we can change this if necessary
     df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'City', 'ISP', 'Latitude', 'Longitude']] 
     QIs = ['City', 'ISP', 'Latitude', 'Longitude']
     
+    # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
         "Masked IP": pd.read_csv('../datasets/masked_ip.csv'),
         "Hashed IP": pd.read_csv('../datasets/hashed_ip.csv'),
         "Generalized Lat/Long": pd.read_csv('../datasets/generalized_lat_long.csv')
     }
+    
     final_results = {}
     
     for defense_name, df_protected in datasets_to_test.items():
