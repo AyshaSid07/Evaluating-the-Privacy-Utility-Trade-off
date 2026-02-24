@@ -74,16 +74,13 @@ def evaluate_attack(results, df_original, defense_name):
     return hit_precision
 
 def plot_results(results_dict):
-    plt.figure(figsize=(10, 6)) # Gjorde grafen lite bredare för att få plats med flera staplar
-    
-    # Plocka ut namnen och värdena från lexikonet
+    plt.figure(figsize=(10, 6)) 
     methods = list(results_dict.keys())
     accuracies = list(results_dict.values())
     
-    # Skapa staplarna
     for i in range(len(methods)):
         bars = plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
-    
+        texts = plt.text(methods[i], accuracies[i] + 1, f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
     plt.ylim(0, 100)
     plt.ylabel('Hit Accuracy (%)', fontsize=12)
     plt.xlabel('Defense Method', fontsize=12)
@@ -99,15 +96,16 @@ if __name__ == "__main__":
 
     # we assume the attacker only has access to some of the quasi-identifiers, and not the protected IP address, and also only 50 random records to link.
     # we can change this if necessary
-    df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'City', 'ISP', 'Latitude', 'Longitude']] 
-    quasi_identifiers = ['City', 'ISP', 'Latitude', 'Longitude']
+    # df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'City', 'ISP', 'Latitude', 'Longitude']] 
+    df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'Latitude', 'Longitude']] 
+    quasi_identifiers = ['Latitude', 'Longitude']
     
     # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Masked IP": pd.read_csv('../datasets/masked_ip.csv'),
-        "Hashed IP": pd.read_csv('../datasets/hashed_ip.csv'),
-        "Generalized Lat/Long": pd.read_csv('../datasets/generalized_lat_long.csv')
+        "v1": pd.read_csv('../datasets/anonymized_v1.csv'),
+        "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
+        "v3": pd.read_csv('../datasets/anonymized_v3.csv')
     }
 
     final_results = {}

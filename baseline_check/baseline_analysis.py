@@ -1,48 +1,73 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 1. Load raw dataset
-df = pd.read_csv("data/mendeley_data.csv")
+def plot_results(results_dict):
+    plt.figure(figsize=(10, 6)) 
+    
+    methods = list(results_dict.keys())
+    uniqueness = list(results_dict.values())
+    
+    # Skapa staplarna
+    for i in range(len(methods)):
+        bars = plt.bar(methods[i], uniqueness[i], color=plt.cm.Set3(i), edgecolor='black')
+        texts = plt.text(methods[i], uniqueness[i] + 1, f"{uniqueness[i]:.2f}%", ha='center', va='bottom', fontsize=10)
+    plt.ylim(0, 100)
+    plt.ylabel('Uniqueness (%)', fontsize=12)
+    plt.xlabel('Defense Method', fontsize=12)
+    plt.title('Uniqueness Across Defenses (Risk assessment)', fontsize=14)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+                 
+    plt.tight_layout()
+    plt.show()
+
+
+datasets_to_test = {
+        "No Defense (Baseline)": pd.read_csv('../datasets/mendeley_data.csv'),
+        "v1": pd.read_csv('../datasets/anonymized_v1.csv'),
+        "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
+        "v3": pd.read_csv('../datasets/anonymized_v3.csv')
+    }
 
 # 2. Selecting specific quasi-identifiers
-QI_cols = ["City", "Postal Code", "ISP", "Organization"]
+QI_cols = ["City", "Region", "Country", "Postal Code", "ISP", "Organization", "Latitude", "Longitude", "Timezone", "Autonomous System"]
 
 print("Quasi-identifiers used:", QI_cols)
 
-# 3. Compute uniqueness
-group_sizes = df.groupby(QI_cols).size()
+final_results = {}
 
-unique_records = (group_sizes == 1).sum()
-total_records = len(df)
+for defense_name, df in datasets_to_test.items():
+    group_sizes = df.groupby(QI_cols).size()
 
-percent_unique = (unique_records / total_records) * 100
+    unique_records = (group_sizes == 1).sum()
+    total_records = len(df)
 
-print(f"% Unique Records: {percent_unique:.2f}%")
-print(f"Unique Records: {unique_records}")
-print(f"Total Records: {total_records}")
+    percent_unique = (unique_records / total_records) * 100
 
-# 4. Re-identification success rate
-reid_success_rate = percent_unique
+    print(f"% Unique Records: {percent_unique:.2f}%")
+    print(f"Unique Records: {unique_records}")
+    print(f"Total Records: {total_records}")
 
-print(f"Re-identification Success Rate: {reid_success_rate:.2f}%")
+    # 4. Re-identification success rate
+    reid_success_rate = percent_unique
 
-# 5. Graph 1: Total vs Re-identified
-plt.figure(figsize=(6,4))
-plt.bar(["Total Records", "Re-identified"],
-        [total_records, unique_records],
-        color=["gray", "red"])
+    print(f"Re-identification Success Rate: {reid_success_rate:.2f}%")
+    final_results[defense_name] = reid_success_rate
+ 
+plot_results(final_results)
+# plt.figure(figsize=(10,6))
 
-plt.title("Baseline Re-Identification Risk (No Defense)")
-plt.ylabel("Number of Records")
-plt.tight_layout()
+# plt.title(f"Re-identification Risk (uniqueness) for {defense_name}")
+# plt.ylabel("Number of Records")
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
 
-plt.savefig("baseline_bar_chart.png", dpi=300)
-plt.show()
+#     #plt.savefig(f"baseline_bar_chart_{defense_name}.png", dpi=300)
+# plt.show()
 
-# 6. Save metrics
-metrics = pd.DataFrame({
-    "metric": ["total_records", "unique_records", "percent_unique", "reid_success_rate"],
-    "value": [total_records, unique_records, percent_unique, reid_success_rate]
-})
+# # 6. Save metrics
+# metrics = pd.DataFrame({
+#     "metric": ["total_records", "unique_records", "percent_unique", "reid_success_rate"],
+#     "value": [total_records, unique_records, percent_unique, reid_success_rate]
+# })
 
-metrics.to_csv("baseline_metrics.csv", index=False)
+# metrics.to_csv("baseline_metrics.csv", index=False)

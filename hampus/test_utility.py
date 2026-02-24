@@ -64,7 +64,7 @@ def plot_utility_results(results_dict, target_col):
     accuracies = list(results_dict.values())
     
     plt.figure(figsize=(10, 6))
-    bars = plt.bar(names, accuracies, color=['blue', 'orange', 'green'])
+    bars = plt.bar(names, accuracies, color=plt.cm.Set2.colors, edgecolor='black')
     
     plt.ylabel('Accuracy (utility)', fontsize=12)
     plt.xlabel('Dataset', fontsize=12)
@@ -77,8 +77,9 @@ if __name__ == "__main__":
     df_original = pd.read_csv('datasets/mendeley_data.csv') # original data always
     #data_anon1 = pd.read_csv('datasets/k2.csv') # Choose one or more de-identification methods, e.g., K-anonymity k = 2
     #data_anon2 = pd.read_csv('datasets/k4.csv') 
-    ip_masked = pd.read_csv('datasets/masked_ip.csv')
-    ip_hashed = pd.read_csv('datasets/hashed_ip.csv')
+    v1 = pd.read_csv('datasets/anonymized_v1.csv')
+    v2 = pd.read_csv('datasets/anonymized_v2.csv')
+    v3 = pd.read_csv('datasets/anonymized_v3.csv')
     target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
 
     #quasi_identifiers = ["Region", "City", "ISP", "Organization", "Country"]  # Adjust based on your dataset's structure
@@ -86,8 +87,9 @@ if __name__ == "__main__":
 
     results = {
         "Original Data": evaluate_dataset_utility(df_original, target_col),
-        "IP Masked": evaluate_dataset_utility(ip_masked, target_col),
-        "IP Hashed": evaluate_dataset_utility(ip_hashed, target_col)
+        "V1": evaluate_dataset_utility(v1, target_col),
+        "V2": evaluate_dataset_utility(v2, target_col),
+        "V3": evaluate_dataset_utility(v3, target_col)
     }
     
     for method, acc in results.items():

@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 import pandas as pd
 
-df = pd.read_csv("mendeley_data.csv", nrows = 4)
+df = pd.read_csv("../datasets/mendeley_data.csv", nrows = 4)
 
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
@@ -29,13 +29,13 @@ print(f"Before encryption: \n{df}")
 df_encrypted = df.astype(object) 
 df_encrypted = df_encrypted.map(lambda x: encrypt_val(x, cipher_suite))
 print(f"After encryption: \n{df_encrypted}")
-
-df_decrypted = df_encrypted.map(lambda x: decrypt_val(x, cipher_suite))
-
-for col in df_decrypted.columns:
-    try:
-        df_decrypted[col] = pd.to_numeric(df_decrypted[col])
-    except (ValueError, TypeError):
-        pass
-
-print(f"After decryption: \n{df_decrypted}")
+df_encrypted.to_csv("../datasets/fernet_encrypted.csv", index=False)
+# df_decrypted = df_encrypted.map(lambda x: decrypt_val(x, cipher_suite))
+# 
+# for col in df_decrypted.columns:
+    # try:
+        # df_decrypted[col] = pd.to_numeric(df_decrypted[col])
+    # except (ValueError, TypeError):
+        # pass
+# 
+# print(f"After decryption: \n{df_decrypted}")
