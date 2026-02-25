@@ -20,40 +20,41 @@ def plot_results(results_dict):
     plt.tight_layout()
     plt.show()
 
+if __name__ == "__main__":
 
-datasets_to_test = {
-        "No Defense (Baseline)": pd.read_csv('../datasets/mendeley_data.csv'),
-        "v1": pd.read_csv('../datasets/anonymized_v1.csv'),
-        "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
-        "v3": pd.read_csv('../datasets/anonymized_v3.csv')
-    }
+    datasets_to_test = {
+            "No Defense (Baseline)": pd.read_csv('../datasets/mendeley_data.csv'),
+            "v1": pd.read_csv('../datasets/anonymized_v1.csv'),
+            "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
+            "v3": pd.read_csv('../datasets/anonymized_v3.csv')
+        }
 
-# 2. Selecting specific quasi-identifiers
-QI_cols = ["City", "Region", "Country", "Postal Code", "ISP", "Organization", "Latitude", "Longitude", "Timezone", "Autonomous System"]
+    # 2. Selecting specific quasi-identifiers
+    QI_cols = ["City", "Region", "Country", "Postal Code", "ISP", "Organization", "Latitude", "Longitude", "Timezone", "Autonomous System"]
 
-print("Quasi-identifiers used:", QI_cols)
+    print("Quasi-identifiers used:", QI_cols)
 
-final_results = {}
+    final_results = {}
 
-for defense_name, df in datasets_to_test.items():
-    group_sizes = df.groupby(QI_cols).size()
+    for defense_name, df in datasets_to_test.items():
+        group_sizes = df.groupby(QI_cols).size()
 
-    unique_records = (group_sizes == 1).sum()
-    total_records = len(df)
+        unique_records = (group_sizes == 1).sum()
+        total_records = len(df)
 
-    percent_unique = (unique_records / total_records) * 100
+        percent_unique = (unique_records / total_records) * 100
 
-    print(f"% Unique Records: {percent_unique:.2f}%")
-    print(f"Unique Records: {unique_records}")
-    print(f"Total Records: {total_records}")
+        print(f"% Unique Records: {percent_unique:.2f}%")
+        print(f"Unique Records: {unique_records}")
+        print(f"Total Records: {total_records}")
 
-    # 4. Re-identification success rate
-    reid_success_rate = percent_unique
+        # 4. Re-identification success rate
+        reid_success_rate = percent_unique
 
-    print(f"Re-identification Success Rate: {reid_success_rate:.2f}%")
-    final_results[defense_name] = reid_success_rate
- 
-plot_results(final_results)
+        print(f"Re-identification Success Rate: {reid_success_rate:.2f}%")
+        final_results[defense_name] = reid_success_rate
+    
+    plot_results(final_results)
 
 # plt.figure(figsize=(10,6))
 

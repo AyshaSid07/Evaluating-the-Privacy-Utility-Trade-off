@@ -1,3 +1,75 @@
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def preprocess_data(df, target_col):
+
+    df_clean = df.copy()
+    
+    df_clean = df_clean.dropna(subset=[target_col])
+    
+    df_clean = df_clean.fillna("Unknown")
+    
+    le = LabelEncoder()
+    for col in df_clean.columns:
+        if df_clean[col].dtype == 'object':
+            df_clean[col] = le.fit_transform(df_clean[col].astype(str))
+            
+    return df_clean
+
+def plot_utility_results(results_dict, target_col):
+    names = list(results_dict.keys())
+    accuracies = list(results_dict.values())
+    
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
+    text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
+    
+    plt.ylabel('Accuracy (utility)', fontsize=12)
+    plt.xlabel('Defense method', fontsize=12)
+    plt.title(f'Comparisons of Data Utility after different de-identification methods for target column: {target_col}')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    plt.show()
+
+
+if __name__ == "__main__":
+
+    model = RandomForestClassifier()
+    df_original = pd.read_csv('datasets/mendeley_data.csv') # original data always
+    target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
+    df_original = preprocess_data(df_original, target_col)
+    datasets_to_test = {
+        "generalized": pd.read_csv('datasets/generalized.csv'),
+        "masked": pd.read_csv('datasets/masked.csv'),
+        "k4": pd.read_csv('datasets/k4.csv')
+    }
+
+    final_results = {}
+
+    for defense_name, df_protected in datasets_to_test.items():
+        df_clean = preprocess_data(df_protected, target_col)
+        df_protected = preprocess_data(df_protected, target_col)
+
+        different_cols_original=list(set(df_original.columns) - set(df_protected.columns))
+        different_cols_protected=list(set(df_protected.columns) - set(df_original.columns))
+
+        different_cols_original.append(target_col)
+        different_cols_protected.append(target_col)
+
+        X_train = df_original.drop(columns=different_cols_original) 
+        y_train = df_original[target_col]
+        model.fit(X_train, y_train)
+
+        X_test = df_protected.drop(columns=different_cols_protected) 
+        y_test = df_protected[target_col]
+        y_pred = model.predict(X_test)
+
+        accuracy = accuracy_score(y_test, y_pred)
+        final_results[defense_name] = accuracy
+    plot_utility_results(final_results, target_col)
 # import pandas as pd
 # import matplotlib.pyplot as plt
 # from sklearn.model_selection import train_test_split
@@ -79,91 +151,6 @@
 #         print(f"{method}: Accuracy = {acc:.4f}")
         
 #     plot_utility_results(results, target_col)
-
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder
-import pandas as pd
-import matplotlib.pyplot as plt
-
-def preprocess_data(df, target_col):
-
-    df_clean = df.copy()
-    
-    df_clean = df_clean.dropna(subset=[target_col])
-    
-    df_clean = df_clean.fillna("Unknown")
-    
-    le = LabelEncoder()
-    for col in df_clean.columns:
-        if df_clean[col].dtype == 'object':
-            df_clean[col] = le.fit_transform(df_clean[col].astype(str))
-            
-    return df_clean
-
-# def plot_results(results_dict):
-#     plt.figure(figsize=(10, 6)) 
-#     methods = list(results_dict.keys())
-#     accuracies = list(results_dict.values())
-    
-#     for i in range(len(methods)):
-#         bars = plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
-#         texts = plt.text(methods[i], accuracies[i] + 1, f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
-#     plt.ylabel('Hit Accuracy (%)', fontsize=12)
-#     plt.xlabel('Defense Method', fontsize=12)
-#     plt.title('Dataset Utility Across Defenses', fontsize=14)
-#     plt.grid(axis='y', linestyle='--', alpha=0.7)
-                 
-#     plt.tight_layout()
-#     plt.show()
-def plot_utility_results(results_dict, target_col):
-    names = list(results_dict.keys())
-    accuracies = list(results_dict.values())
-    
-    plt.figure(figsize=(10, 6))
-    bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
-    text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
-    
-    plt.ylabel('Accuracy (utility)', fontsize=12)
-    plt.xlabel('Defense method', fontsize=12)
-    plt.title(f'Comparisons of Data Utility after different de-identification methods for target column: {target_col}')
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    
-    plt.show()
-
-model = RandomForestClassifier()
-df_original = pd.read_csv('datasets/mendeley_data.csv') # original data always
-target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
-df_original = preprocess_data(df_original, target_col)
-datasets_to_test = {
-    "generalized": pd.read_csv('datasets/generalized.csv'),
-    "masked": pd.read_csv('datasets/masked.csv'),
-    "k4": pd.read_csv('datasets/k4.csv')
-}
-
-final_results = {}
-
-for defense_name, df_protected in datasets_to_test.items():
-    df_clean = preprocess_data(df_protected, target_col)
-    df_protected = preprocess_data(df_protected, target_col)
-
-    different_cols_original=list(set(df_original.columns) - set(df_protected.columns))
-    different_cols_protected=list(set(df_protected.columns) - set(df_original.columns))
-
-    different_cols_original.append(target_col)
-    different_cols_protected.append(target_col)
-
-    X_train = df_original.drop(columns=different_cols_original) 
-    y_train = df_original[target_col]
-    model.fit(X_train, y_train)
-
-    X_test = df_protected.drop(columns=different_cols_protected) 
-    y_test = df_protected[target_col]
-    y_pred = model.predict(X_test)
-
-    accuracy = accuracy_score(y_test, y_pred)
-    final_results[defense_name] = accuracy
-plot_utility_results(final_results, target_col)
 # quasi_identifiers = ["Region", "City", "ISP", "Organization", "Country"]  # Adjust based on your dataset's structure
 
 
