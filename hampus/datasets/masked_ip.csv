@@ -1,4 +1,4 @@
-City,Region,Country,Postal Code,Latitude,Longitude,Timezone,ISP,Organization,Autonomous System,IP_Masked
+City,Region,Country,Postal Code,Latitude,Longitude,Timezone,ISP,Organization,Autonomous System,IP Address
 City of Westminster,England,United Kingdom,SW1,51.5081,-0.1278,Europe/London,Trustmarque Solutions Ltd,Trustmarque Solutions Limited,AS196744 Capita Business Services Ltd,185.xxx.xxx.xxx
 Warangal,Telangana,India,506003,17.9958,79.5782,Asia/Kolkata,BSNL Internet,,AS9829 National Internet Backbone,117.xxx.xxx.xxx
 The Hague,South Holland,The Netherlands,2597,52.0705,4.3007,Europe/Amsterdam,GEMNET,Gemnet B.V.,,95.xxx.xxx.xxx

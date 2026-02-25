@@ -39,7 +39,6 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
                 else: # if value is numerical, calculate distance score
                     diff = abs(float(val_a) - float(val_p))
                     threshold = 1.0 # threshold of latitude/longitude, as we only care about close matches
-                    # 1.0 is around 111kmb (i think), so should be possible to be lower
                     if diff < threshold: # we add a threshold of 1.0
                         score += (threshold - diff) 
             
@@ -94,12 +93,14 @@ def plot_results(results_dict):
 if __name__ == "__main__":
     df_original = pd.read_csv('../datasets/mendeley_data.csv')
 
-    # we assume the attacker only has access to some of the quasi-identifiers, and not the protected IP address, and also only 50 random records to link.
     # we can change this if necessary
     # df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'City', 'ISP', 'Latitude', 'Longitude']] 
+    
+    # we assume the attacker only has access to some of the quasi-identifiers, and not the IP address, and also only 50 random records to link.
+    # we add the IP-address just so we can evaluate how well the attack went. The attacker is only using the quasi-identifiers
     df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'Latitude', 'Longitude']] 
     quasi_identifiers = ['Latitude', 'Longitude']
-    
+        
     # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
@@ -112,7 +113,7 @@ if __name__ == "__main__":
     
     for defense_name, df_protected in datasets_to_test.items():
         
-        weights = calculate_weights(df_protected, ['City', 'ISP'])
+        weights = calculate_weights(df_protected, ['Latitude', 'Longitude'])
         
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
         
