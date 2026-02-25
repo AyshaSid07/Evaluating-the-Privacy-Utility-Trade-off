@@ -54,6 +54,7 @@ for defense_name, df in datasets_to_test.items():
     final_results[defense_name] = reid_success_rate
  
 plot_results(final_results)
+
 # plt.figure(figsize=(10,6))
 
 # plt.title(f"Re-identification Risk (uniqueness) for {defense_name}")
