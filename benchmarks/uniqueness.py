@@ -14,19 +14,24 @@ def plot_results(results_dict):
     plt.ylim(0, 100)
     plt.ylabel('Uniqueness (%)', fontsize=12)
     plt.xlabel('Defense Method', fontsize=12)
-    plt.title('Uniqueness Across Defenses (Risk assessment)', fontsize=14)
+    plt.title('Uniqueness Across Defenses (Risk assessment)', fontsize=12)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
                  
     plt.tight_layout()
+    plt.savefig("plots/uniqueness.png", dpi=300)
     plt.show()
 
 if __name__ == "__main__":
 
     datasets_to_test = {
             "No Defense (Baseline)": pd.read_csv('../datasets/mendeley_data.csv'),
-            "v1": pd.read_csv('../datasets/anonymized_v1.csv'),
-            "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
-            "v3": pd.read_csv('../datasets/anonymized_v3.csv')
+            "Generalization": pd.read_csv('../datasets/de-identified-datasets/generalization.csv'),
+            "Masking": pd.read_csv('../datasets/de-identified-datasets/masking.csv'),
+            "Masking and generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization_and_masking.csv')
+            # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
+
+            # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
+            # "v3": pd.read_csv('../datasets/anonymized_v3.csv')
         }
 
     # 2. Selecting specific quasi-identifiers

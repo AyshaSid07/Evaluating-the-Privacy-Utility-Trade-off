@@ -8,7 +8,7 @@ def preprocess_data(df, target_col):
 
     df_clean = df.copy()
     
-    df_clean = df_clean.dropna(subset=[target_col])
+    # df_clean = df_clean.dropna(subset=[target_col])
     
     df_clean = df_clean.fillna("Unknown")
     
@@ -27,24 +27,29 @@ def plot_utility_results(results_dict, target_col):
     bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
     text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
     
-    plt.ylabel('Accuracy (utility)', fontsize=12)
+    plt.ylabel('Accuracy (usability)', fontsize=12)
     plt.xlabel('Defense method', fontsize=12)
-    plt.title(f'Comparisons of Data Utility after different de-identification methods for target column: {target_col}')
+    plt.title(f'Comparisons of Data Usability after different de-identification methods for target column: {target_col}', fontsize=12)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     
+    plt.tight_layout()
+    plt.savefig("plots/utility_plot.png", dpi=300)
     plt.show()
-
+    
 
 if __name__ == "__main__":
 
     model = RandomForestClassifier()
-    df_original = pd.read_csv('datasets/mendeley_data.csv') # original data always
+    df_original = pd.read_csv('../datasets/mendeley_data.csv') # original data always
     target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
     df_original = preprocess_data(df_original, target_col)
     datasets_to_test = {
-        "generalized": pd.read_csv('datasets/generalized.csv'),
-        "masked": pd.read_csv('datasets/masked.csv'),
-        "k4": pd.read_csv('datasets/k4.csv')
+        "Generalized": pd.read_csv('../datasets/de-identified-datasets/generalization.csv'),
+        "Masking": pd.read_csv('../datasets/de-identified-datasets/masking.csv'),
+        "Masking and generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization_and_masking.csv')
+        
+        # "masked": pd.read_csv('datasets/masked.csv'),
+        # "k4": pd.read_csv('datasets/k4.csv')
     }
 
     final_results = {}
@@ -56,8 +61,8 @@ if __name__ == "__main__":
         different_cols_original=list(set(df_original.columns) - set(df_protected.columns))
         different_cols_protected=list(set(df_protected.columns) - set(df_original.columns))
 
-        different_cols_original.append(target_col)
-        different_cols_protected.append(target_col)
+        # different_cols_original.append(target_col)
+        # different_cols_protected.append(target_col)
 
         X_train = df_original.drop(columns=different_cols_original) 
         y_train = df_original[target_col]
@@ -70,6 +75,7 @@ if __name__ == "__main__":
         accuracy = accuracy_score(y_test, y_pred)
         final_results[defense_name] = accuracy
     plot_utility_results(final_results, target_col)
+    
 # import pandas as pd
 # import matplotlib.pyplot as plt
 # from sklearn.model_selection import train_test_split
