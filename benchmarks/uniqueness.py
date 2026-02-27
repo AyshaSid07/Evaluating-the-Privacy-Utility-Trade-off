@@ -27,7 +27,8 @@ if __name__ == "__main__":
             "No Defense (Baseline)": pd.read_csv('../datasets/mendeley_data.csv'),
             "Generalization": pd.read_csv('../datasets/de-identified-datasets/generalization.csv'),
             "Masking": pd.read_csv('../datasets/de-identified-datasets/masking.csv'),
-            "Masking and generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization_and_masking.csv')
+            "Masking and generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization_and_masking.csv'),
+            "Data Swapping" : pd.read_csv('../datasets/de-identified-datasets/swapped_data.csv')
             # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
 
             # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
@@ -60,21 +61,3 @@ if __name__ == "__main__":
         final_results[defense_name] = reid_success_rate
     
     plot_results(final_results)
-
-# plt.figure(figsize=(10,6))
-
-# plt.title(f"Re-identification Risk (uniqueness) for {defense_name}")
-# plt.ylabel("Number of Records")
-# plt.grid(axis='y', linestyle='--', alpha=0.7)
-# plt.tight_layout()
-
-#     #plt.savefig(f"baseline_bar_chart_{defense_name}.png", dpi=300)
-# plt.show()
-
-# # 6. Save metrics
-# metrics = pd.DataFrame({
-#     "metric": ["total_records", "unique_records", "percent_unique", "reid_success_rate"],
-#     "value": [total_records, unique_records, percent_unique, reid_success_rate]
-# })
-
-# metrics.to_csv("baseline_metrics.csv", index=False)
