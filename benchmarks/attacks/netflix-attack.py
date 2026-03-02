@@ -83,16 +83,16 @@ def plot_results(results_dict):
     plt.ylim(0, 100)
     plt.ylabel('Hit Accuracy (%)', fontsize=12)
     plt.xlabel('Defense Method', fontsize=12)
-    plt.title('Netflix Attack Precision Across Defenses', fontsize=12)
+    plt.title('Netflix Attack Accuracy Across Defenses', fontsize=12)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
                  
     plt.tight_layout()
-    plt.savefig("plots/attack_accuracy.png", dpi=300)
+    plt.savefig("../plots/attack_accuracy.png", dpi=300)
     plt.show()
 
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../datasets/mendeley_data.csv')
+    df_original = pd.read_csv('../../datasets/mendeley_data.csv')
 
     # we assume the attacker only has access to some of the quasi-identifiers, and not the IP address, and also only 50 random records to link.
     # we add the IP-address just so we can evaluate how well the attack went. The attacker is only using the quasi-identifiers
@@ -102,10 +102,10 @@ if __name__ == "__main__":
     # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization.csv'),
-        "Masking": pd.read_csv('../datasets/de-identified-datasets/masking.csv'),
-        "Masking and generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization_and_masking.csv'),
-        "Data Swapping" : pd.read_csv('../datasets/de-identified-datasets/swapped_data.csv')
+        "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
+        "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
+        "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
+        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
         # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
         # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
         # "v3": pd.read_csv('../datasets/anonymized_v3.csv')

@@ -4,6 +4,10 @@ from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import matplotlib.pyplot as plt
 
+"""
+TRTS: Train on Real, Test on (de-identified) Synthetic 
+"""
+
 def preprocess_data(df):
 
     df_clean = df.copy()
@@ -27,25 +31,24 @@ def plot_utility_results(results_dict, target_col):
     
     plt.ylabel('Accuracy (usability)', fontsize=12)
     plt.xlabel('Defense method', fontsize=12)
-    plt.title(f'Usability test 1 of different de-identification methods for target column: {target_col}', fontsize=12)
+    plt.title(f'Utility evaulation: Train on Real data test, Test on de-identified data of different de-identification on target column: {target_col}', fontsize=12)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     
     plt.tight_layout()
-    plt.savefig("plots/usability_plot1.png", dpi=300)
+    plt.savefig("../plots/trts_plot.png", dpi=300)
     plt.show()
     
 
 if __name__ == "__main__":
-
     model = RandomForestClassifier()
-    df_original = pd.read_csv('../datasets/mendeley_data.csv') # original data always
+    df_original = pd.read_csv('../../datasets/mendeley_data.csv') # original data always
     target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
     df_original = preprocess_data(df_original)
     datasets_to_test = {
-        "Generalized": pd.read_csv('../datasets/de-identified-datasets/generalization.csv'),
-        "Masking": pd.read_csv('../datasets/de-identified-datasets/masking.csv'),
-        "Masking and generalization" : pd.read_csv('../datasets/de-identified-datasets/generalization_and_masking.csv'),
-        "Data Swapping" : pd.read_csv('../datasets/de-identified-datasets/swapped_data.csv')
+        "Generalized": pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
+        "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
+        "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
+        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
     }
 
     final_results = {}
