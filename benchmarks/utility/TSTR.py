@@ -11,7 +11,7 @@ TSTR: Train on (de-identified) Synthetic, Test on Real
 def preprocess_data(df):
 
     df_clean = df.copy()
-    
+    df_clean = df.drop(columns=['IP Address'], errors='ignore') 
     df_clean = df_clean.fillna("Unknown")
     
     le = LabelEncoder()

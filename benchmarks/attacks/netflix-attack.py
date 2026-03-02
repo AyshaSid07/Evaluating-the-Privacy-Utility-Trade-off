@@ -87,7 +87,7 @@ def plot_results(results_dict):
     plt.grid(axis='y', linestyle='--', alpha=0.7)
                  
     plt.tight_layout()
-    plt.savefig("../plots/attack_accuracy.png", dpi=300)
+    plt.savefig("../plots/Netflix_attack_accuracy.png", dpi=300)
     plt.show()
 
 

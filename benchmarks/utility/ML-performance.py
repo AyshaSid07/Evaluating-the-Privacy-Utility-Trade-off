@@ -13,7 +13,7 @@ ML performance evaluation: Train and test on the same data
 def preprocess_data(df):
 
     df_clean = df.copy()
-    
+    df_clean = df.drop(columns=['IP Address'], errors='ignore') 
     df_clean = df_clean.fillna("Unknown")
     
     le = LabelEncoder()
@@ -31,10 +31,10 @@ def evaluate_dataset_utility(df, target_col):
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    clf = RandomForestClassifier(random_state=42)
-    clf.fit(X_train, y_train)
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
     
-    y_pred = clf.predict(X_test)
+    y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     
     return accuracy
@@ -68,7 +68,8 @@ if __name__ == "__main__":
         "Original Data": evaluate_dataset_utility(df_original, target_col),
         "Generalized": evaluate_dataset_utility(df_generalized, target_col),
         "Masking": evaluate_dataset_utility(df_masked, target_col),
-        "Masking and generalization" : evaluate_dataset_utility(df_generalized_masked, target_col)
+        "Masking and generalization" : evaluate_dataset_utility(df_generalized_masked, target_col),
+        "Data Swapping" : evaluate_dataset_utility(pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv'), target_col)
     }
     
     for method, acc in results.items():

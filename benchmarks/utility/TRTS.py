@@ -1,5 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ TRTS: Train on Real, Test on (de-identified) Synthetic
 def preprocess_data(df):
 
     df_clean = df.copy()
-    
+    df_clean = df.drop(columns=['IP Address'], errors='ignore') 
     df_clean = df_clean.fillna("Unknown")
     
     le = LabelEncoder()
@@ -21,13 +21,18 @@ def preprocess_data(df):
             
     return df_clean
 
-def plot_utility_results(results_dict, target_col):
-    names = list(results_dict.keys())
-    accuracies = list(results_dict.values())
+def plot_utility_results(accuracies_scores, f1_scores, target_col):
+    names = list(accuracies_scores.keys())
+    accuracies = list(accuracies_scores.values())
     
+    f1s = list(f1_scores.values())
+
+
     plt.figure(figsize=(10, 6))
-    bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
-    text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
+    accuracies_bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
+    f1_bars = plt.bar(names, f1s, color=plt.cm.Set2.colors, edgecolor='black')
+    accuracies_text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
+    f1_text = [plt.text(i, f1 + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, f1 in enumerate(f1s)]
     
     plt.ylabel('Accuracy (usability)', fontsize=12)
     plt.xlabel('Defense method', fontsize=12)
@@ -51,7 +56,8 @@ if __name__ == "__main__":
         "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
     }
 
-    final_results = {}
+    accuracies_scores = {}
+    f1_scores = {}
 
     for defense_name, df_protected in datasets_to_test.items():
         df_clean = preprocess_data(df_protected)
@@ -71,6 +77,8 @@ if __name__ == "__main__":
         y_pred = model.predict(X_test)
 
         accuracy = accuracy_score(y_test, y_pred)
+        f1 = f1_score(y_test, y_pred)
 
-        final_results[defense_name] = accuracy
-    plot_utility_results(final_results, target_col)
+        accuracies_scores[defense_name] = accuracy
+        f1_scores[defense_name] = f1
+    plot_utility_results(accuracies_scores, f1_scores, target_col)
