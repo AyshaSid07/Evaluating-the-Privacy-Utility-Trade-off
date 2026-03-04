@@ -1,6 +1,7 @@
 import pandas as pd
 from math import log
 from matplotlib import pyplot as plt
+
 def calculate_weights(df_protected, quasi_identifiers):
     # Calculate weights based on the frequency of each value in the quasi-identifiers in the dataset
     # The rarer a value is, the higher weight it get
@@ -34,7 +35,8 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
                     continue
                 
                 if isinstance(val_a, str): # if value is a string, do exact match
-                    if val_a == val_p:
+                    if str(val_a).strip().lower() == str(val_p).strip().lower():
+
                         score += weights[qi].get(val_p, 0.0) # add weight if it's a match
                 else: # if value is numerical, calculate distance score
                     diff = abs(float(val_a) - float(val_p))
@@ -78,26 +80,26 @@ def plot_results(results_dict):
     accuracies = list(results_dict.values())
     
     for i in range(len(methods)):
-        bars = plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
-        texts = plt.text(methods[i], accuracies[i] + 1, f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
+        plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
+        plt.text(methods[i], accuracies[i] + 1, f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
     plt.ylim(0, 100)
     plt.ylabel('Hit Accuracy (%)', fontsize=12)
-    plt.xlabel('Defense Method', fontsize=12)
-    plt.title('Netflix Attack Accuracy Across Defenses', fontsize=12)
+    plt.xlabel('De-identified Method', fontsize=12)
+    plt.title('Netflix Attack Accuracy Across De-identified Datasets on the Mendeley Dataset', fontsize=12)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
                  
     plt.tight_layout()
-    plt.savefig("../plots/Netflix_attack_accuracy.png", dpi=300)
+    plt.savefig("../plots/Netflix_attack_accuracy_mendeley.png", dpi=300)
     plt.show()
 
 
 if __name__ == "__main__":
     df_original = pd.read_csv('../../datasets/mendeley_data.csv')
 
+    quasi_identifiers = ['Postal Code', "Country", 'Latitude', 'Longitude']
     # we assume the attacker only has access to some of the quasi-identifiers, and not the IP address, and also only 50 random records to link.
     # we add the IP-address just so we can evaluate how well the attack went. The attacker is only using the quasi-identifiers
-    df_attacker = df_original.sample(50, random_state=42)[['IP Address', 'Postal Code', "Country", 'Latitude', 'Longitude']] 
-    quasi_identifiers = ['Postal Code', "Country", 'Latitude', 'Longitude']
+    df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
         
     # add more defenses here
     datasets_to_test = {
@@ -115,7 +117,7 @@ if __name__ == "__main__":
     
     for defense_name, df_protected in datasets_to_test.items():
         
-        weights = calculate_weights(df_protected, ['Postal Code', "Country", 'Latitude', 'Longitude'])
+        weights = calculate_weights(df_protected, quasi_identifiers)
         
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
         

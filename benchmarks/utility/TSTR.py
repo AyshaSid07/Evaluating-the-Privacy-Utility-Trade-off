@@ -1,6 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import LabelEncoder
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -21,29 +22,63 @@ def preprocess_data(df):
             
     return df_clean
 
-def plot_utility_results(results_dict, target_col):
-    names = list(results_dict.keys())
-    accuracies = list(results_dict.values())
-    
+def plot_utility_results(accuracies_scores, f1_scores, target_col):
+    names = list(accuracies_scores.keys())
+    accuracies = list(accuracies_scores.values())
+    f1s = list(f1_scores.values())
+
+    x = np.arange(len(names))  
+    bar_width = 0.35              
+
     plt.figure(figsize=(10, 6))
-    bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
-    text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
     
-    plt.ylabel('Accuracy (usability)', fontsize=12)
-    plt.xlabel('Defense method', fontsize=12)
-    plt.title(f'Utility evaulation: Train on de-identified data, Test on Real data of different de-identification on target column: {target_col}', fontsize=12)
+    plt.bar(x - bar_width/2, accuracies, bar_width, label='Accuracy', color='skyblue')
+    plt.bar(x + bar_width/2, f1s, bar_width, label='F1 Score', color='salmon')
+    for i in range(len(names)):
+        plt.text(x[i] - bar_width/2, accuracies[i] + 0.01, f"{accuracies[i]:.4f}", ha='center', va='bottom', fontsize=10)
+        plt.text(x[i] + bar_width/2, f1s[i] + 0.01, f"{f1s[i]:.4f}", ha='center', va='bottom', fontsize=10)
+
+    plt.ylabel('Utility Score (Accuracy and F1)', fontsize=12)
+    plt.xlabel('De-identification method', fontsize=12)
+    plt.title(f'Utility evaluation: Train on de-identified data, Test on Real data of different de-identification techniques on target: {target_col}', fontsize=12)
+    
+    plt.xticks(x, names)
+    
     plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.legend()    
     
     plt.tight_layout()
     plt.savefig("../plots/tstr_plot.png", dpi=300)
     plt.show()
     
+def evaluate_dataset_utility(df_original, df_protected, target_col):
+    model = RandomForestClassifier()
+    df_protected = preprocess_data(df_protected)
+
+    different_cols_original=list(set(df_original.columns) - set(df_protected.columns))
+    different_cols_protected=list(set(df_protected.columns) - set(df_original.columns))
+
+    cols_to_drop_train = different_cols_original + [target_col]
+    X_train = df_protected.drop(columns=cols_to_drop_train) 
+    y_train = df_protected[target_col]
+    model.fit(X_train, y_train)
+
+    cols_to_drop_test = different_cols_protected + [target_col]
+    X_test = df_original.drop(columns=cols_to_drop_test) 
+    y_test = df_original[target_col]
+    y_pred = model.predict(X_test)
+
+    accuracy = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred, average='weighted')
+    return accuracy, f1
+
 
 if __name__ == "__main__":
-    model = RandomForestClassifier()
     df_original = pd.read_csv('../../datasets/mendeley_data.csv') # original data always
-    target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
     df_original = preprocess_data(df_original)
+
+    target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
+
     datasets_to_test = {
         "Generalized": pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
         "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
@@ -51,26 +86,12 @@ if __name__ == "__main__":
         "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
     }
 
-    final_results = {}
+    accuracies_scores = {}
+    f1_scores = {}
 
     for defense_name, df_protected in datasets_to_test.items():
-        df_clean = preprocess_data(df_protected)
-        df_protected = preprocess_data(df_protected)
+        accuracy, f1 = evaluate_dataset_utility(df_original, df_protected, target_col)
+        accuracies_scores[defense_name] = accuracy
+        f1_scores[defense_name] = f1
 
-        different_cols_original=list(set(df_original.columns) - set(df_protected.columns))
-        different_cols_protected=list(set(df_protected.columns) - set(df_original.columns))
-
-        cols_to_drop_train = different_cols_original + [target_col]
-        X_train = df_protected.drop(columns=cols_to_drop_train) 
-        y_train = df_protected[target_col]
-        model.fit(X_train, y_train)
-
-        cols_to_drop_test = different_cols_protected + [target_col]
-        X_test = df_original.drop(columns=cols_to_drop_test) 
-        y_test = df_original[target_col]
-        y_pred = model.predict(X_test)
-
-        accuracy = accuracy_score(y_test, y_pred)
-
-        final_results[defense_name] = accuracy
-    plot_utility_results(final_results, target_col)
+    plot_utility_results(accuracies_scores, f1_scores, target_col)

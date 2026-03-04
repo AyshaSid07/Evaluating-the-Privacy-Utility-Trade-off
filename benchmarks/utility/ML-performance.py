@@ -1,9 +1,13 @@
   
+from tkinter.font import names
+
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import LabelEncoder
 
 """
@@ -31,48 +35,59 @@ def evaluate_dataset_utility(df, target_col):
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model = RandomForestClassifier()
     model.fit(X_train, y_train)
     
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
-    
-    return accuracy
+    f1 = f1_score(y_test, y_pred, average='weighted')
 
-def plot_utility_results(results_dict, target_col):
-    names = list(results_dict.keys())
-    accuracies = list(results_dict.values())
-    
+    return accuracy, f1
+
+def plot_utility_results(accuracies_scores, f1_scores, target_col):
+    names = list(accuracies_scores.keys())
+    accuracies = list(accuracies_scores.values())
+    f1s = list(f1_scores.values())
+
+    x = np.arange(len(names))  
+    bar_width = 0.35              
+
     plt.figure(figsize=(10, 6))
-    bars = plt.bar(names, accuracies, color=plt.cm.Set3.colors, edgecolor='black')
-    text = [plt.text(i, acc + 0.01, f"{acc:.4f}", ha='center', va='bottom', fontsize=10) for i, acc in enumerate(accuracies)]
     
-    plt.ylabel('Accuracy (utility)', fontsize=12)
-    plt.xlabel('Dataset', fontsize=12)
+    plt.bar(x - bar_width/2, accuracies, bar_width, label='Accuracy', color='skyblue')
+    plt.bar(x + bar_width/2, f1s, bar_width, label='F1 Score', color='salmon')
+    for i in range(len(names)):
+        plt.text(x[i] - bar_width/2, accuracies[i] + 0.01, f"{accuracies[i]:.4f}", ha='center', va='bottom', fontsize=10)
+        plt.text(x[i] + bar_width/2, f1s[i] + 0.01, f"{f1s[i]:.4f}", ha='center', va='bottom', fontsize=10)
+
+    plt.ylabel('Utility Score (Accuracy and F1)', fontsize=12)
+    plt.xlabel('De-identification method', fontsize=12)
     plt.title(f'Utility evaluation: Machine Learning Performance of different de-identification methods for target column: {target_col}', fontsize=12)
+    
+    plt.xticks(x, names)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.legend()    
     
     plt.tight_layout()
     plt.savefig("../plots/ml_performance_plot.png", dpi=300)
-
     plt.show()
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../../datasets/mendeley_data.csv') # original data always
-    df_generalized = pd.read_csv('../../datasets/de-identified-datasets/generalization.csv')
-    df_masked = pd.read_csv('../../datasets/de-identified-datasets/masking.csv')
-    df_generalized_masked = pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv')
     target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
-
-    results = {
-        "Original Data": evaluate_dataset_utility(df_original, target_col),
-        "Generalized": evaluate_dataset_utility(df_generalized, target_col),
-        "Masking": evaluate_dataset_utility(df_masked, target_col),
-        "Masking and generalization" : evaluate_dataset_utility(df_generalized_masked, target_col),
-        "Data Swapping" : evaluate_dataset_utility(pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv'), target_col)
+    datasets_to_test = {
+        "Generalized": pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
+        "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
+        "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
+        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
     }
+
+    accuracies_scores = {}
+    f1_scores = {}
+
+    for defense_name, df in datasets_to_test.items():
+        accuracy, f1 = evaluate_dataset_utility(df, target_col)
+        accuracies_scores[defense_name] = accuracy
+        f1_scores[defense_name] = f1
     
-    for method, acc in results.items():
-        print(f"{method}: Accuracy = {acc:.4f}")
-        
-    plot_utility_results(results, target_col)
+    plot_utility_results(accuracies_scores, f1_scores, target_col)
+
