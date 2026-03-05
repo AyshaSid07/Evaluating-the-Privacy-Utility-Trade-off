@@ -1,43 +1,37 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
-from sklearn.neighbors import NearestNeighbors
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.neighbors import NearestNeighbors
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, OrdinalEncoder
 
 def perform_attack(df_protected, df_attacker, quasi_identifiers):
 
     numerical_cols = df_protected[quasi_identifiers].select_dtypes(include=['number']).columns.tolist()
     categorical_cols = [col for col in quasi_identifiers if col not in numerical_cols]
 
-    # Numerical pipeline: impute -> scale
-    num_pipeline = Pipeline([
-        ('imputer', SimpleImputer(strategy='mean')),
-        ('scaler', MinMaxScaler())
-    ])
+    # Pipeline for numeric data
+    # We use StandardScaler so that numbers scale correctly, since they can have outliers 
+    num_pipeline = Pipeline([('imputer', SimpleImputer(strategy='mean')),('scaler', StandardScaler())])
 
-    # Categorical pipeline: impute -> one-hot
-    cat_pipeline = Pipeline([
-        ('imputer', SimpleImputer(strategy='most_frequent')),
-        ('encoder', OneHotEncoder(handle_unknown='ignore'))
-    ])
+    # Pipeline for text data
+    # One-hot encoding transforms text into categories, based on the unique values in the protected dataset.
+    # 'ignore' handles cases where a category was completely masked out in the protected set.
+    text_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent')),('encoder', OneHotEncoder(handle_unknown='ignore'))])
 
-    preprocessor = ColumnTransformer([
-        ('num', num_pipeline, [c for c in numerical_cols if c in quasi_identifiers]),
-        ('cat', cat_pipeline, categorical_cols)
-    ])
+    preprocessor = ColumnTransformer([('num', num_pipeline, [c for c in numerical_cols if c in quasi_identifiers]),('cat', text_pipeline, categorical_cols)])
 
-    # Fit on protected data (realistic attacker model)
+    # Transform the data. We fit on the protected data because an attacker 
+    # would only have access to the released dataset to base their scales/categories on.
     X_protected = preprocessor.fit_transform(df_protected[quasi_identifiers])
     X_attacker = preprocessor.transform(df_attacker[quasi_identifiers])
 
-    knn = NearestNeighbors(n_neighbors=1, metric='euclidean')
+    # Setup the KNN model
+    knn = NearestNeighbors(n_neighbors=1, metric='manhattan')
     knn.fit(X_protected)
 
+    # Find the single nearest neighbor for each attacker record
     distances, indices = knn.kneighbors(X_attacker)
 
     results = []
@@ -91,7 +85,8 @@ def plot_results(results_dict):
 if __name__ == "__main__":
     df_original = pd.read_csv('../../datasets/mendeley_data.csv')
 
-    quasi_identifiers = ['Latitude', 'Longitude']
+    quasi_identifiers = ['Postal Code', 'Latitude', 'Longitude']
+
     df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
 
     datasets_to_test = {

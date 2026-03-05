@@ -1,41 +1,36 @@
   
-from tkinter.font import names
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn.preprocessing import LabelEncoder
-
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.model_selection import train_test_split
 """
 ML performance evaluation: Train and test on the same data
 """
 
-def preprocess_data(df):
-
-    df_clean = df.copy()
-    df_clean = df.drop(columns=['IP Address'], errors='ignore') 
-    df_clean = df_clean.fillna("Unknown")
-    
-    le = LabelEncoder()
-    for col in df_clean.columns:
-        if df_clean[col].dtype == 'object':
-            df_clean[col] = le.fit_transform(df_clean[col].astype(str))
-            
-    return df_clean
-
 def evaluate_dataset_utility(df, target_col):
-    df_processed = preprocess_data(df)
+    df_clean = df.drop(columns=['IP Address'], errors='ignore').fillna("Unknown")
     
-    X = df_processed.drop(columns=[target_col])
-    y = df_processed[target_col]
+    X = df_clean.drop(columns=[target_col])
+    y = df_clean[target_col]
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    model = RandomForestClassifier()
+    cat_cols = X_train.select_dtypes(include=['object']).columns.tolist()
+    
+    X_train[cat_cols] = X_train[cat_cols].astype(str)
+    X_test[cat_cols] = X_test[cat_cols].astype(str)
+    
+    # 'use_encoded_value' ensures that if a rare category only ends up in the test set, 
+    encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
+    
+    # Fit the encoder ONLY on the training data, then transform both
+    X_train[cat_cols] = encoder.fit_transform(X_train[cat_cols])
+    X_test[cat_cols] = encoder.transform(X_test[cat_cols])
+    
+    model = RandomForestClassifier(random_state=42)
     model.fit(X_train, y_train)
     
     y_pred = model.predict(X_test)
@@ -43,6 +38,7 @@ def evaluate_dataset_utility(df, target_col):
     f1 = f1_score(y_test, y_pred, average='weighted')
 
     return accuracy, f1
+
 
 def plot_utility_results(accuracies_scores, f1_scores, target_col):
     names = list(accuracies_scores.keys())

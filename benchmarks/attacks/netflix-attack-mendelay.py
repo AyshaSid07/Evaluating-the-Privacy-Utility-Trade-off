@@ -36,12 +36,16 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
                 
                 if isinstance(val_a, str): # if value is a string, do exact match
                     if str(val_a).strip().lower() == str(val_p).strip().lower():
-
                         score += weights[qi].get(val_p, 0.0) # add weight if it's a match
                 else: # if value is numerical, calculate distance score
                     diff = abs(float(val_a) - float(val_p))
                     threshold = 1.0 # threshold of latitude/longitude, as we only care about close matches
                     if diff < threshold: # we add a threshold of 1.0
+                        # base_weight = weights[qi].get(val_p, 0.0)
+                        # distance_penalty = (threshold - diff) / threshold
+                        # score += base_weight * distance_penalty
+
+                        # for some reason, this performs better for this dataset.
                         score += (threshold - diff) 
             
             #save the best match for this attacker row
@@ -96,7 +100,8 @@ def plot_results(results_dict):
 if __name__ == "__main__":
     df_original = pd.read_csv('../../datasets/mendeley_data.csv')
 
-    quasi_identifiers = ['Postal Code', "Country", 'Latitude', 'Longitude']
+    quasi_identifiers = ['Postal Code', 'Latitude', 'Longitude']
+
     # we assume the attacker only has access to some of the quasi-identifiers, and not the IP address, and also only 50 random records to link.
     # we add the IP-address just so we can evaluate how well the attack went. The attacker is only using the quasi-identifiers
     df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 

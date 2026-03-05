@@ -1,6 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn.preprocessing import LabelEncoder
+# from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OrdinalEncoder
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,18 +10,18 @@ import matplotlib.pyplot as plt
 TRTS: Train on Real, Test on (de-identified) Synthetic 
 """
 
-def preprocess_data(df):
+# def preprocess_data(df):
 
-    df_clean = df.copy()
-    df_clean = df.drop(columns=['IP Address'], errors='ignore') 
-    df_clean = df_clean.fillna("Unknown")
+#     df_clean = df.copy()
+#     df_clean = df.drop(columns=['IP Address'], errors='ignore') 
+#     df_clean = df_clean.fillna("Unknown")
     
-    le = LabelEncoder()
-    for col in df_clean.columns:
-        if df_clean[col].dtype == 'object':
-            df_clean[col] = le.fit_transform(df_clean[col].astype(str))
+#     le = LabelEncoder()
+#     for col in df_clean.columns:
+#         if df_clean[col].dtype == 'object':
+#             df_clean[col] = le.fit_transform(df_clean[col].astype(str))
             
-    return df_clean
+#     return df_clean
 
 def plot_utility_results(accuracies_scores, f1_scores, target_col):
     names = list(accuracies_scores.keys())
@@ -51,32 +52,47 @@ def plot_utility_results(accuracies_scores, f1_scores, target_col):
     plt.savefig("../plots/trts_plot.png", dpi=300)
     plt.show()
 
-def evaluate_dataset_utility(df_original, df_protected, target_col):
-    model = RandomForestClassifier()
-    df_protected = preprocess_data(df_protected)
 
-    different_cols_original=list(set(df_original.columns) - set(df_protected.columns))
-    different_cols_protected=list(set(df_protected.columns) - set(df_original.columns))
+def evaluate_dataset_utility(df_original, df_de_identified, target_col):
+    different_cols_original = list(set(df_original.columns) - set(df_de_identified.columns))
+    different_cols_protected = list(set(df_de_identified.columns) - set(df_original.columns))
+    
+    cols_to_drop = list(set(different_cols_original + different_cols_protected))
+    if target_col in cols_to_drop:
+        cols_to_drop.remove(target_col)
 
-    cols_to_drop_train = different_cols_original + [target_col]
-    X_train = df_original.drop(columns=cols_to_drop_train) 
-    y_train = df_original[target_col]
+    df_train = df_original.drop(columns=cols_to_drop + ['IP Address'], errors='ignore').fillna("Unknown")
+    df_test = df_de_identified.drop(columns=cols_to_drop + ['IP Address'], errors='ignore').fillna("Unknown")
+
+    X_train = df_train.drop(columns=[target_col])
+    y_train = df_train[target_col]
+    
+    X_test = df_test.drop(columns=[target_col])
+    y_test = df_test[target_col]
+
+    text_cols = X_train.select_dtypes(include=['object']).columns.tolist()
+    
+    X_train[text_cols] = X_train[text_cols].astype(str)
+    X_test[text_cols] = X_test[text_cols].astype(str)
+    
+    encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
+    
+    X_train[text_cols] = encoder.fit_transform(X_train[text_cols])
+    
+    X_test[text_cols] = encoder.transform(X_test[text_cols])
+
+    model = RandomForestClassifier(random_state=21) # we use a fixed random state for reproducibility
     model.fit(X_train, y_train)
 
-    cols_to_drop_test = different_cols_protected + [target_col]
-    X_test = df_protected.drop(columns=cols_to_drop_test) 
-    y_test = df_protected[target_col]
     y_pred = model.predict(X_test)
 
     accuracy = accuracy_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred, average='weighted')
-    accuracies_scores[defense_name] = accuracy
-    f1_scores[defense_name] = f1
+    
     return accuracy, f1
 
 if __name__ == "__main__":
     df_original = pd.read_csv('../../datasets/mendeley_data.csv') # original data always
-    df_original = preprocess_data(df_original)
 
     target_col = 'Organization'  # Choose a target column that is relevant for utility evaluation, e.g., 'ISP'
 
