@@ -6,10 +6,12 @@ from sklearn.pipeline import Pipeline
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, OrdinalEncoder
 
-def perform_attack(df_protected, df_attacker, quasi_identifiers):
-
+def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
+    # can include the outcommonted ones to make it more dynamic
     numerical_cols = df_protected[quasi_identifiers].select_dtypes(include=['number']).columns.tolist()
-    categorical_cols = [col for col in quasi_identifiers if col not in numerical_cols]
+    text_cols = [col for col in quasi_identifiers if col not in numerical_cols]
+    #numerical_cols =  ['Latitude', 'Longitude']
+    #text_cols = ['Postal Code'] 
 
     # Pipeline for numeric data
     # We use StandardScaler so that numbers scale correctly, since they can have outliers 
@@ -20,7 +22,7 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers):
     # 'ignore' handles cases where a category was completely masked out in the protected set.
     text_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent')),('encoder', OneHotEncoder(handle_unknown='ignore'))])
 
-    preprocessor = ColumnTransformer([('num', num_pipeline, [c for c in numerical_cols if c in quasi_identifiers]),('cat', text_pipeline, categorical_cols)])
+    preprocessor = ColumnTransformer([('num', num_pipeline, [c for c in numerical_cols if c in quasi_identifiers]),('cat', text_pipeline, text_cols)])
 
     # Transform the data. We fit on the protected data because an attacker 
     # would only have access to the released dataset to base their scales/categories on.
@@ -28,7 +30,7 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers):
     X_attacker = preprocessor.transform(df_attacker[quasi_identifiers])
 
     # Setup the KNN model
-    knn = NearestNeighbors(n_neighbors=1, metric='manhattan')
+    knn = NearestNeighbors(n_neighbors=k, metric='manhattan')
     knn.fit(X_protected)
 
     # Find the single nearest neighbor for each attacker record
@@ -63,7 +65,7 @@ def evaluate_attack(results, df_original, defense_name):
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
 
-def plot_results(results_dict):
+def plot_results(results_dict, k):
     plt.figure(figsize=(10, 6)) 
     methods = list(results_dict.keys())
     accuracies = list(results_dict.values())
@@ -75,7 +77,7 @@ def plot_results(results_dict):
     plt.ylim(0, 100)
     plt.ylabel('Hit Accuracy (%)', fontsize=12)
     plt.xlabel('De-identified Method', fontsize=12)
-    plt.title('K-Nearest Neighbors Attack Accuracy Across De-identified Datasets on the Mendeley Dataset', fontsize=12)
+    plt.title(f'K-Nearest Neighbors with k={k} Attack Accuracy Across De-identified Datasets on the Mendeley Dataset', fontsize=12)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
@@ -86,7 +88,7 @@ if __name__ == "__main__":
     df_original = pd.read_csv('../../datasets/mendeley_data.csv')
 
     quasi_identifiers = ['Postal Code', 'Latitude', 'Longitude']
-
+    k = 1
     df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
 
     datasets_to_test = {
@@ -100,9 +102,9 @@ if __name__ == "__main__":
     final_results = {}
     
     for defense_name, df_protected in datasets_to_test.items():
-        results = perform_attack(df_protected, df_attacker, quasi_identifiers)
+        results = perform_attack(df_protected, df_attacker, quasi_identifiers, k)
         
         hit_accuracy = evaluate_attack(results, df_original, defense_name)
         final_results[defense_name] = hit_accuracy
         
-    plot_results(final_results)
+    plot_results(final_results, k)
