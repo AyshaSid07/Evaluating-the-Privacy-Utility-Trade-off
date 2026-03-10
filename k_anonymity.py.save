@@ -1,0 +1,44 @@
+import pandas as pd
+
+# Files to check
+files = [
+    "suppression_only.csv",
+    "masking_only.csv",
+    "generalization_v1.csv",
+    "generalization_v2.csv",
+    "generalization_v3.csv",
+    "generalization_suppression_v1.csv",
+    "generalization_suppression_v2.csv",
+    "generalization_suppression_v3.csv"
+]
+
+# Quasi-identifiers
+quasi_identifiers = ["Postal Code", "Latitude", "Longitude"]
+
+required_k = 3
+
+results = []
+
+for file in files:
+    df = pd.read_csv(file)
+
+    group_sizes = df.groupby(quasi_identifiers).size()
+    k_value = group_sizes.min()
+
+    if k_value >= required_k:
+        status = "Satisfies"
+    else:
+        status = "Does NOT satisfy"
+
+    results.append({
+        "File Name": file,
+        "Achieved k": k_value,
+        "Required k": required_k,
+        "Status": status
+    })
+
+# Save results to CSV
+results_df = pd.DataFrame(results)
+results_df.to_csv("k_anonymity_results.csv", index=False)
+
+print("Results saved to k_anonymity_results.csv")
