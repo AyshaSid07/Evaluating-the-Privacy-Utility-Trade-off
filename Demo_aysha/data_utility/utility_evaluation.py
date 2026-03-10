@@ -1,127 +1,183 @@
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from sklearn.model_selection import train_test_split
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+# from sklearn.preprocessing import LabelEncoder
+
+
+# # Dataset paths
+# datasets = {
+#     "Raw": "../defense/raw_dataset.csv",
+#     "Suppressed": "../defense/suppressed_dataset.csv",
+#     "Generalized": "../defense/generalized_dataset.csv",
+#     "Masked": "../defense/masked_dataset.csv"
+# }
+
+# # Target and features
+# target = "Network_Type"
+# features = ["MCC", "MNC", "PLMN", "LAI", "RAI"]
+
+# results = []
+
+
+# for name, path in datasets.items():
+
+#     # Load dataset
+#     df = pd.read_csv(path)
+
+#     # Encode categorical columns
+#     for col in features + [target]:
+#         df[col] = LabelEncoder().fit_transform(df[col].astype(str))
+
+#     # Define features and target
+#     X = df[features]
+#     y = df[target]
+
+#     # Train-test split (80/20)
+#     X_train, X_test, y_train, y_test = train_test_split(
+#         X, y, test_size=0.2, random_state=42
+#     )
+
+#     # Train model
+#     model = RandomForestClassifier(random_state=42)
+#     model.fit(X_train, y_train)
+
+#     # Predict
+#     y_pred = model.predict(X_test)
+
+#     # Evaluation metrics
+#     accuracy = accuracy_score(y_test, y_pred)
+#     precision = precision_score(y_test, y_pred, average="weighted")
+#     recall = recall_score(y_test, y_pred, average="weighted")
+#     f1 = f1_score(y_test, y_pred, average="weighted")
+
+#     # Store results
+#     results.append([name, accuracy, precision, recall, f1])
+
+
+# # Create results dataframe
+# results_df = pd.DataFrame(
+#     results,
+#     columns=["Dataset", "Accuracy", "Precision", "Recall", "F1"]
+# )
+
+# print("\nUtility Evaluation Results")
+# print(results_df)
+
+
+# # --------- Bar Graph ---------
+
+# colors = ["#a6cee3", "#b2df8a", "#fb9a99", "#fdbf6f"]
+
+# results_df.set_index("Dataset").plot(
+#     kind="bar",
+#     figsize=(8, 5),
+#     color=colors
+# )
+
+# plt.ylabel("Score")
+# plt.title("Data Utility Comparison")
+# plt.ylim(0, 1)
+
+# plt.tight_layout()
+# plt.savefig("utility_comparison.png", dpi=300)
+# plt.show()
+
+# utility_evaluation.py
+
 import pandas as pd
-import os
+import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import matplotlib.pyplot as plt
 
+# Datasets produced by your anonymization scripts
+datasets = {
+    "Raw": "../defense/raw_dataset.csv",
+    "Masking": "../defense/masked_dataset.csv",
+    "Suppression": "../defense/suppressed_dataset.csv",
+    "Generalization": "../defense/generalized_dataset.csv",
+    "Aggregation": "../defense/aggregated_dataset.csv"
+}
+
+results = {}
 
 def evaluate_dataset(path):
-
-    print("\nEvaluating dataset:", path)
-
     df = pd.read_csv(path)
 
-    # Target
-    y = df["Network_Type"]
+    # Target: Network_Type
+    y = df["Network_Type"].astype(str)
+    y = LabelEncoder().fit_transform(y)
 
-    # Features
-    X = df.drop("Network_Type", axis=1)
+    # Features: ONLY location/operator identifiers
+    X = df[["MCC", "MNC", "PLMN", "LAI", "RAI"]].astype(str)
 
-    # Encode categorical columns
-    encoder = LabelEncoder()
-
+    # Encode categorical features
     for col in X.columns:
-        X[col] = encoder.fit_transform(X[col].astype(str))
+        X[col] = LabelEncoder().fit_transform(X[col])
 
-    y = encoder.fit_transform(y)
-
-    # Train/test split
+    # Train-test split
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
+        X, y, test_size=0.3, random_state=42
     )
 
-    model = RandomForestClassifier(random_state=42)
+    # RandomForest classifier
+    model = RandomForestClassifier(
+        n_estimators=300,
+        max_depth=12,
+        random_state=42
+    )
 
     model.fit(X_train, y_train)
+    pred = model.predict(X_test)
 
-    y_pred = model.predict(X_test)
+    return {
+        "Accuracy": accuracy_score(y_test, pred),
+        "Precision": precision_score(y_test, pred, average="macro", zero_division=0),
+        "Recall": recall_score(y_test, pred, average="macro", zero_division=0),
+        "F1": f1_score(y_test, pred, average="macro", zero_division=0)
+    }
 
-    accuracy = accuracy_score(y_test, y_pred)
+# Run evaluation
+for name, path in datasets.items():
+    results[name] = evaluate_dataset(path)
 
-    print("Accuracy:", round(accuracy,4))
+print("\nUtility Evaluation Results (Network_Type Classification)")
+for name, m in results.items():
+    print(f"{name:14s} Acc={m['Accuracy']:.4f} Prec={m['Precision']:.4f} "
+          f"Rec={m['Recall']:.4f} F1={m['F1']:.4f}")
 
-    return accuracy
+# --------- Bar graph ---------
 
+metrics = ["Accuracy", "Precision", "Recall", "F1"]
+methods = list(results.keys())
+colors = ["#A8DADC", "#BDE0FE", "#FFC8DD", "#E2ECE9"]
 
-#paths
+plt.figure(figsize=(14, 8))
+bar_width = 0.18
+x = np.arange(len(methods))
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-BASE_DIR = os.path.dirname(CURRENT_DIR)
-
-DEFENSE_PATH = os.path.join(BASE_DIR, "defense")
-
-print("Dataset directory:", DEFENSE_PATH)
-
-
-#datasets
-
-raw_accuracy = evaluate_dataset(
-    os.path.join(DEFENSE_PATH, "raw_dataset.csv")
-)
-
-suppressed_accuracy = evaluate_dataset(
-    os.path.join(DEFENSE_PATH, "suppressed_dataset.csv")
-)
-
-generalized_accuracy = evaluate_dataset(
-    os.path.join(DEFENSE_PATH, "generalized_dataset.csv")
-)
-
-masked_accuracy = evaluate_dataset(
-    os.path.join(DEFENSE_PATH, "masked_dataset.csv")
-)
-
-
-# results
-
-print("\nUtility Comparison")
-print("----------------------------")
-print("Raw Dataset Accuracy:", raw_accuracy)
-print("Suppressed Dataset Accuracy:", suppressed_accuracy)
-print("Generalized Dataset Accuracy:", generalized_accuracy)
-print("Masked Dataset Accuracy:", masked_accuracy)
-
-
-#plot
-
-datasets = ["Raw", "Suppressed", "Generalized", "Masked"]
-
-scores = [
-    raw_accuracy,
-    suppressed_accuracy,
-    generalized_accuracy,
-    masked_accuracy
-]
-
-colors = ["#4CAF50", "#2196F3", "#FFC107", "#FF5722"]
-
-plt.figure(figsize=(7,5))
-
-bars = plt.bar(datasets, scores, color=colors)
-
-plt.title("Data Utility Comparison", fontsize=14)
-plt.ylabel("Accuracy")
-
-for bar in bars:
-    height = bar.get_height()
-    plt.text(
-        bar.get_x() + bar.get_width()/2,
-        height + 0.005,
-        f"{height:.3f}",
-        ha="center"
+for i, metric in enumerate(metrics):
+    plt.bar(
+        x + i * bar_width,
+        [results[m][metric] for m in methods],
+        width=bar_width,
+        label=metric,
+        color=colors[i],
+        edgecolor="black",
+        linewidth=0.8
     )
 
-plt.ylim(0,0.5)
-
-plt.grid(axis="y", linestyle="--", alpha=0.6)
+plt.xticks(x + bar_width * 1.5, methods, fontsize=13)
+plt.ylabel("Score", fontsize=14)
+plt.ylim(0, 1.05)
+plt.title("Privacy–Utility Comparison (Network_Type Classification)", fontsize=18)
+plt.legend(title="Metric", fontsize=12)
+plt.grid(axis="y", linestyle="--", alpha=0.3)
 
 plt.tight_layout()
-
-plt.savefig("utility_comparison.png")
-
-print("\nGraph saved as utility_comparison.png")
-
+plt.savefig("privacy_utility_networktype_classification.png", dpi=300)
 plt.show()

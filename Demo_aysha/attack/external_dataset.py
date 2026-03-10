@@ -1,27 +1,90 @@
+# import pandas as pd
+# from faker import Faker
+
+# fake = Faker()
+
+# #Load raw dataset
+
+# df = pd.read_csv("../defense/raw_dataset.csv")
+
+# #Take first 3000 rows (overlap with raw dataset)
+
+# df_subset = df.iloc[:3000]
+
+# external_rows = []
+
+# for i in range(len(df_subset)):
+
+# # Faker-generated attacker attributes
+#     device_id = "D" + str(1000 + i)
+#     device_type = fake.random_element(elements=("Smartphone","Tablet","IoT Device"))
+
+# # Copy quasi-identifiers from raw dataset
+#     lai = df_subset.iloc[i]["LAI"]
+#     rai = df_subset.iloc[i]["RAI"]
+#     network = df_subset.iloc[i]["Network_Type"]
+
+#     external_rows.append([
+#     device_id,
+#     device_type,
+#     lai,
+#     rai,
+#     network
+# ])
+
+# external_df = pd.DataFrame(
+# external_rows,
+# columns=["Device_ID","Device_Type","LAI","RAI","Network_Type"]
+# )
+
+# external_df.to_csv("external_dataset.csv", index=False)
+
+# print("External dataset generated successfully")
+# print("Rows created:", len(external_df))
+# print(external_df.head())
+
+
+
 import pandas as pd
-import random
+from faker import Faker
 
-rows = 3000
+fake = Faker()
 
-device_types = ["Smartphone","Tablet","IoT Device"]
-network_types = ["3G","4G","5G"]
+# Load the raw dataset generated earlier
+df = pd.read_csv("../defense/raw_dataset.csv")
 
-data = []
+# Take the FIRST 3000 rows (deterministic overlap)
+df_subset = df.iloc[:3000]
 
-for i in range(rows):
+external_rows = []
 
-    device_id = "D" + str(1000+i)
-    device_type = random.choice(device_types)
+for i, row in df_subset.iterrows():
 
-    lai = "240-01"
-    rai = "240-01"
+    # Attacker-specific synthetic attributes
+    device_id = "D" + str(1000 + i)
+    device_type = fake.random_element(elements=("Smartphone", "Tablet", "IoT Device"))
 
-    network = random.choice(network_types)
+    # Copy quasi-identifiers from raw dataset (attacker knows these)
+    lai = row["LAI"]
+    rai = row["RAI"]
+    network = row["Network_Type"]
 
-    data.append([device_id,device_type,lai,rai,network])
+    external_rows.append([
+        device_id,
+        device_type,
+        lai,
+        rai,
+        network
+    ])
 
-df = pd.DataFrame(data,columns=[
-"Device_ID","Device_Type","LAI","RAI","Network_Type"
-])
+# Build external attacker dataset
+external_df = pd.DataFrame(
+    external_rows,
+    columns=["Device_ID", "Device_Type", "LAI", "RAI", "Network_Type"]
+)
 
-df.to_csv("external_dataset.csv",index=False)
+external_df.to_csv("external_dataset.csv", index=False)
+
+print("External attacker dataset generated successfully")
+print("Rows created:", len(external_df))
+print(external_df.head())
