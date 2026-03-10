@@ -17,4 +17,4 @@ def apply_swapping(data, columns_to_swap):
 quasi_identifiers_to_swap = ["RAI", "LAI", "Network_Type"] # we can choose which quasi-identifiers to swap
 swapped_df = apply_swapping(df, quasi_identifiers_to_swap)
 
-swapped_df.to_csv("../datasets/de-identified-datasets/swapped_telecom_data.csv", index=False)
+swapped_df.to_csv("../datasets/de-identified-datasets/swapped_dataset_telecom.csv", index=False)
