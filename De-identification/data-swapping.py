@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("../datasets/mendeley_data.csv")
+df = pd.read_csv("../datasets/synthetic_telecom_data.csv")
 
 def apply_swapping(data, columns_to_swap):
     temp = data.copy()
@@ -14,7 +14,7 @@ def apply_swapping(data, columns_to_swap):
             
     return temp
 
-quasi_identifiers_to_swap = ["IP Address", "City", "ISP", "Latitude", "Longitude"] # we can choose which quasi-identifiers to swap
+quasi_identifiers_to_swap = ["RAI", "LAI", "Network_Type"] # we can choose which quasi-identifiers to swap
 swapped_df = apply_swapping(df, quasi_identifiers_to_swap)
 
-swapped_df.to_csv("../datasets/de-identified-datasets/swapped_data.csv", index=False)
+swapped_df.to_csv("../datasets/de-identified-datasets/swapped_telecom_data.csv", index=False)
