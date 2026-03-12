@@ -105,6 +105,7 @@ if __name__ == "__main__":
     # we assume the attacker only has access to some of the quasi-identifiers, and not the IP address, and also only 50 random records to link.
     # we add the IP-address just so we can evaluate how well the attack went. The attacker is only using the quasi-identifiers
     df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
+    
         
     # add more defenses here
     datasets_to_test = {
