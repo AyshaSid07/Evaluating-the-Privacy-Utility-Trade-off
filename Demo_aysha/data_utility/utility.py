@@ -168,7 +168,7 @@ for bar in bars:
     plt.text(bar.get_x() + bar.get_width()/2, yval + 0.01,
              round(yval,4), ha='center')
 
-# Legend showing color meaning
+# showing color legend
 legend_elements = [
     Patch(facecolor="#A7C7E7", label="Accuracy"),
     Patch(facecolor="#FFD8A8", label="Precision"),
@@ -177,7 +177,5 @@ legend_elements = [
 ]
 
 plt.legend(handles=legend_elements, loc="upper right", title="Metrics")
-
 plt.savefig("telecom_data_performance.png", dpi=300, bbox_inches="tight")
-
 plt.show()

@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
@@ -76,9 +78,6 @@ results = pd.DataFrame({
 print("\nUtility Comparison:")
 print(results)
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 metrics = ["Accuracy", "Precision", "Recall", "F1 Score"]
 datasets = results["Dataset"]
 
@@ -86,7 +85,6 @@ x = np.arange(len(datasets))
 width = 0.18
 
 colors = ["#6fa8dc", "#f6b26b", "#93c47d", "#e06666"]
-
 plt.figure(figsize=(9,6))
 
 for i, metric in enumerate(metrics):
@@ -121,14 +119,9 @@ plt.xticks(x + width*1.5, datasets)
 
 # IMPORTANT improvement
 plt.ylim(0.30, 0.37)
-
 plt.grid(axis='y', linestyle="--", alpha=0.5)
-
 plt.legend(title="Metrics")
-
 plt.tight_layout()
-
 plt.savefig("anonymized_dataset_performance.png", dpi=300)
-
 plt.show()
 
