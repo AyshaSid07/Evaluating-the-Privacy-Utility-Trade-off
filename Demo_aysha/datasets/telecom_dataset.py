@@ -119,7 +119,7 @@ columns=[
 
 df=pd.DataFrame(data,columns=columns)
 
-df.to_csv("raw_dataset.csv",index=False)
+df.to_csv("telecom_dataset.csv",index=False)
 
 print("Dataset generated successfully")
 print(df.head())
