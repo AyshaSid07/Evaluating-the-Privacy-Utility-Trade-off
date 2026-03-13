@@ -4,6 +4,10 @@ from faker import Faker
 
 fake = Faker()
 
+# randomness so dataset stays the same every run
+random.seed(42)
+Faker.seed(42)
+
 rows = 10000
 unique_rows = 4000
 duplicate_pairs = 3000
@@ -11,8 +15,6 @@ duplicate_pairs = 3000
 data = []
 
 MCC = "240"
-MNC = "01"
-PLMN = MCC + MNC
 
 network_types = ["3G","4G","5G"]
 
@@ -21,12 +23,14 @@ msisdn_set=set()
 imei_set=set()
 ip_set=set()
 
+
 def unique_number(length, used):
     while True:
         num=''.join(str(random.randint(0,9)) for _ in range(length))
         if num not in used:
             used.add(num)
             return num
+
 
 def unique_ip():
     while True:
@@ -40,15 +44,19 @@ def unique_ip():
 
 for i in range(unique_rows):
 
+    MNC = str(random.randint(1,99)).zfill(2)
+    PLMN = MCC + MNC
+
     lac=random.randint(1000,9999)
     rac=random.randint(10,99)
 
     lai=f"{MCC}-{MNC}-{lac}"
     rai=f"{lai}-{rac}"
+
     network=random.choice(network_types)
 
     msin=unique_number(10,imsi_set)
-    imsi=MCC+MNC+msin
+    imsi=MCC+msin
 
     subscriber=unique_number(8,msisdn_set)
     msisdn="4670"+subscriber
@@ -72,21 +80,25 @@ for i in range(unique_rows):
     ])
 
 
-# DUPLICATE RECORDS 
+# DUPLICATE RECORDS
 
 for i in range(duplicate_pairs):
+
+    MNC = str(random.randint(1,99)).zfill(2)
+    PLMN = MCC + MNC
 
     lac=random.randint(1000,9999)
     rac=random.randint(10,99)
 
     lai=f"{MCC}-{MNC}-{lac}"
     rai=f"{lai}-{rac}"
+
     network=random.choice(network_types)
 
-    for j in range(2):   # create pair
+    for j in range(2):
 
         msin=unique_number(10,imsi_set)
-        imsi=MCC+MNC+msin
+        imsi=MCC+msin
 
         subscriber=unique_number(8,msisdn_set)
         msisdn="4670"+subscriber
