@@ -1,36 +1,18 @@
 """ import pandas as pd
-<<<<<<< HEAD
 
 # Load raw dataset
 
 df = pd.read_csv("../defense/raw_dataset.csv")
-=======
-df = pd.read_csv("../datasets/telecom_dataset.csv")
 
-df_suppression = df.copy()
+# Direct identifiers to remove
+direct_identifiers = ["IMSI", "MSISDN", "IMEI", "IP_Address"]
 
-if "Network_Type" in df_suppression.columns:
-    df_suppression = df_suppression.drop(columns=["Network_Type"])
+# Remove columns
+df_suppressed = df.drop(columns=direct_identifiers)
 
-df_suppression.to_csv("../defense/suppressed_dataset.csv", index=False) """
+# Save new dataset
+df_suppressed.to_csv("suppressed_dataset.csv", index=False)
 
-import pandas as pd
-
-# Load raw dataset
-df = pd.read_csv("../datasets/telecom_dataset.csv")
->>>>>>> 0dfa3730578df2c5cc8e47891852780d804c89a9
-
-df_suppression = df.copy()
-
-# Columns to suppress (identifiers)
-columns_to_suppress = ["IMSI", "MSISDN", "IMEI", "IP_Address"]
-
-# Drop only these columns if they exist
-df_suppression = df_suppression.drop(
-    columns=[c for c in columns_to_suppress if c in df_suppression.columns]
-)
-
-<<<<<<< HEAD
 print("Direct identifiers removed successfully")
 print("Remaining columns:")
 print(df_suppressed.columns) """
@@ -74,9 +56,3 @@ print("suppressed_dataset.csv written.")
 
 
 
-=======
-# Save anonymized dataset
-df_suppression.to_csv("../defense/suppressed_dataset.csv", index=False)
-
-print("Suppressed dataset created successfully")
->>>>>>> 0dfa3730578df2c5cc8e47891852780d804c89a9
