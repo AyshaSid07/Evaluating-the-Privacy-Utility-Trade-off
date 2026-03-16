@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("../defense/raw_dataset.csv")
+df = pd.read_csv("../datasets/telecom_dataset.csv")
 
 #Quasi-identifiers
 qi = ["LAI","RAI","Network_Type"]
