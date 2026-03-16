@@ -1,43 +1,52 @@
 import pandas as pd
-df = pd.read_csv("../datasets/telecom_dataset.csv")
+import re
+
+# Load raw data
+df = pd.read_csv("../datasets/telecomb_dataset.csv")
 df_masking = df.copy()
 
-def mask_postal_code(postal_code):
-    if pd.isna(postal_code):
-        return postal_code
-    postal_code = str(postal_code)
-    if len(postal_code) <= 2:
-        return postal_code + "*" * (5 - len(postal_code))
-    return postal_code[:2] + "*" * (len(postal_code) - 2)
+def mask_string(val, visible_chars=3):
+    """General masker: keeps first few chars, replaces rest with X."""
+    if pd.isna(val): return val
+    val = str(val)
+    if len(val) <= visible_chars:
+        return "X" * len(val)
+    return val[:visible_chars] + "X" * (len(val) - visible_chars)
 
 def mask_ip_address(ip):
-    if pd.isna(ip):
-        return ip
-    ip = str(ip)
-    parts = ip.split('.')
+    if pd.isna(ip): return ip
+    parts = str(ip).split('.')
     if len(parts) == 4:
-        # keep the first part (the network) 
-        # hide the last part (the specific device)
-        return f"{parts[0]}.***.***.***"
+        # Mask the last two octets to generalize the location
+        return f"{parts[0]}.{parts[1]}.XXX.XXX"
     return ip
 
 def mask_LAI_RAI(value):
-    if pd.isna(value):
-        return value
+    if pd.isna(value): return value
     parts = str(value).split('-')
-    if len(parts) == 3:
-        # keep the first part (the country code) 
-        # hide the last two parts (the specific location and cell)
-        return f"{parts[0]}-{parts[1]}-{parts[2][:2]}**"
-    elif len(parts) == 4:
-        # keep the first part (the country code) 
-        # hide the last three parts (the specific location, cell, and subcell)
-        return f"{parts[0]}-{parts[1]}-{parts[2][:2]}**-**"
+    # Aggressive masking: Hide the specific LAC and RAC entirely
+    # Only keep the MCC (Country) and MNC (Network)
+    if len(parts) >= 3:
+        return f"{parts[0]}-{parts[1]}-XXXX"
+    return "XXXX"
 
-# if "Postal Code" and "IP Address" in df_masking.columns:
-    # df_masking["Postal Code"] = df_masking["Postal Code"].apply(mask_postal_code)
-    # df_masking["IP Address"] = df_masking['IP Address'].apply(mask_ip_address)
+# 1. Mask Direct Identifiers (Standard Privacy Practice)
+df_masking["IMSI"] = df_masking["IMSI"].apply(lambda x: mask_string(x, 5)) # Keep MCC/MNC
+df_masking["MSISDN"] = df_masking["MSISDN"].apply(lambda x: mask_string(x, 4)) # Keep Country code
+df_masking["IMEI"] = df_masking["IMEI"].apply(lambda x: mask_string(x, 8)) # Keep TAC (Device type)
+df_masking["IP_Address"] = df_masking["IP_Address"].apply(mask_ip_address)
+
+# 2. Mask Location Identifiers (This will cause the Utility Loss in Clustering)
 df_masking["LAI"] = df_masking["LAI"].apply(mask_LAI_RAI)
 df_masking["RAI"] = df_masking["RAI"].apply(mask_LAI_RAI)
 
+# 3. Mask Session Identifiers (TMSI/LMSI/TLLI)
+# These are often masked by rounding or partial replacement
+for col in ["TMSI", "LMSI", "TLLI"]:
+    if col in df_masking.columns:
+        # Keep only the first 2 digits, zero out the rest
+        df_masking[col] = df_masking[col].apply(lambda x: int(str(x)[:2] + "000000") if pd.notna(x) else x)
+
+# Save to defense folder
 df_masking.to_csv("../defense/masked_dataset.csv", index=False)
+print("Masked dataset generated with balanced privacy/utility loss.")

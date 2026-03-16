@@ -10,20 +10,20 @@ df_suppression.to_csv("../defense/suppressed_dataset.csv", index=False) """
 
 import pandas as pd
 
-# Load raw dataset
-df = pd.read_csv("../datasets/telecom_dataset.csv")
+# 1. Load the dataset (using 'telecomb' and correct relative path)
+df = pd.read_csv("../datasets/telecomb_dataset.csv")
 
 df_suppression = df.copy()
 
-# Columns to suppress (identifiers)
+# 2. Columns to suppress (direct identifiers)
 columns_to_suppress = ["IMSI", "MSISDN", "IMEI", "IP_Address"]
 
-# Drop only these columns if they exist
+# 3. Drop only these columns if they exist
 df_suppression = df_suppression.drop(
     columns=[c for c in columns_to_suppress if c in df_suppression.columns]
 )
 
-# Save anonymized dataset
-df_suppression.to_csv("../defense/suppressed_dataset.csv", index=False)
+# 4. Save to the defense folder
+df_suppression.to_csv("suppressed_dataset.csv", index=False)
 
-print("Suppressed dataset created successfully")
+print(f"Suppressed dataset created successfully. Removed: {columns_to_suppress}")
