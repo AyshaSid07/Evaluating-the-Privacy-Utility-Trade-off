@@ -13,7 +13,7 @@ def apply_swapping(data, columns_to_swap):
             temp.loc[swap_idx, col] = np.random.permutation(temp.loc[swap_idx, col])
             
     return temp
-
+#test
 quasi_identifiers_to_swap = ["RAI", "LAI", "Network_Type"] # we can choose which quasi-identifiers to swap
 swapped_df = apply_swapping(df, quasi_identifiers_to_swap)
 
