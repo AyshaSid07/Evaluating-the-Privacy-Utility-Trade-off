@@ -1,5 +1,5 @@
-Device_ID,Device_Type,LAI,RAI,Network_Type
-D1000,Smartphone,240-92-5543,240-92-5543-84,4G
+Device_ID,Device_Type,PLMN,Network_Type, 
+D1000,Smartphone,239-92,4G,
 D1001,Tablet,240-51-2193,240-51-2193-82,3G
 D1002,IoT Device,240-79-1762,240-79-1762-46,3G
 D1003,Tablet,240-30-3739,240-30-3739-91,4G
