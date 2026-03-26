@@ -97,7 +97,7 @@ for i in range(rows):
     device = random.choices(device_types, weights=country["device_weights"])[0]
 
     msin = unique_number(10, imsi_set)
-    imsi = MCC + msin
+    imsi = MCC + MNC + msin
 
     prefix = random.choice(country["mobile_prefixes"])
     subscriber = unique_number(8, msisdn_set)

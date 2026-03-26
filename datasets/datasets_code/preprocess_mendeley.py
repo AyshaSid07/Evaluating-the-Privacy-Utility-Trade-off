@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import ipaddress
 
 df = pd.read_csv("../mendeley_dataset.csv")
 
@@ -14,4 +13,4 @@ df.replace('N/A', np.nan, inplace=True)
 df = df.dropna(subset=cols_to_check, how='all')
 
 df.replace('TELEF�NICA BRASIL S.A', 'TELEFONICA BRASIL S.A', inplace=True)
-df.to_csv("../mendeley_dataset2.csv", index=False)
+df.to_csv("../mendeley_dataset.csv", index=False)
