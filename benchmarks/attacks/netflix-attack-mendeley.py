@@ -19,7 +19,7 @@ def calculate_weights(df_protected, quasi_identifiers):
 def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
     results = []
     
-    for _, attacker_row in df_attacker.iterrows():
+    for attacker_idx, attacker_row in df_attacker.iterrows():
         best_score = -1.0
         best_match_index = -1
         
@@ -34,49 +34,43 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
                 if pd.isna(val_a) or pd.isna(val_p): # ignore missing values
                     continue
                 
-                if isinstance(val_a, str): # if value is a string, do exact match
-                    if str(val_a).strip().lower() == str(val_p).strip().lower():
-                        score += weights[qi].get(val_p, 0.0) # add weight if it's a match
-                else: # if value is numerical, calculate distance score
-                    diff = abs(float(val_a) - float(val_p))
-                    threshold = 1.0 # threshold of latitude/longitude, as we only care about close matches
-                    if diff < threshold: # we add a threshold of 1.0
-                        # base_weight = weights[qi].get(val_p, 0.0)
-                        # distance_penalty = (threshold - diff) / threshold
-                        # score += base_weight * distance_penalty
-
-                        # for some reason, this performs better for this dataset.
-                        score += (threshold - diff) 
+                str_a = str(val_a).strip().lower()
+                str_p = str(val_p).strip().lower()
+                
+                if str_a == str_p:
+                    score += weights[qi].get(str_p, 0.0)
+                elif '*' in str_p: # this is how the attacker could handle masked values, by checking if the non-masked part matches
+                    prefix = str_p.replace('*', '')
+                    if str_a.startswith(prefix) and prefix != '':
+                        score += weights[qi].get(str_p, 0.0)
             
             #save the best match for this attacker row
             if score > best_score:
                 best_score = score
                 best_match_index = target_idx
                 
-        results.append((attacker_row['IP Address'], best_match_index)) # save the predicted index for this attacker row, -1 if no match found
+        results.append((attacker_idx, best_match_index)) # save the predicted index for this attacker row, -1 if no match found
         
     return results 
         
-def evaluate_attack(results, df_original, defense_name):
+def evaluate_attack(results, defense_name):
     correct_links = 0
-    
-    for row in results:
-        predicted_idx = row[1]  # predicted index from the tuple
-        true_ip = row[0]        # true IP address from the tuple
-        
-        if predicted_idx != -1: # if we found a match
-            predicted_ip = df_original.loc[predicted_idx, 'IP Address']
-            if predicted_ip == true_ip:
-                correct_links += 1
-                
     total_attacks = len(results) # total number of attacker attempts, can't be 0
     if total_attacks == 0:
         print("No attacks were performed.")
         return
+    
+    for attacker_idx, predicted_idx in results:
+        
+        if predicted_idx != -1: # if we found a match
+            if predicted_idx == attacker_idx: # if the predicted index matches the true index, it's a correct link
+                correct_links += 1
+                
     hit_precision = (correct_links / total_attacks) * 100
 
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
+
 
 def plot_results(results_dict):
     plt.figure(figsize=(10, 6)) 
@@ -98,22 +92,19 @@ def plot_results(results_dict):
 
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../../datasets/mendeley_data.csv')
+    df_original = pd.read_csv('../../datasets/mendeley_dataset.csv')
 
-    quasi_identifiers = ['Postal Code', 'Latitude', 'Longitude']
+    quasi_identifiers = ['City','Region','Country','Postal Code']
 
-    # we assume the attacker only has access to some of the quasi-identifiers, and not the IP address, and also only 50 random records to link.
-    # we add the IP-address just so we can evaluate how well the attack went. The attacker is only using the quasi-identifiers
-    df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
-    
+    df_attacker = pd.read_csv('../../datasets/external_dataset_mendeley.csv')
         
     # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
-        "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
-        "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
-        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
+        # "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
+        # "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
+        # "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
+        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
         # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
         # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
         # "v3": pd.read_csv('../datasets/anonymized_v3.csv')
@@ -127,7 +118,7 @@ if __name__ == "__main__":
         
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
         
-        hit_accuracy = evaluate_attack(results, df_original, defense_name)
+        hit_accuracy = evaluate_attack(results, defense_name)
         final_results[defense_name] = hit_accuracy
         
     plot_results(final_results)

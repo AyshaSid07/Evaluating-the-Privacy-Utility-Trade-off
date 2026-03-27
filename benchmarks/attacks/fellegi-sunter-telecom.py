@@ -1,7 +1,6 @@
 import pandas as pd
 import recordlinkage as rl
 from matplotlib import pyplot as plt
-from pandas.api.types import is_numeric_dtype
 
 def perform_attack(df_protected, df_attacker, quasi_identifiers):    
     df_attacker.index.name = 'attacker_idx'
@@ -16,10 +15,11 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers):
 
 
     for qi in quasi_identifiers:
-            if qi in ['LAI', 'RAI']: # handle LAI and RAI as special cases, since they have a hierarchical structure that can be partially matched
+            if qi in ['Device_Type', 'Network_Type']: # handle these as special cases, since they have a hierarchical structure that can be partially matched
                 # jarowinkler is a string similarity metric that gives a score between 0 and 1 based on how closely the strings match
-                # the threshold is based on how much the LAI and RAI has been masked/generalized.
-                comp.string(qi, qi, method='jarowinkler', threshold=0.92, label=qi)
+                # the threshold is based on how much the QI has been masked/generalized.
+                # comp.string(qi, qi, method='jarowinkler', threshold=0.92, label=qi)
+                comp.exact(qi, qi, label=qi)
             else:
                 comp.exact(qi, qi, label=qi)
 
@@ -85,28 +85,21 @@ def plot_results(results_dict):
     plt.show()
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../../datasets/synthetic_telecom_data.csv')
+    df_original = pd.read_csv('../../datasets/telecom_dataset.csv')
 
-    quasi_identifiers = ['LAI', 'RAI', 'Network_Type']
-
-    df_attacker =  pd.read_csv('../../datasets/external_telecom_data.csv')
+    quasi_identifiers = ['Device_Type','Network_Type', 'PLMN', 'LAI'] 
+    df_attacker =  pd.read_csv('../../datasets/external_dataset_telecom.csv')
 
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Masked": pd.read_csv('../../datasets/de-identified-datasets/masked_dataset_telecom.csv'),
-        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_dataset_telecom.csv'),
-        "Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/suppressed_network_type_telecom.csv'),
-        "Swapped and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/swapped_and_suppressed_network_type_telecom.csv'),
-        "Masked and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/masked_and_suppressed_network_type_telecom.csv')
+        # "Masked": pd.read_csv('../../datasets/de-identified-datasets/masked_dataset_telecom.csv'),
+        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_dataset_telecom.csv'),
+        # "Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/suppressed_network_type_telecom.csv'),
+        # "Swapped and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/swapped_and_suppressed_network_type_telecom.csv'),
+        # "Masked and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/masked_and_suppressed_network_type_telecom.csv')
     }
     final_results = {}
-    # only use 500 rows to speed up the attack
-    # using df.sample(500, random_state=42) would be more realistic, but for simplicity we just take the first 500 rows here.
-    df_attacker = df_attacker.head(500)
     for defense_name, df_protected in datasets_to_test.items():
-        df_protected = df_protected.head(500) # only use 500 rows to speed up the attack, and to be consistent with the attacker's dataset size
-        if defense_name.__contains__("Suppressed"):
-            quasi_identifiers = ['LAI', 'RAI']
         results = perform_attack(df_protected, df_attacker, quasi_identifiers)
         hit_accuracy = evaluate_attack(results, defense_name)
         final_results[defense_name] = hit_accuracy

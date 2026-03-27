@@ -10,8 +10,6 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
     # can include the outcommonted ones to make it more dynamic
     numerical_cols = df_protected[quasi_identifiers].select_dtypes(include=['number']).columns.tolist()
     text_cols = [col for col in quasi_identifiers if col not in numerical_cols]
-    #numerical_cols =  ['Latitude', 'Longitude']
-    #text_cols = ['Postal Code'] 
 
     # Pipeline for numeric data
     # We use StandardScaler so that numbers scale correctly, since they can have outliers 
@@ -22,7 +20,7 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
     # 'ignore' handles cases where a category was completely masked out in the protected set.
     text_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent')),('encoder', OneHotEncoder(handle_unknown='ignore'))])
 
-    preprocessor = ColumnTransformer([('num', num_pipeline, [c for c in numerical_cols if c in quasi_identifiers]),('cat', text_pipeline, text_cols)])
+    preprocessor = ColumnTransformer([('num', num_pipeline, [c for c in numerical_cols if c in quasi_identifiers]),('text', text_pipeline, text_cols)])
 
     # Transform the data. We fit on the protected data because an attacker 
     # would only have access to the released dataset to base their scales/categories on.
@@ -37,29 +35,25 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
     distances, indices = knn.kneighbors(X_attacker)
 
     results = []
-    for i, attacker_row in df_attacker.reset_index().iterrows():
-        true_ip = attacker_row['IP Address']
+    for i, attacker_idx in enumerate(df_attacker.index):
         best_match_index = indices[i][0]
-        results.append((true_ip, best_match_index))
+        results.append((attacker_idx, best_match_index))
 
     return results
 
-def evaluate_attack(results, df_original, defense_name):
+def evaluate_attack(results, defense_name):
     correct_links = 0
-    
-    for row in results:
-        predicted_idx = row[1]  # predicted index from the tuple
-        true_ip = row[0]        # true IP address from the tuple
-        
-        if predicted_idx != -1: # if we found a match
-            predicted_ip = df_original.loc[predicted_idx, 'IP Address']
-            if predicted_ip == true_ip:
-                correct_links += 1
-                
     total_attacks = len(results) # total number of attacker attempts, can't be 0
     if total_attacks == 0:
         print("No attacks were performed.")
         return
+    
+    for attacker_idx, predicted_idx in results:
+        
+        if predicted_idx != -1: # if we found a match
+            if predicted_idx == attacker_idx: # if the predicted index matches the true index, it's a correct link
+                correct_links += 1
+                
     hit_precision = (correct_links / total_attacks) * 100
 
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
@@ -85,26 +79,33 @@ def plot_results(results_dict, k):
     plt.show()
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../../datasets/mendeley_data.csv')
+    df_original = pd.read_csv('../../datasets/mendeley_dataset.csv')
 
-    quasi_identifiers = ['Postal Code', 'Latitude', 'Longitude']
-    k = 1
-    df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
+    quasi_identifiers = ['City','Region','Country','Postal Code']
 
+    df_attacker = pd.read_csv('../../datasets/external_dataset_mendeley.csv')
+    
+        
+    # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
-        "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
-        "Masking & Generalization": pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
-        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
+        # "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
+        # "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
+        # "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
+        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
+        # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
+        # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
+        # "v3": pd.read_csv('../datasets/anonymized_v3.csv')
     }
 
     final_results = {}
     
+    k = 1
+
     for defense_name, df_protected in datasets_to_test.items():
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, k)
         
-        hit_accuracy = evaluate_attack(results, df_original, defense_name)
+        hit_accuracy = evaluate_attack(results, defense_name)
         final_results[defense_name] = hit_accuracy
         
     plot_results(final_results, k)

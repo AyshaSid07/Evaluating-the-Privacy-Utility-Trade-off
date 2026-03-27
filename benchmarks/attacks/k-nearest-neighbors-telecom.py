@@ -4,14 +4,12 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.neighbors import NearestNeighbors
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, OrdinalEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
     # can include the outcommonted ones to make it more dynamic
     numerical_cols = df_protected[quasi_identifiers].select_dtypes(include=['number']).columns.tolist()
     text_cols = [col for col in quasi_identifiers if col not in numerical_cols]
-    #numerical_cols =  ['Latitude', 'Longitude']
-    #text_cols = ['Postal Code'] 
 
     # Pipeline for numeric data
     # We use StandardScaler so that numbers scale correctly, since they can have outliers 
@@ -91,29 +89,26 @@ def mask_LAI_RAI(value): # since we assume the attacker has the access to the ma
         return f"{parts[0]}-{parts[1]}-{parts[2][:2]}**-**"
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../../datasets/synthetic_telecom_data.csv')
-    
-    quasi_identifiers = ['LAI', 'RAI', 'Network_Type']
+    df_original = pd.read_csv('../../datasets/telecom_dataset.csv')
 
-    df_attacker =  pd.read_csv('../../datasets/external_telecom_data.csv')
-   
-    k = 1
+    quasi_identifiers = ['Device_Type','Network_Type', 'PLMN', 'LAI'] 
+
+
+    df_attacker =  pd.read_csv('../../datasets/external_dataset_telecom.csv')
 
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Masked": pd.read_csv('../../datasets/de-identified-datasets/masked_dataset_telecom.csv'),
-        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_dataset_telecom.csv'),
-        "Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/suppressed_network_type_telecom.csv'),
-        "Swapped and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/swapped_and_suppressed_network_type_telecom.csv'),
-        "Masked and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/masked_and_suppressed_network_type_telecom.csv')
+        # "Masked": pd.read_csv('../../datasets/de-identified-datasets/masked_dataset_telecom.csv'),
+        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_dataset_telecom.csv'),
+        # "Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/suppressed_network_type_telecom.csv'),
+        # "Swapped and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/swapped_and_suppressed_network_type_telecom.csv'),
+        # "Masked and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/masked_and_suppressed_network_type_telecom.csv')
     }
-
     final_results = {}
-    # only use 500 rows to speed up the attack
-    # using df.sample(500, random_state=42) would be more realistic, but for simplicity we just take the first 500 rows here.
-    df_attacker = df_attacker.head(500)
+
+    k = 1
+
     for defense_name, df_protected in datasets_to_test.items():
-        df_protected = df_protected.head(500) # only use 500 rows to speed up the attack, and to be consistent with the attacker's dataset size
         if defense_name.__contains__("Masked"):
             df_attacker_masked = df_attacker.copy()
             df_attacker_masked['LAI'] = df_attacker_masked['LAI'].apply(mask_LAI_RAI)

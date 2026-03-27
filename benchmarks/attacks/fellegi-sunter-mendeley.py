@@ -3,6 +3,7 @@ import recordlinkage as rl
 from matplotlib import pyplot as plt
 from pandas.api.types import is_numeric_dtype
 
+
 def perform_attack(df_protected, df_attacker, quasi_identifiers):    
     df_attacker.index.name = 'attacker_idx'
     df_protected.index.name = 'protected_idx'
@@ -13,24 +14,16 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers):
     candidate_links = indexer.index(df_attacker, df_protected) 
 
     comp = rl.Compare()
-    #Handle geographic data specifically if both coordinates are available
-    if 'Latitude' in quasi_identifiers and 'Longitude' in quasi_identifiers:
-        # method='step' with offset=10.0 means any distance <= 10km gets a score of 1.0.
-        # This allows the attack to succeed even if coordinates are generalized/rounded.
-        comp.geo('Latitude', 'Longitude', 'Latitude', 'Longitude', 
-                 method='step', offset=10.0, label='Geo_Distance')
-        
-    # Filter out lat/lon so we don't evaluate them again in the generic loop
-    qi_without_geo = [qi for qi in quasi_identifiers if qi not in ['Latitude', 'Longitude']]
 
-    for qi in qi_without_geo:
-        if is_numeric_dtype(df_protected[qi]):
-            # Step function allows for minor numerical noise (e.g. within an offset of 5.0)
-            comp.numeric(qi, qi, method='step', offset=5.0, label=qi)
-        else:
-            # jarowinkler is a string similarity metric that gives a score between 0 and 1 based on how closely the strings match
-            # 0.85 is a common threshold for considering two strings a match, but this can be adjusted based on the dataset and requirements
-            comp.string(qi, qi, method='jarowinkler', threshold=0.85, label=qi)
+
+    for qi in quasi_identifiers:
+            if qi in ['Device_Type', 'Network_Type']: # handle these as special cases, since they have a hierarchical structure that can be partially matched
+                # jarowinkler is a string similarity metric that gives a score between 0 and 1 based on how closely the strings match
+                # the threshold is based on how much the QI has been masked/generalized.
+                # comp.string(qi, qi, method='jarowinkler', threshold=0.92, label=qi)
+                comp.exact(qi, qi, label=qi)
+            else:
+                comp.exact(qi, qi, label=qi)
 
     # Execute comparisons to build the feature vectors for the ML model
     features = comp.compute(candidate_links, df_attacker, df_protected)
@@ -46,32 +39,28 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers):
 
     results = []
     
-    for attacker_idx, attacker_row in df_attacker.iterrows():
+    for attacker_idx in df_attacker.index:
         probs_for_attacker = match_probs.loc[attacker_idx]
-        
         # Get the index of the protected record with the highest match probability
         best_target_idx = probs_for_attacker.idxmax()  
         
-        results.append((attacker_row['IP Address'], best_target_idx))
+        results.append((attacker_idx, best_target_idx))
         
     return results
-
-def evaluate_attack(results, df_original, defense_name):
+       
+def evaluate_attack(results, defense_name):
     correct_links = 0
-    
-    for row in results:
-        predicted_idx = row[1]  # predicted index from the tuple
-        true_ip = row[0]        # true IP address from the tuple
-        
-        if predicted_idx != -1: # if we found a match
-            predicted_ip = df_original.loc[predicted_idx, 'IP Address']
-            if predicted_ip == true_ip:
-                correct_links += 1
-                
     total_attacks = len(results) # total number of attacker attempts, can't be 0
     if total_attacks == 0:
         print("No attacks were performed.")
         return
+    
+    for attacker_idx, predicted_idx in results:
+        
+        if predicted_idx != -1: # if we found a match
+            if predicted_idx == attacker_idx: # if the predicted index matches the true index, it's a correct link
+                correct_links += 1
+                
     hit_precision = (correct_links / total_attacks) * 100
 
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
@@ -97,24 +86,29 @@ def plot_results(results_dict):
     plt.show()
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../../datasets/mendeley_data.csv')
+    df_original = pd.read_csv('../../datasets/mendeley_dataset.csv')
 
-    quasi_identifiers = ['Postal Code', 'Latitude', 'Longitude', 'ISP', 'Timezone']
+    quasi_identifiers = ['City','Region','Country','Postal Code']
 
-    df_attacker = df_original.sample(50, random_state=42)[['IP Address'] + quasi_identifiers] 
-
+    df_attacker = pd.read_csv('../../datasets/external_dataset_mendeley.csv')
+        
+    # add more defenses here
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
-        "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
-        "Masking & Generalization": pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
-        "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
+        # "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
+        # "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
+        # "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
+        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
+        # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
+        # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
+        # "v3": pd.read_csv('../datasets/anonymized_v3.csv')
     }
+
     final_results = {}
     
     for defense_name, df_protected in datasets_to_test.items():
         results = perform_attack(df_protected, df_attacker, quasi_identifiers)
-        hit_accuracy = evaluate_attack(results, df_original, defense_name)
+        hit_accuracy = evaluate_attack(results, defense_name)
         final_results[defense_name] = hit_accuracy
         
     plot_results(final_results)
