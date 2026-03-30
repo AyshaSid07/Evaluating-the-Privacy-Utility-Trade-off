@@ -8,7 +8,7 @@ fake = Faker()
 rows = 1000
 
 # Load the raw telecom dataset
-raw_df = pd.read_csv("../mendeley_dataset.csv")
+raw_df = pd.read_csv("../csvfiles/mendeley_dataset.csv")
 
 data = []
 
