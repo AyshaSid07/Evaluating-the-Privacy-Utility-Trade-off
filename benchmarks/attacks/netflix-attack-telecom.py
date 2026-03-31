@@ -109,12 +109,12 @@ if __name__ == "__main__":
     }
     final_results = {}
     for defense_name, df_protected in datasets_to_test.items():
-
         weights = calculate_weights(df_protected, quasi_identifiers)
         
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
         
         hit_accuracy = evaluate_attack(results, defense_name)
+        
         final_results[defense_name] = hit_accuracy
         
     plot_results(final_results)
