@@ -1,0 +1,7 @@
+Method,JSD,Avg_EC_Size,DM_Normalized,NCP,Record_Loss_%,k_Anon_%,Utility_Score
+Generalization,0.2727,15.46,0.0089,0.4527,0.0,97.1,75.33
+Attribute Suppression,0.5455,15.46,0.0089,0.25,0.0,97.1,70.5
+Cell Suppression,0.1818,7.75,0.0072,0.2455,0.0,87.23,85.22
+Data Swapping,0.1818,2.63,0.0038,0.2482,0.0,56.73,85.21
+Generalization + Suppression,0.6364,83.33,0.0453,0.4542,0.0,100.0,60.01
+Row Suppression k-Anon (k=5),0.2316,18.21,0.0094,0.2482,2.9,100.0,82.81

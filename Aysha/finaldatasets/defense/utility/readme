@@ -1,0 +1,48 @@
+ML-Based Utility Evaluation: Random Forest Classification (Network_Type)
+This is a privacy-utility tradeoff analysis for a Random Forest classifier predicting Network_Type, evaluated across several anonymization/privacy-preserving techniques. Let me break down each of the three panels:
+
+1. Privacy vs. ML Accuracy Tradeoff (Left Panel)
+This scatter plot shows how different anonymization techniques balance privacy (x-axis: % records satisfying k≥5) against ML accuracy (y-axis):
+
+Technique	Privacy (k≥5 %)	Accuracy (%)	Assessment
+Raw Baseline	~0%	~45.7%	No privacy, moderate accuracy
+Data Swapping	~40%	~42%	Low privacy, worst accuracy
+Cell Suppression	~60%	~45.5%	Moderate privacy, near-baseline accuracy
+Generalization	~70%	~43.5%	Good privacy, slight accuracy drop
+Row Suppression k-Anon (k=5)	~75%	~43.5%	Good privacy, similar to generalization
+Attribute Suppression	~97%	~55.3%	Best of both — highest privacy AND accuracy
+Generalization + Suppression	~100%	~55.3%	Best of both — near-perfect privacy AND highest accuracy
+Key Insight: Attribute Suppression and Generalization + Suppression are clear winners — they sit in the top-right corner, meaning they achieve both the highest accuracy AND the best privacy. This is unusual and noteworthy.
+
+2. ML Accuracy with Privacy Overlay (Center Panel)
+This bar+line chart overlays accuracy (bars) with privacy (purple line/diamonds):
+
+Green bars = ML Accuracy (%)
+Purple line = k≥5 Privacy (%)
+Red/pink annotations = Change from baseline (45.7%)
+Standout results:
+
+Attribute Suppression and Generalization + Suppression both achieve 55.3% accuracy (+21.2% above baseline) with 97–100% privacy
+Data Swapping performs worst: 41.2% accuracy (−9.9%) with only ~60% privacy
+Row Suppression k-Anon (k=5) achieves 100% privacy but accuracy drops to 43.4% (−5.0%)
+3. Feature Importance — Raw Data Model (Right Panel)
+This reveals why removing certain features can actually improve accuracy:
+
+Feature	Importance
+Timestamp	0.295 (highest)
+RAI	0.291
+LAI	0.287
+Device_Type	0.049
+PLMN	0.038
+MMNC	0.022
+MCC	0.018
+TMSI	0.000
+TLLI	0.000
+LMSI	0.000
+Key Insight: The top 3 features (Timestamp, RAI, LAI) dominate with ~0.29 each. Features like TMSI, TLLI, and LMSI have zero importance. When Attribute Suppression removes these noisy/irrelevant features, the model actually performs better because it eliminates noise that was confusing the classifier.
+
+Overall Conclusions
+Attribute Suppression and Generalization + Suppression are the optimal strategies — they paradoxically increase accuracy by ~10% over baseline while achieving near-perfect privacy.
+The accuracy improvement happens because suppressing low-importance features (TMSI, TLLI, LMSI, MCC, etc.) reduces noise in the model.
+Data Swapping is the worst technique here — it degrades accuracy without providing strong privacy.
+This is a case where privacy and utility are not in conflict — the right anonymization technique acts as implicit feature selection, improving model performance.

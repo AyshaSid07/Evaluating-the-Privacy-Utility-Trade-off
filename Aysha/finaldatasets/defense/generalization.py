@@ -1,26 +1,33 @@
+"""
+Defense 1: Generalization
+Generalize LAI to MCC-MNC level, PLMN to MCC, RAI to MCC-MNC.
+"""
 import pandas as pd
 
-df_gen = pd.read_csv("suppression_only.csv")
+df = pd.read_csv("../csvfiles/telecom_dataset.csv")
+df_gen = df.copy()
 
-# 1. Spatial Generalization (Quasi-Identifiers)
-# Masks everything after MCC-MNC (e.g., 240-07-XXXX)
-def mask_location(val):
-    if pd.isna(val) or val == "": return val
+# Remove direct identifiers
+df_gen = df_gen.drop(columns=["IMSI", "MSISDN", "IMEI", "IP_Address"], errors='ignore')
+
+# Generalize PLMN → MCC only
+df_gen["PLMN"] = df_gen["PLMN"].astype(str).str[:3]
+
+# Generalize LAI → MCC-MNC (e.g., 240-07-5012 → 240-07)
+def generalize_lai_mcc_mnc(val):
+    if pd.isna(val): return val
     parts = str(val).split('-')
-    return f"{parts[0]}-{parts[1]}-XXXX" if len(parts) >= 2 else val
+    return f"{parts[0]}-{parts[1]}" if len(parts) >= 2 else val
 
-for col in ['LAI', 'RAI', 'PLMN']:
-    if col in df_gen.columns:
-        df_gen[col] = df_gen[col].apply(mask_location)
+# Generalize RAI → MCC-MNC
+def generalize_rai_mcc_mnc(val):
+    if pd.isna(val): return val
+    parts = str(val).split('-')
+    return f"{parts[0]}-{parts[1]}" if len(parts) >= 2 else val
 
-# 2. Suppress micro-location columns (LAC, RAC, TAC, Cell_ID)
-# These are too unique for k-anonymity; they must be removed to form groups
-extra_ids = ['LAC', 'RAC', 'TAC', 'Cell_ID']
-df_gen = df_gen.drop(columns=[c for c in extra_ids if c in df_gen.columns], errors='ignore')
+df_gen["LAI"] = df_gen["LAI"].apply(generalize_lai_mcc_mnc)
+df_gen["RAI"] = df_gen["RAI"].apply(generalize_rai_mcc_mnc)
 
-# 3. Categorical Generalization
-if 'Device_Type' in df_gen.columns:
-    df_gen['Device_Type'] = df_gen['Device_Type'].replace(r'.*Phone.*', 'Smartphone', regex=True)
-
-df_gen.to_csv("generalization.csv", index=False)
-print("Generalization Complete.")
+df_gen.to_csv("../defense/generalized_telecom.csv", index=False)
+print("Defense 1: Generalization applied.")
+print(f"  Rows: {len(df_gen)}, Unique LAI: {df_gen['LAI'].nunique()}")
