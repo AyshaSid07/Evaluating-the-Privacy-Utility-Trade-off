@@ -70,10 +70,6 @@ from scipy.spatial.distance import jensenshannon
 # ══════════════════════════════════════════════
 # 1. LOAD DATA
 # ══════════════════════════════════════════════
-# Paths relative to this script location:
-#   This script is at: defense/utility/utility_static/utility_static.py
-#   CSV files are at:  csvfiles/  →  go up 3 levels: ../../../csvfiles/
-#   Defense files at:  defense/   →  go up 2 levels: ../../
 
 # Load the original (raw) telecom dataset — our ground truth
 df_raw = pd.read_csv("../../../csvfiles/telecom_dataset.csv")

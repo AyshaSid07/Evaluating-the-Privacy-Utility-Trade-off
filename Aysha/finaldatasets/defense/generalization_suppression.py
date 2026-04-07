@@ -7,10 +7,10 @@ import pandas as pd
 df = pd.read_csv("../csvfiles/telecom_dataset.csv")
 df_comb = df.copy()
 
-# Generalize to MCC only (coarsest level)
+# Generalize to MCC only 
 df_comb["PLMN"] = df_comb["PLMN"].astype(str).str[:3]
 
-# LAI → MCC only (e.g., 240-07-5012 → 240)
+# LAI → MCC only (e.g, 240-07-5012 → 240)
 def generalize_lai_mcc(val):
     if pd.isna(val): return val
     parts = str(val).split('-')
