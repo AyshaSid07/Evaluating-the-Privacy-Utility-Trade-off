@@ -67,9 +67,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import jensenshannon
 
-# ══════════════════════════════════════════════
+
 # 1. LOAD DATA
-# ══════════════════════════════════════════════
+
 
 # Load the original (raw) telecom dataset — our ground truth
 df_raw = pd.read_csv("../../../csvfiles/telecom_dataset.csv")
@@ -84,9 +84,9 @@ defenses = {
     "Row Suppression\nk-Anon (k=5)": pd.read_csv("../../row_suppressed_telecom.csv"),
 }
 
-# ══════════════════════════════════════════════
+
 # 2. CONFIGURATION
-# ══════════════════════════════════════════════
+
 
 # Quasi-identifiers: attributes that can be used in linking attacks
 # Reference: Sweeney (2002) defines these as attributes that, in combination,
@@ -108,9 +108,9 @@ methods = list(defenses.keys())
 all_defense_dfs = list(defenses.values())
 all_original_columns = df_raw.columns.tolist()
 
-# ══════════════════════════════════════════════
+
 # 3. AUTO-DETECT DIRECT IDENTIFIERS
-# ══════════════════════════════════════════════
+
 # Direct identifiers (like IMSI, IMEI) uniquely identify a person and are
 # ALWAYS removed by every defense method. Including them in JSD would add
 # a fixed penalty to all methods, compressing the differences between them.
