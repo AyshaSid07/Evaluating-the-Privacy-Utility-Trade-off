@@ -41,9 +41,10 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
 
     return results
 
-def evaluate_attack(results, defense_name):
+        
+def evaluate_attack(results, df_attacker, df_protected, defense_name):
     correct_links = 0
-    total_attacks = len(results) # total number of attacker attempts, can't be 0
+    total_attacks = len(df_attacker) # total number of attacker attempts, can't be 0
     if total_attacks == 0:
         print("No attacks were performed.")
         return
@@ -51,13 +52,16 @@ def evaluate_attack(results, defense_name):
     for attacker_idx, predicted_idx in results:
         
         if predicted_idx != -1: # if we found a match
-            if predicted_idx == attacker_idx: # if the predicted index matches the true index, it's a correct link
+            true_attacker_id = df_attacker.loc[attacker_idx, 'Linkage_Index']
+            guessed_protected_id = df_protected.loc[predicted_idx, 'Linkage_Index']
+            if true_attacker_id == guessed_protected_id: # if the predicted index matches the true index, it's a correct link
                 correct_links += 1
                 
     hit_precision = (correct_links / total_attacks) * 100
 
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
+
 
 def plot_results(results_dict, k):
     plt.figure(figsize=(10, 6)) 
@@ -81,21 +85,19 @@ def plot_results(results_dict, k):
 if __name__ == "__main__":
     df_original = pd.read_csv('../../datasets/mendeley_dataset.csv')
 
-    quasi_identifiers = ['City','Region','Country','Postal Code']
+    # quasi_identifiers = ['City','Region','Country','Postal Code']
 
     df_attacker = pd.read_csv('../../datasets/external_dataset_mendeley.csv')
     
         
     # add more defenses here
     datasets_to_test = {
-        "No Defense (Baseline)": df_original,
-        # "Generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization.csv'),
-        # "Masking": pd.read_csv('../../datasets/de-identified-datasets/masking.csv'),
-        # "Masking and generalization" : pd.read_csv('../../datasets/de-identified-datasets/generalization_and_masking.csv'),
-        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_data.csv')
-        # "Suppression" : pd.read_csv("../datasets/de-identified-datasets/suppressed_city.csv")
-        # "v2": pd.read_csv('../datasets/anonymized_v2.csv'),
-        # "v3": pd.read_csv('../datasets/anonymized_v3.csv')
+        # "No Defense (Baseline)": df_original,
+        "Only suppressed Direct Identifiers": pd.read_csv('../../datasets/de_identified_datasets/suppressed_DI_mendeley.csv'),
+        "Generalization" : pd.read_csv('../../datasets/de_identified_datasets/generalization_mendeley.csv'),
+        "Row Suppression (k=2)": pd.read_csv('../../datasets/de_identified_datasets/row_suppression_mendeley.csv'),
+        "Data Swapping (30%)": pd.read_csv('../../datasets/de_identified_datasets/swapped_dataset_mendeley.csv'),
+        "Rounding (1 decimal)": pd.read_csv('../../datasets/de_identified_datasets/rounding_mendeley.csv'),
     }
 
     final_results = {}
@@ -103,9 +105,15 @@ if __name__ == "__main__":
     k = 1
 
     for defense_name, df_protected in datasets_to_test.items():
+        if defense_name == "Generalization":
+            quasi_identifiers = ['Region','Country']
+        else: 
+            quasi_identifiers = ['City','Region','Country','Postal Code']
+
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, k)
         
-        hit_accuracy = evaluate_attack(results, defense_name)
+        hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
+
         final_results[defense_name] = hit_accuracy
         
     plot_results(final_results, k)

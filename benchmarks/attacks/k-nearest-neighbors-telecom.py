@@ -41,9 +41,10 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
 
     return results
 
-def evaluate_attack(results, defense_name):
+        
+def evaluate_attack(results, df_attacker, df_protected, defense_name):
     correct_links = 0
-    total_attacks = len(results) # total number of attacker attempts, can't be 0
+    total_attacks = len(df_attacker) # total number of attacker attempts, can't be 0
     if total_attacks == 0:
         print("No attacks were performed.")
         return
@@ -51,13 +52,16 @@ def evaluate_attack(results, defense_name):
     for attacker_idx, predicted_idx in results:
         
         if predicted_idx != -1: # if we found a match
-            if predicted_idx == attacker_idx: # if the predicted index matches the true index, it's a correct link
+            true_attacker_id = df_attacker.loc[attacker_idx, 'Linkage_Index']
+            guessed_protected_id = df_protected.loc[predicted_idx, 'Linkage_Index']
+            if true_attacker_id == guessed_protected_id: # if the predicted index matches the true index, it's a correct link
                 correct_links += 1
                 
     hit_precision = (correct_links / total_attacks) * 100
 
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
+
 
 def plot_results(results_dict, k):
     plt.figure(figsize=(10, 6)) 
@@ -76,7 +80,7 @@ def plot_results(results_dict, k):
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/KNN_attack_accuracy_mendeley.png", dpi=300)
+    plt.savefig("../plots/KNN_attack_accuracy_telecom.png", dpi=300)
     plt.show()
 
 def mask_LAI_RAI(value): # since we assume the attacker has the access to the masked dataset, we can assume they know the masking method and can try to handle it in their attack. This is a simple example of how they could do that for the LAI and RAI fields.
@@ -93,32 +97,28 @@ if __name__ == "__main__":
 
     quasi_identifiers = ['Device_Type','Network_Type', 'PLMN', 'LAI'] 
 
-
     df_attacker =  pd.read_csv('../../datasets/external_dataset_telecom.csv')
 
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        # "Masked": pd.read_csv('../../datasets/de-identified-datasets/masked_dataset_telecom.csv'),
-        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_dataset_telecom.csv'),
-        # "Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/suppressed_network_type_telecom.csv'),
-        # "Swapped and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/swapped_and_suppressed_network_type_telecom.csv'),
-        # "Masked and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/masked_and_suppressed_network_type_telecom.csv')
+        "Row Suppression (k=2)": pd.read_csv("../../datasets/de_identified_datasets/row_suppression_telecom.csv"),
+        "Data Swapping (30%)": pd.read_csv("../../datasets/de_identified_datasets/swapped_dataset_telecom.csv"),
+        "Masking (LAI/RAI)": pd.read_csv("../../datasets/de_identified_datasets/masking_telecom.csv")
     }
+
     final_results = {}
 
     k = 1
 
     for defense_name, df_protected in datasets_to_test.items():
-        if defense_name.__contains__("Masked"):
+        if defense_name.__contains__("Masking"):
             df_attacker_masked = df_attacker.copy()
             df_attacker_masked['LAI'] = df_attacker_masked['LAI'].apply(mask_LAI_RAI)
-            df_attacker_masked['RAI'] = df_attacker_masked['RAI'].apply(mask_LAI_RAI)
             results = perform_attack(df_protected, df_attacker_masked, quasi_identifiers, k)
         else:
-            if defense_name.__contains__("Suppressed"):
-                quasi_identifiers = ['LAI', 'RAI']
             results = perform_attack(df_protected, df_attacker, quasi_identifiers, k)
-        hit_accuracy = evaluate_attack(results, defense_name)
+        hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
+
         final_results[defense_name] = hit_accuracy
         
     plot_results(final_results, k)

@@ -1,6 +1,6 @@
-Defense 5: Generalization + Attribute Suppression
-Generalize PLMN to MCC, LAI/RAI to MCC only (country level - coarsest).
-Then suppress TMSI, LMSI, TLLI, Timestamp.
+# Defense 5: Generalization + Attribute Suppression
+# Generalize PLMN to MCC, LAI/RAI to MCC only (country level - coarsest).
+# Then suppress TMSI, LMSI, TLLI, Timestamp.
 
 import pandas as pd
 

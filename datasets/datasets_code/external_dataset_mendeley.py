@@ -23,7 +23,7 @@ for i in range(rows):
     region = record["Region"]
     country = record["Country"]
     postal_code = record["Postal Code"]
-
+    linkage_index = record["Linkage_Index"]
     data.append([
         name,
         age,
@@ -31,6 +31,7 @@ for i in range(rows):
         region,
         country,
         postal_code,
+        linkage_index
     ])
 
 df = pd.DataFrame(data, columns=[
@@ -39,9 +40,9 @@ df = pd.DataFrame(data, columns=[
     "City",
     "Region",
     "Country",
-    "Postal Code"
+    "Postal Code",
+    "Linkage_Index"
+
 ])
 
 df.to_csv("../external_dataset_mendeley.csv",index=False)
-
-print("External dataset generated successfully")

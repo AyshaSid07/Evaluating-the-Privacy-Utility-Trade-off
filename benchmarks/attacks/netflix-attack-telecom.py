@@ -49,14 +49,17 @@ def perform_attack(df_protected, df_attacker, quasi_identifiers, weights):
             if score > best_score:
                 best_score = score
                 best_match_index = target_idx
+            elif score == best_score and score > 0: # if we have a tie
+                best_match_index = best_match_index  # keep the first one found
                 
         results.append((attacker_idx, best_match_index)) # save the predicted index for this attacker row, -1 if no match found
         
     return results 
         
-def evaluate_attack(results, defense_name):
+        
+def evaluate_attack(results, df_attacker, df_protected, defense_name):
     correct_links = 0
-    total_attacks = len(results) # total number of attacker attempts, can't be 0
+    total_attacks = len(df_attacker) # total number of attacker attempts, can't be 0
     if total_attacks == 0:
         print("No attacks were performed.")
         return
@@ -64,13 +67,16 @@ def evaluate_attack(results, defense_name):
     for attacker_idx, predicted_idx in results:
         
         if predicted_idx != -1: # if we found a match
-            if predicted_idx == attacker_idx: # if the predicted index matches the true index, it's a correct link
+            true_attacker_id = df_attacker.loc[attacker_idx, 'Linkage_Index']
+            guessed_protected_id = df_protected.loc[predicted_idx, 'Linkage_Index']
+            if true_attacker_id == guessed_protected_id: # if the predicted index matches the true index, it's a correct link
                 correct_links += 1
                 
     hit_precision = (correct_links / total_attacks) * 100
 
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
+
 
 def plot_results(results_dict):
     plt.figure(figsize=(10, 6)) 
@@ -101,19 +107,17 @@ if __name__ == "__main__":
 
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        # "Masked": pd.read_csv('../../datasets/de-identified-datasets/masked_dataset_telecom.csv'),
-        # "Data Swapping" : pd.read_csv('../../datasets/de-identified-datasets/swapped_dataset_telecom.csv'),
-        # "Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/suppressed_network_type_telecom.csv'),
-        # "Swapped and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/swapped_and_suppressed_network_type_telecom.csv'),
-        # "Masked and Suppressed network type" : pd.read_csv('../../datasets/de-identified-datasets/masked_and_suppressed_network_type_telecom.csv')
+        "Row Suppression (k=2)": pd.read_csv("../../datasets/de_identified_datasets/row_suppression_telecom.csv"),
+        "Data Swapping (30%)": pd.read_csv("../../datasets/de_identified_datasets/swapped_dataset_telecom.csv"),
+        "Masking (LAI/RAI)": pd.read_csv("../../datasets/de_identified_datasets/masking_telecom.csv")
     }
+
     final_results = {}
     for defense_name, df_protected in datasets_to_test.items():
         weights = calculate_weights(df_protected, quasi_identifiers)
         
         results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
-        
-        hit_accuracy = evaluate_attack(results, defense_name)
+        hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
         
         final_results[defense_name] = hit_accuracy
         

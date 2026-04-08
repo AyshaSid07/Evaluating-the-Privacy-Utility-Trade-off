@@ -21,7 +21,8 @@ for i in range(rows):
     network_type = record["Network_Type"]
     device_type = record["Device_Type"]
     lai = record["LAI"]
-
+    linkage_index = record["Linkage_Index"]
+    
     if network_type == "5G":
         avg_latency = random.randint(10, 30) # Extremely fast
         drop_rate = round(random.uniform(0.01, 0.5), 2) # 0.01% to 0.5%
@@ -39,7 +40,8 @@ for i in range(rows):
         plmn,
         lai,
         avg_latency,
-        drop_rate
+        drop_rate,
+        linkage_index
     ])
 
 df = pd.DataFrame(data, columns=[
@@ -49,10 +51,10 @@ df = pd.DataFrame(data, columns=[
     "PLMN",
     "LAI",
     "Avg_Latency_ms",
-    "Connection_Drop_Rate_Pct"
+    "Connection_Drop_Rate_Pct",
+    "Linkage_Index"
 ])
 
 df.to_csv("../external_dataset_telecom.csv",index=False)
 
 print("External dataset generated successfully")
-print(df.head())

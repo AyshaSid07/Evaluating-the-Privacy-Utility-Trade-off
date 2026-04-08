@@ -13,4 +13,7 @@ df.replace('N/A', np.nan, inplace=True)
 df = df.dropna(subset=cols_to_check, how='all')
 
 df.replace('TELEF�NICA BRASIL S.A', 'TELEFONICA BRASIL S.A', inplace=True)
+
+df.insert(0, 'Linkage_Index', range(1, len(df) + 1))
+
 df.to_csv("../mendeley_dataset.csv", index=False)
