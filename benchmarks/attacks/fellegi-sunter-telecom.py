@@ -87,9 +87,9 @@ def plot_results(results_dict):
         plt.text(methods[i], accuracies[i], f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
         
     plt.xticks(rotation=10, ha='right', fontsize=10)    
-    plt.ylabel('Hit Accuracy (%)', fontsize=12)
-    plt.xlabel('De-identified Method', fontsize=12)
-    plt.title('Fellegi-Sunter Attack Accuracy Across De-identified Datasets on the Mendeley Dataset', fontsize=12)
+    plt.ylabel('Re-identification Rate (%)', fontsize=10)
+    plt.xlabel('De-identification Method', fontsize=10)
+    plt.title('Fellegi-Sunter Attack Re-Identification Rate Across De-identified Datasets on the "Sensitive telecom attributes" Dataset', fontsize=10)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()

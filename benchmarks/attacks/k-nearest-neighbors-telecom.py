@@ -71,11 +71,11 @@ def plot_results(results_dict, k):
     for i in range(len(methods)):
         plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
         plt.text(methods[i], accuracies[i], f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
-
+        
     plt.xticks(rotation=10, ha='right', fontsize=10)    
-    plt.ylabel('Hit Accuracy (%)', fontsize=12)
-    plt.xlabel('De-identified Method', fontsize=12)
-    plt.title(f'K-Nearest Neighbors with k={k} Attack Accuracy Across De-identified Datasets on the Mendeley Dataset', fontsize=12)
+    plt.ylabel('Re-identification Rate (%)', fontsize=10)
+    plt.xlabel('De-identification Method', fontsize=10)
+    plt.title(f'K-Nearest Neighbors with k={k} Re-Identification Rate Across De-identified Datasets on the "Sensitive telecom attributes" Dataset', fontsize=9)
         
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)

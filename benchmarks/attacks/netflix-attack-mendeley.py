@@ -85,11 +85,12 @@ def plot_results(results_dict):
     
     for i in range(len(methods)):
         plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
-        plt.text(methods[i], accuracies[i] + 1, f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
-    plt.ylim(0, 100)
-    plt.ylabel('Hit Accuracy (%)', fontsize=12)
-    plt.xlabel('De-identified Method', fontsize=12)
-    plt.title('Netflix Attack Accuracy Across De-identified Datasets on the Mendeley Dataset', fontsize=12)
+        plt.text(methods[i], accuracies[i], f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
+        
+    plt.xticks(rotation=10, ha='right', fontsize=10)    
+    plt.ylabel('Re-identification Rate (%)', fontsize=10)
+    plt.xlabel('De-identification Method', fontsize=10)
+    plt.title('Netflix Attack Re-identification Rate Across De-identified Datasets on the "IP Address Geographic Profiles" Dataset', fontsize=10)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
                  
     plt.tight_layout()
