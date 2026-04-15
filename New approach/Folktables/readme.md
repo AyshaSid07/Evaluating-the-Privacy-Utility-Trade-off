@@ -1,4 +1,4 @@
-#### Prediction code for folktables paper
+#### Prediction code for "Retiring Adult: New Datasets for Fair Machine Learning", by Ding et al.
 
 Paper source:  https://arxiv.org/pdf/2108.04884
 Original Github Repository: https://github.com/socialfoundations/folktables
