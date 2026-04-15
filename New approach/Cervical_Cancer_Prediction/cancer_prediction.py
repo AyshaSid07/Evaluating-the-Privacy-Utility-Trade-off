@@ -14,13 +14,13 @@ df = df.drop(['STDs: Time since first diagnosis','STDs: Time since last diagnosi
 x = df.drop(columns=['Biopsy', 'Hinselmann', 'Schiller', 'Citology']) 
 y = df['Biopsy']
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state = 0)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state = 123)
 
-rs = SMOTE()
+rs = SMOTE(random_state=123)
 x_train , y_train = rs.fit_resample(x_train, y_train)
 x_test , y_test = rs.fit_resample(x_test, y_test)
 
-classifier = RandomForestClassifier()
+classifier = RandomForestClassifier(random_state=123)
 classifier = classifier.fit(x_train, y_train)
 
 predictions = classifier.predict(x_test)
