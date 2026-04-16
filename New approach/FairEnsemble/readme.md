@@ -1,6 +1,6 @@
 ## Prediction code for "Towards Understanding Fairness and its Composition in Ensemble Machine Learning", by Gohar et al.
 
-Paper source: https://arxiv.org/pdf/2212.04593
+Paper source: https://arxiv.org/abs/2212.04593
 
 Original Github Repository: https://github.com/UsmanGohar/FairEnsemble
 
