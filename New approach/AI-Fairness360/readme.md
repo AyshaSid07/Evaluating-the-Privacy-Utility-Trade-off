@@ -4,8 +4,9 @@ Paper source: https://arxiv.org/abs/1810.01943
 
 Original Github Repository: https://github.com/Trusted-AI/AIF360
 
-#### Contains the dataset:
+#### Contains the datasets:
 - **Medical Expenditure Panel Survey (MEPS) Panel 19:** Predicting high healthcare utilization, meaning their total number of medical events in a year is greater than or equal to 10 for the 2014-2015 panel.
+- **COMPAS (ProPublica):** Predicting criminal recidivism (whether a defendant will re-offend within two years).
 
 #### Installation Instructions for MEPS Datasets:
 

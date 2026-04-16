@@ -9,26 +9,14 @@ from sklearn.metrics import accuracy_score
 credit=pd.read_csv("data/german_credit_data.csv")
 
 # **Transformations and feature engineering:**
-# 
-# Part of the data cleansing step involves:
-# * hypothesizing about the features I think I need
-# * preparing to integrate them in my model
-# 
-# A machine learning model unfortunately cannot deal with categorical variables (except for some models ). Therefore, I have to find a way to encode these variables as numbers before handling them within the model. There are two main ways to carry out this process:
-# 
-# * Label Encoding: is the concept of assigning each unique category in a categorical variable with an integer. No new columns are created.
-# 
-# => It is only recommended for two unique categories since it gives the categories an arbitrary ordering
-# 
-# * One-Hot Encoding: is the concept of creating a new column for each unique category in a categorical variable. Each observation receives a value of “1” in the column for its corresponding category and a value “0” in all other new columns.
-# 
-# The Risk is what I would like to predict: either a 0 for the loan presenting no risk and will be repaid on time, or a 1 indicating that the loan presents a risk and the client will have some payment difficulties.
-# To this end, I have two unique categories that’s why I use the map function for Label encoding.
+
+# The Risk is what we would like to predict: either a 0 for the loan presenting no risk and will be repaid on time, or a 1 indicating that the loan presents a risk and the client will have some payment difficulties.
+# To this end, we have two unique categories that’s why we use the map function for Label encoding.
 
 credit['Risk'] = credit['Risk'].map({'bad':1, 'good':0})
 
-# When the time comes to build the machine learning model, I have to fill in these missing values (known as imputation) identified during the data checks phase.
-# In my case I have at my disposal a small dataset which oblige me to keep all my rows that’s why I have introduced a new category value called “Others” for both Saving account and Checking account columns.
+# When the time comes to build the machine learning model, we have to fill in these missing values (known as imputation) identified during the data checks phase.
+# In our case, this is a small dataset which obligeges to keep all our rows that’s why we have introduced a new category value called “Others” for both Saving account and Checking account columns.
 
 credit['Saving accounts'] = credit['Saving accounts'].fillna('Others')
 credit['Checking account'] = credit['Checking account'].fillna('Others')

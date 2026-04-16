@@ -105,7 +105,6 @@ print('Accuracy for rbf SVM is ',metrics.accuracy_score(prediction1,test_Y))
 # ### Linear Support Vector Machine(linear-SVM)
 
 
-
 model=svm.SVC(kernel='linear',C=0.1,gamma=0.1)
 model.fit(train_X,train_Y.values.ravel())
 prediction2=model.predict(test_X)
@@ -113,7 +112,6 @@ print('Accuracy for linear SVM is',metrics.accuracy_score(prediction2,test_Y))
 
 
 # ### Logistic Regression
-
 
 
 model = LogisticRegression(max_iter=1000)
