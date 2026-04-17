@@ -1,8 +1,10 @@
 ## Prediction code for "Retiring Adult: New Datasets for Fair Machine Learning", by Ding et al.
 
-Paper source:  https://arxiv.org/pdf/2108.04884
+[Paper Source](https://arxiv.org/pdf/2108.04884)
 
-Original Github Repository: https://github.com/socialfoundations/folktables
+[Original Github Repository](https://github.com/socialfoundations/folktables)
+
+Dataset Source: In the *Folktables* library
 
 #### Contains five datasets:
 - ACS Income: Predicting if someone makes more than $50k.

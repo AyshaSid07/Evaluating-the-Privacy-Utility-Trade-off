@@ -1,8 +1,12 @@
 ## Prediction code for "AI Fairness 360: An Extensible Toolkit for Detecting and Mitigating Algorithmic Bias", by Bellamy et al.
 
-Paper source: https://arxiv.org/abs/1810.01943
+[Paper Source](https://arxiv.org/abs/1810.01943)
 
-Original Github Repository: https://github.com/Trusted-AI/AIF360
+[Original GitHub Repository](https://github.com/Trusted-AI/AIF360)
+
+COMPAS Dataset Source: Fetch from AI360 Library, see `compas/compas.py`
+
+MEPS Dataset Source: See "Installation Instructions for MEPS Datasets" down below.
 
 #### Contains the datasets:
 - **Medical Expenditure Panel Survey (MEPS) Panel 19:** Predicting high healthcare utilization, meaning their total number of medical events in a year is greater than or equal to 10 for the 2014-2015 panel.
