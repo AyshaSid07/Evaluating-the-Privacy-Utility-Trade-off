@@ -13,7 +13,8 @@ Dataset Source: In the *Folktables* library
 - ACS Travel Time: Predicting commute times.
 - ACS Mobility: Predicting if someone moved recently.
 
-*(All datasets are derived from the real US Census American Community Survey and use demographic features like Age, Education, Sex, Race, and Geography).*
+*(All datasets are derived from the real US Census American Community Survey and use demographic sensitive features like Age, Education, Sex, Race, and Geography).*
+
 ---
 
 ## Adaptations and changes from the original code

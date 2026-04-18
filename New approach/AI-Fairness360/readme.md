@@ -12,6 +12,8 @@ MEPS Dataset Source: See "Installation Instructions for MEPS Datasets" down belo
 - **Medical Expenditure Panel Survey (MEPS) Panel 19:** Predicting high healthcare utilization, meaning their total number of medical events in a year is greater than or equal to 10 for the 2014-2015 panel.
 - **COMPAS (ProPublica):** Predicting criminal recidivism (whether a defendant will re-offend within two years).
 
+*(Privacy Risk: Both of these datasets contain standard demographic quasi-identifiers like age, sex, and race. However, they link these demographics to highly sensitive real-world outcomes—chronic medical needs and financial healthcare burdens in MEPS, and stigmatizing criminal histories and jail time in COMPAS.)*
+
 #### Installation Instructions for MEPS Datasets:
 
 AIF360 does not download the MEPS data automatically due to its size and licensing. To run the prediction code, you must download the data manually:

@@ -9,7 +9,8 @@
 #### Contains one dataset:
 - **Credit Card Clients:** Predicting whether a customer in Taiwan will face a default payment situation next month based on their financial history and demographic profile.
 
-*(This dataset contains highly sensitive quasi-identifiers such as Sex, Education, and Marital status, paired with detailed financial billing records, making it extremely vulnerable to inference attacks regarding personal financial distress).*
+*(This dataset contains highly sensitive quasi-identifiers such as Sex, Education, and Marital status, paired with detailed financial billing records).*
+
 ---
 
 ## Adaptations and changes from the original code
