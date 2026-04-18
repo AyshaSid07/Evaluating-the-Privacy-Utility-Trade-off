@@ -18,7 +18,5 @@ classifier = classifier.fit(x_train, y_train)
 
 predictions = classifier.predict(x_test)
 accuracy = accuracy_score(y_test, predictions)
-recall = recall_score(y_test, predictions)
 
 print(f"Accuracy: {accuracy * 100:.2f}%")
-print(f"Recall:   {recall * 100:.2f}%")
