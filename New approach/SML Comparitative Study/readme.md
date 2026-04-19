@@ -9,7 +9,7 @@
 #### Contains the dataset:
 - **Predict Students' Dropout and Academic Success:** Predicting whether a university student will drop out, remain enrolled, or graduate based on demographic data, socio-economic factors, and academic performance.
 
-*(This dataset originates from a European higher education institution. It contains highly sensitive demographic and socio-economic quasi-identifiers such as the parents' background, whether the student is a debtor, gender, and age at enrollment. A linkage attack on this dataset presents a severe privacy risk, exposing an individual's financial distress and academic failure.)*
+*(This dataset originates from a European higher education institution. It contains highly sensitive demographic and socio-economic quasi-identifiers such as the parents' background, whether the student is a debtor, gender, and age at enrollment.)*
 
 ---
 

@@ -22,10 +22,11 @@ Original Jupyter Notebook: `LEAF_test.ipynb` from the [LEAF GitHub Repository](h
 The code for `leaf.py` can also be found in the  [LEAF GitHub Repository](https://github.com/amparore/leaf/blob/master/leaf.py)
 
 #### The Role of `leaf.py` in Our Methodology:
-To ensure our baseline utility perfectly mirrors the original authors' mathematical methodology, we integrated their custom `leaf.py` script directly into our pipeline. Specifically, we utilize their `leaf.train_model()` function to establish our baseline. This function enforces the authors' exact experimental environment by:
+To ensure our baseline utility perfectly mirrors the original authors' mathematical methodology, we integrated their custom `leaf.py` script directly into our pipeline. The `leaf.py` script has not been changed at all. Specifically, we utilize their `leaf.train_model()` function to establish our baseline. This function enforces the authors' exact experimental environment by:
 1. Performing an automatic, hardcoded 80/20 `train_test_split` (strictly using `random_state=1234`).
 2. Automatically balancing the dataset by calculating and applying `sample_weights` during the model fitting phase.
 3. Generating the strictly isolated test-set accuracy and classification report, entirely preventing data leakage in our baseline utility metrics.
+
 
 #### Code Modifications for our Study:
 While we retained the `leaf` training architecture to ensure baseline validity, we made the following changes to adapt the code for our privacy-focused evaluation:
