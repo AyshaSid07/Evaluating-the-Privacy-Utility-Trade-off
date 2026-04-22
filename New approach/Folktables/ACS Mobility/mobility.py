@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from folktables import ACSDataSource, ACSMobility
 
 # Load the ACS data for California and prepare the features, labels, and group information
-data_source = ACSDataSource(survey_year='2017', horizon='1-Year', survey='person')
+data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
 acs_data = data_source.get_data(states=["CA"], download=True)
 features, label, group = ACSMobility.df_to_numpy(acs_data)
 

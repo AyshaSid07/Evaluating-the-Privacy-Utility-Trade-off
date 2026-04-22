@@ -6,9 +6,9 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from folktables import ACSDataSource, ACSEmployment
 
-# Load the ACS employement data for Alabama from year 2018 and prepare the features, labels, and group information
+# Load the ACS data for California and prepare the features, labels, and group information
 data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-acs_data = data_source.get_data(states=["AL"], download=True)
+acs_data = data_source.get_data(states=["CA"], download=True)
 features, label, group = ACSEmployment.df_to_numpy(acs_data)
 
 # Save the raw data to a CSV file

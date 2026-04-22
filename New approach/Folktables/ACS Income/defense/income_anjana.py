@@ -16,7 +16,7 @@ for col in cols:
 
 quasi_ident = ["AGEP","SCHL", "COW", "MAR", "RAC1P", "RELP", "WKHP", "POBP", "OCCP"]
 k = 5
-supp_level = 0
+supp_level = 20
 
 def load_hierarchy(filename):
     df = pd.read_csv(filename, header=None, dtype=str)
@@ -28,15 +28,15 @@ def load_hierarchy(filename):
     return dict(df)
 
 hierarchies = {
-    "AGEP": load_hierarchy("hierarchies/agep.csv"),
-    "SCHL": load_hierarchy("hierarchies/schl.csv"),
-    "COW": load_hierarchy("hierarchies/cow.csv"),
-    "MAR": load_hierarchy("hierarchies/mar.csv"),
-    "RAC1P": load_hierarchy("hierarchies/rac1p.csv"),
-    "RELP" : load_hierarchy("hierarchies/relp.csv"),
-    "WKHP" : load_hierarchy("hierarchies/wkhp.csv"),
-    "POBP" : load_hierarchy("hierarchies/pobp.csv"),
-    "OCCP" : load_hierarchy("hierarchies/occp.csv")
+    "AGEP": load_hierarchy("../../hierarchies/agep.csv"),
+    "SCHL": load_hierarchy("../../hierarchies/schl.csv"),
+    "COW": load_hierarchy("../../hierarchies/cow.csv"),
+    "MAR": load_hierarchy("../../hierarchies/mar.csv"),
+    "RAC1P": load_hierarchy("../../hierarchies/rac1p.csv"),
+    "RELP" : load_hierarchy("../../hierarchies/relp.csv"),
+    "WKHP" : load_hierarchy("../../hierarchies/wkhp.csv"),
+    "POBP" : load_hierarchy("../../hierarchies/pobp.csv"),
+    "OCCP" : load_hierarchy("../../hierarchies/occp.csv")
 }
 
 # Race is considered sensitive according to GDPR
