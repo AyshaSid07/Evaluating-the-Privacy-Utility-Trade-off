@@ -12,7 +12,6 @@ hr_Y = hr_data['TARGET'].astype('bool')==False
 hr_X.fillna(hr_X.mean(), inplace=True)
 hr_class_names=['OK', 'RISK']
 
-hr_ds = (hr_X, hr_Y, hr_class_names, "heartrisk")
 
 # model = sklearn.ensemble.RandomForestClassifier(n_estimators=5, max_depth=5, random_state=12345)
 model = LogisticRegression(random_state=99, solver='liblinear')
