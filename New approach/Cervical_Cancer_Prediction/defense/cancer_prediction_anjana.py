@@ -60,7 +60,7 @@ hierarchies = {
     "Hormonal Contraceptives": load_hierarchy("hierarchies/hormonal_contraceptives.csv"),
     "Hormonal Contraceptives (years)": load_hierarchy("hierarchies/hormonal_years.csv"),
     "IUD": load_hierarchy("hierarchies/iUD.csv"),
-    "IUD (years)": load_hierarchy("hierarchies/iud_years.csv")
+    "IUD (years)": load_hierarchy("hierarchies/iud_years.csv"),
 }
 
 # we can only have 1 sensitive attribute with anjana to when applying l-diversity and T-closeness

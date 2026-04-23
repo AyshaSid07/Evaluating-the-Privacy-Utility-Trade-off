@@ -1,0 +1,7 @@
+0,*,*,*
+1,Single,Single,*
+2,Married,Married/Union,*
+5,Facto Union,Married/Union,*
+3,Widower,Previously-Married,*
+4,Divorced,Previously-Married,*
+6,Separated,Previously-Married,*

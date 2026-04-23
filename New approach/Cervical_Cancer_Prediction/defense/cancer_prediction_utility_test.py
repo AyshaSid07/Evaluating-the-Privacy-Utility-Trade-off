@@ -33,6 +33,7 @@ pipeline = Pipeline(steps=[
 ])
 
 pipeline.fit(x_train, y_train)
+predictions = pipeline.predict(x_test)
 probabilities = pipeline.predict_proba(x_test)[:, 1]
 custom_threshold = 0.15
 predictions = (probabilities >= custom_threshold).astype(int)
