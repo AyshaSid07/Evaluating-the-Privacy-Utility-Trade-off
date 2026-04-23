@@ -8,6 +8,7 @@ df = pd.read_csv('risk_factors_cervical_cancer_cleaned.csv')
 # drop these two columns since they have a lot of missing values and are not relevant for the prediction
 df = df.drop(['STDs: Time since first diagnosis','STDs: Time since last diagnosis'], axis = 1)
 
+# drop these as these are the other target values
 x = df.drop(columns=['Biopsy', 'Hinselmann', 'Schiller', 'Citology']) 
 y = df['Biopsy']
 
