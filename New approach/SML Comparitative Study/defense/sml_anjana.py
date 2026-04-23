@@ -40,8 +40,6 @@ cols = [
 for col in cols:
 	data[col] = data[col].astype(float).astype(int).astype(str).str.strip()
 
-print(data["Marital status"].min())
-
 quasi_ident = [
     "Marital status", "Application mode", "Application order", "Course", 
     "Daytime/evening attendance", "Previous qualification", 

@@ -7,7 +7,9 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
-df = pd.read_csv('credit-card-clients.csv')   
+# df = pd.read_csv('../credit-card-clients.csv')   
+df = pd.read_csv('sml_k=2.csv')   
+df = df.drop(columns=['index'])
 
 #preprocessing 
 class_label = 'default payment'
@@ -25,6 +27,7 @@ X = df.iloc[:, :length-1]
 y = df[class_label]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42) 
+
 
 algorithm = 'DT' # Decision Tree Classifier
 if algorithm == 'DT':
