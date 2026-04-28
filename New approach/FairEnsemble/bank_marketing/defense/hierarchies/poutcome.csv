@@ -1,0 +1,4 @@
+failure,Contacted,*
+success,Contacted,*
+nonexistent,Not-Contacted,*
+unknown,Unknown,*

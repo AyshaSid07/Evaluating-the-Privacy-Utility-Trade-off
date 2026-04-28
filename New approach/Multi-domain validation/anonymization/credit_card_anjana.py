@@ -84,7 +84,7 @@ end = time.time()
 print(f"Elapsed time: {end-start:.2f} seconds")
 print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon, quasi_ident)}")
 
-data_anon.to_csv("credit_card_k=2.csv", index=False)
+data_anon.to_csv("../datasets/credit_card_k=2.csv", index=False)
 
 records_suppressed = len(data) - len(data_anon)
 print(f"Number of records suppressed: {records_suppressed}")

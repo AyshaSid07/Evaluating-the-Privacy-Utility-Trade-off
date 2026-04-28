@@ -32,7 +32,7 @@ hr_ds = (hr_X, hr_Y, hr_class_names, "heartrisk")
 model = LogisticRegression(random_state=99, solver='liblinear')
 # model = sklearn.ensemble.GradientBoostingClassifier(n_estimators=5, random_state=34)
 
-# leaf.py will print out the accuracy
+# leaf.py will print out the all the measurements
 hr_cls = leaf.train_model(hr_X_encoded, hr_Y, model, verbose=False)
 
 
