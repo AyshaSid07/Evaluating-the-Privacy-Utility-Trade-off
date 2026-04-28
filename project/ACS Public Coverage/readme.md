@@ -4,11 +4,10 @@
 
 [Original Github Repository](https://github.com/socialfoundations/folktables)
 
-Dataset Source: Can be fetched from the *Folktables* library
+Dataset Source: Can be fetched from the `folktables` library
 
 #### Contains the dataset:
 - ACS Public Coverage: Predicting if someone has public health coverage.
-
 
 *(The ACS Public Coverage dataset are derived from the real US Census American Community Survey and use demographic sensitive features like Age, Education, Sex, Race).*
 

@@ -14,7 +14,7 @@ features, label, group = ACSIncome.df_to_numpy(acs_data)
 # Save the raw data to a CSV file
 al_features, al_labels, _ = ACSIncome.df_to_pandas(acs_data)
 combined_df = pd.concat([al_features, al_labels], axis=1)
-combined_df.to_csv('folktables_income_RAW.csv', index=False)
+combined_df.to_csv('datasets/folktables_income_RAW.csv', index=False)
 
 # Split the data into training and testing sets and use a logistic regression model to predict income status
 X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(

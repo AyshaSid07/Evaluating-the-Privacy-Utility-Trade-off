@@ -91,18 +91,18 @@ def evaluate_attack(results, df_attacker, df_protected, defense_name):
     return hit_precision
 
 if __name__ == "__main__":
-    df_original = pd.read_csv('../datasets/credit-card-clients.csv')
+    df_original = pd.read_csv('../datasets/folktables_income_RAW.csv')
     
     df_original['Linkage_Index'] = df_original.index
 
-    quasi_identifiers = ['SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'LIMIT_BAL']
+    quasi_identifiers = ['AGEP', 'COW', 'SCHL', 'MAR', 'SEX']
 
-    sample_size = 300
+    sample_size = 2000 
     df_attacker = df_original.sample(n=sample_size, random_state=123).copy()
 
     datasets_to_test = {
         "No Defense (Baseline)": df_original,
-        "Anjana (k=2)": pd.read_csv('../datasets/credit_card_k=2.csv'),
+        # "Anjana (k=2)": pd.read_csv('../datasets/.csv'),
     }
 
     final_results = {}
