@@ -35,18 +35,17 @@ def plot_results(results_df):
     plt.savefig("../plots/attribute_inference_MEPS.png", dpi=300)
     plt.show()
 
-# 1. Define Datasets and Targets
 datasets_to_test = {
     "No anonymization (Baseline)": pd.read_csv('../datasets/MEPS.csv'),
-    "anjana MEPS, k = 5": pd.read_csv('../datasets/anjana_meps_k=5.csv'),
-    "anjana MEPS, k = 5, l = 2": pd.read_csv('../datasets/anjana_meps_k=5_l=2.csv'),
-    "anjana MEPS, k = 5, l = 3": pd.read_csv('../datasets/anjana_meps_k=5_l=3.csv'),
-    "anjana MEPS, k = 5, t = 0.20": pd.read_csv('../datasets/anjana_meps_k=5_t=0.2.csv'),
-    "anjana MEPS, k = 5, t = 0.10": pd.read_csv('../datasets/anjana_meps_k=5_t=0.1.csv'),
+    "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
+    "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k=5_l=2.csv'),
+    "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k=5_l=3.csv'),
+    "ARX MEPS, k = 5, t = 0.2": pd.read_csv('../datasets/ARX_meps_k=5_t=0.2.csv'),
+    "ARX MEPS, k = 5, t = 0.1": pd.read_csv('../datasets/ARX_meps_k=5_t=0.1.csv'),
 }
 
 PREDICTION_TARGET = 'UTILIZATION' 
-SENSITIVE_ATTR = 'MARRY'
+SENSITIVE_ATTR = 'INSCOV'
 
 results = []
 

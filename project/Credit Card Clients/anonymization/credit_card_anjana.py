@@ -41,37 +41,38 @@ hierarchies = {
     "EDUCATION": load_hierarchy("hierarchies/education.csv"),
     "MARRIAGE": load_hierarchy("hierarchies/marriage.csv"),
     "AGE": load_hierarchy("hierarchies/age.csv"), 
-    "LIMIT_BAL": load_hierarchy("hierarchies/limit_bal.csv"),
+    # "LIMIT_BAL": load_hierarchy("hierarchies/limit_bal.csv"),
     
-    # Repayment Statuses (Reused 6 times)
-    "PAY_0": load_hierarchy("hierarchies/pay_status.csv"),
-    "PAY_2": load_hierarchy("hierarchies/pay_status.csv"),
-    "PAY_3": load_hierarchy("hierarchies/pay_status.csv"),
-    "PAY_4": load_hierarchy("hierarchies/pay_status.csv"),
-    "PAY_5": load_hierarchy("hierarchies/pay_status.csv"),
-    "PAY_6": load_hierarchy("hierarchies/pay_status.csv"),
+    # # Repayment Statuses (Reused 6 times)
+    # "PAY_0": load_hierarchy("hierarchies/pay_status.csv"),
+    # "PAY_2": load_hierarchy("hierarchies/pay_status.csv"),
+    # "PAY_3": load_hierarchy("hierarchies/pay_status.csv"),
+    # "PAY_4": load_hierarchy("hierarchies/pay_status.csv"),
+    # "PAY_5": load_hierarchy("hierarchies/pay_status.csv"),
+    # "PAY_6": load_hierarchy("hierarchies/pay_status.csv"),
     
-    # Bill Amounts (Reused 6 times)
-    "BILL_AMT1": load_hierarchy("hierarchies/bill_amt.csv"),
-    "BILL_AMT2": load_hierarchy("hierarchies/bill_amt.csv"),
-    "BILL_AMT3": load_hierarchy("hierarchies/bill_amt.csv"),
-    "BILL_AMT4": load_hierarchy("hierarchies/bill_amt.csv"),
-    "BILL_AMT5": load_hierarchy("hierarchies/bill_amt.csv"),
-    "BILL_AMT6": load_hierarchy("hierarchies/bill_amt.csv"),
+    # # Bill Amounts (Reused 6 times)
+    # "BILL_AMT1": load_hierarchy("hierarchies/bill_amt.csv"),
+    # "BILL_AMT2": load_hierarchy("hierarchies/bill_amt.csv"),
+    # "BILL_AMT3": load_hierarchy("hierarchies/bill_amt.csv"),
+    # "BILL_AMT4": load_hierarchy("hierarchies/bill_amt.csv"),
+    # "BILL_AMT5": load_hierarchy("hierarchies/bill_amt.csv"),
+    # "BILL_AMT6": load_hierarchy("hierarchies/bill_amt.csv"),
 
-    # Pay Amounts (Reused 6 times)
-    "PAY_AMT1": load_hierarchy("hierarchies/pay_amt.csv"),
-    "PAY_AMT2": load_hierarchy("hierarchies/pay_amt.csv"),
-    "PAY_AMT3": load_hierarchy("hierarchies/pay_amt.csv"),
-    "PAY_AMT4": load_hierarchy("hierarchies/pay_amt.csv"),
-    "PAY_AMT5": load_hierarchy("hierarchies/pay_amt.csv"),
-    "PAY_AMT6": load_hierarchy("hierarchies/pay_amt.csv")
+    # # Pay Amounts (Reused 6 times)
+    # "PAY_AMT1": load_hierarchy("hierarchies/pay_amt.csv"),
+    # "PAY_AMT2": load_hierarchy("hierarchies/pay_amt.csv"),
+    # "PAY_AMT3": load_hierarchy("hierarchies/pay_amt.csv"),
+    # "PAY_AMT4": load_hierarchy("hierarchies/pay_amt.csv"),
+    # "PAY_AMT5": load_hierarchy("hierarchies/pay_amt.csv"),
+    # "PAY_AMT6": load_hierarchy("hierarchies/pay_amt.csv")
 }
 # we can only have 1 sensitive attribute with anjana to when applying l-diversity and T-closeness
 # sensitive = "default.payment.next.month"
+sensitive = "MARRIAGE"
 # other attributes we drop:
-other_sensitive = ["default.payment.next.month"]
-data = data.drop(columns=other_sensitive, errors='ignore') # Using reassignment instead of inplace
+# other_sensitive = ["default.payment.next.month"]
+# data = data.drop(columns=other_sensitive, errors='signore') # Using reassignment instead of inplace
 
 # 6. Run Anjana
 print(f"Starting Anjana with k={k} on {len(data)} rows...")

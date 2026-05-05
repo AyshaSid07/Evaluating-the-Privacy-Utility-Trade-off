@@ -1,30 +1,69 @@
 import pandas as pd
 from pycanon import anonymity
 
-df_anon = pd.read_csv('../datasets/credit_card_k=2.csv')
+datasets_to_test = {
+    "No anonymization (Baseline)": pd.read_csv('../datasets/credit-card-clients.csv'),
+    # "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
+    # "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=2.csv'),
+    # "ARX Credit Card Clients, k = 5, l = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=3.csv'),
+    # "ARX Credit Card Clients, k = 5, t = 0.20": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.2.csv'),
+    # "ARX Credit Card Clients, k = 5, t = 0.10": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.1.csv'),
+    "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
+    "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
+    "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
+}
+QUASI_IDENTIFIERS = ['SEX', 'EDUCATION', 'AGE']
+SENSITIVE_ATTRIBUTE = ['MARRIAGE'] 
 
-quasi_identifiers = ['SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'LIMIT_BAL']
+results = []
 
-sensitive_attribute = ['default payment']
+print("Calculating theoretical anonymity metrics...")
 
-k_value = anonymity.k_anonymity(df_anon, quasi_identifiers)
-l_value = anonymity.l_diversity(df_anon, quasi_identifiers, sensitive_attribute)
-t_value = anonymity.t_closeness(df_anon, quasi_identifiers, sensitive_attribute)
+for name, df in datasets_to_test.items():
+    if 'Unnamed: 0' in df.columns:
+        df = df.drop(columns=['Unnamed: 0'])
+    if 'index' in df.columns:
+        df = df.drop(columns=['index'])
+        
+    for col in QUASI_IDENTIFIERS + SENSITIVE_ATTRIBUTE:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.strip()
+            df.loc[df[col] == 'nan', col] = '*' 
+            
+    try:
+        k_val = anonymity.k_anonymity(df, QUASI_IDENTIFIERS)
+        l_val = anonymity.l_diversity(df, QUASI_IDENTIFIERS, SENSITIVE_ATTRIBUTE)
+        t_val = anonymity.t_closeness(df, QUASI_IDENTIFIERS, SENSITIVE_ATTRIBUTE)
+    except Exception as e:
+        print(f"Error on {name}: {e}")
+        k_val, l_val, t_val = 0, 0, 1.0 
+    
+    id_risk = f"{(1 / k_val)*100:.2f}%" if k_val > 0 else "100%"
 
-class_sizes = df_anon.groupby(quasi_identifiers).size()
+    results.append({
+        'Dataset': name,
+        'k-Anonymity': k_val,
+        'l-Diversity': l_val,
+        't-Closeness': round(t_val, 4),
+        'Identity Risk': id_risk
+    })
 
-avg_class_size = class_sizes.mean()
-max_class_size = class_sizes.max()
+results_df = pd.DataFrame(results)
 
-print(f"Average class size   : {avg_class_size:.2f} rows, (the goal was {k_value})")
-print(f"Largest class size   : {max_class_size} rows")
+def create_markdown_table(df):
+    header = "| " + " | ".join(df.columns) + " |\n"
+    separator = "|-" + "-|-".join(["-" * len(col) for col in df.columns]) + "-|\n"
+    rows = ""
+    for _, row in df.iterrows():
+        rows += "| " + " | ".join(str(val) for val in row.values) + " |\n"
+    return header + separator + rows
 
-# Identity Disclosure risk is usually 1/k .
-theoretical_risk = (1 / k_value) * 100
+markdown_table = create_markdown_table(results_df)
 
-print("-" * 40)
-print(f"k-anonymity : k = {k_value}")
-print(f"l-diversity : l = {l_value}")
-print(f"T-closeness : t = {t_value:.4f}")
-print(f"Theoretical Identity Risk (1/k): {theoretical_risk:.2f}%")
-print("-" * 40)
+print("\n=== Theoretical Privacy Assessment ===")
+print(markdown_table)
+
+save_path = "../plots/theoretical_privacy_assessment.md"
+with open(save_path, "w", encoding="utf-8") as f:
+    f.write("### Theoretical Privacy Assessment\n\n")
+    f.write(markdown_table)

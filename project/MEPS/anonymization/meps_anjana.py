@@ -9,7 +9,7 @@ import pandas as pd
 data = pd.read_csv("../datasets/MEPS.csv")
 data.columns = data.columns.str.strip()
 
-quasi_ident = ['AGE', 'REGION','SEX', 'RACE', 'ACTDTY', 'EMPST', 'FTSTU']
+quasi_ident = ['AGE', 'MARRY', 'REGION','SEX', 'RACE', 'ACTDTY', 'EMPST', 'FTSTU']
 
 for col in quasi_ident:
     data[col] = data[col].astype(float).astype(str)
@@ -31,7 +31,7 @@ def load_hierarchy(filename):
 hierarchies = {
     "AGE": load_hierarchy("hierarchies/AGE.csv"),
     "REGION": load_hierarchy("hierarchies/REGION.csv"),
-    # "MARRY": load_hierarchy("hierarchies/MARRY.csv"),
+    "MARRY": load_hierarchy("hierarchies/MARRY.csv"),
     "SEX": load_hierarchy("hierarchies/SEX.csv"),
     "RACE": load_hierarchy("hierarchies/RACE.csv"),
     "ACTDTY": load_hierarchy("hierarchies/ACTDTY.csv"),
@@ -39,22 +39,22 @@ hierarchies = {
     "FTSTU": load_hierarchy("hierarchies/FTSTU.csv"),
 }
 # we can only have 1 sensitive attribute with anjana to when applying l-diversity and T-closeness
-sensitive = "MARRY"
+sensitive = "INSCOV"
 print(f"Running k-anonymity with k={k}...")
 data_anon_k = k_anonymity(data, [], quasi_ident,k, supp_level, hierarchies)
 print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_k, quasi_ident)}")
 data_anon_k.to_csv(f"../datasets/anjana_meps_k={k}.csv", index=False)
 # # 6. Run Anjana
-# for l_val in l:
-#     print(f"Running l-diversity with l={l_val}...")
-#     data_anon_l = l_diversity(data, [], quasi_ident, sensitive, k, l_val, supp_level, hierarchies)
-#     print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_l, quasi_ident)}")
-#     data_anon_l.to_csv(f"../datasets/anjana_meps_k={k}_l={l_val}.csv", index=False)
-# for t_val in t:
-#     print(f"Running T-closeness with t={t_val}...")
-#     data_anon_t = t_closeness(data, [], quasi_ident, sensitive, k, t_val, supp_level, hierarchies)
-#     print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_t, quasi_ident)}")
-#     data_anon_t.to_csv(f"../datasets/anjana_meps_k={k}_t={t_val}.csv", index=False)
+for l_val in l:
+    print(f"Running l-diversity with l={l_val}...")
+    data_anon_l = l_diversity(data, [], quasi_ident, sensitive, k, l_val, supp_level, hierarchies)
+    print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_l, quasi_ident)}")
+    data_anon_l.to_csv(f"../datasets/anjana_meps_k={k}_l={l_val}.csv", index=False)
+for t_val in t:
+    print(f"Running T-closeness with t={t_val}...")
+    data_anon_t = t_closeness(data, [], quasi_ident, sensitive, k, t_val, supp_level, hierarchies)
+    print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_t, quasi_ident)}")
+    data_anon_t.to_csv(f"../datasets/anjana_meps_k={k}_t={t_val}.csv", index=False)
 
 # print(f"Starting Anjana with k={k} on {len(data)} rows...")
 # start = time.time()

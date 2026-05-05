@@ -1,7 +1,9 @@
+from time import time
+
 import pandas as pd
 from math import log
 import numpy as np
-
+import matplotlib.pyplot as plt
 def calculate_weights(df_protected, quasi_identifiers):
     # Calculate weights based on the frequency of each value in the quasi-identifiers in the dataset
     # The rarer a value is, the higher weight it get
@@ -90,31 +92,69 @@ def evaluate_attack(results, df_attacker, df_protected, defense_name):
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
 
+def plot_results(results_dict):
+    plt.figure(figsize=(10, 6)) 
+    methods = list(results_dict.keys())
+    accuracies = list(results_dict.values())
+    
+    for i in range(len(methods)):
+        plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
+        plt.text(methods[i], accuracies[i], f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
+        
+    plt.xticks(rotation=10, ha='right', fontsize=10)    
+    plt.ylabel('Re-identification Rate (%)', fontsize=10)
+    plt.xlabel('k-Anonymity Value', fontsize=10)
+    plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the Credit Card Clients Dataset', fontsize=10)
+
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.savefig("../plots/netflix_attack_accuracy_credit_card.png", dpi=300)
+    plt.show()
+
 if __name__ == "__main__":
     df_original = pd.read_csv('../datasets/credit-card-clients.csv')
-    
+
     df_original['Linkage_Index'] = df_original.index
 
-    quasi_identifiers = ['SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'LIMIT_BAL']
+    quasi_identifiers = ["SEX", "EDUCATION", "AGE", "MARRIAGE"]
 
-    sample_size = 300
-    df_attacker = df_original.sample(n=sample_size, random_state=123).copy()
 
     datasets_to_test = {
-        "No Defense (Baseline)": df_original,
-        "Anjana (k=2)": pd.read_csv('../datasets/credit_card_k=2.csv'),
+        "No anonymization (Baseline)": df_original.copy(), 
+        "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
+        "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
+        "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
     }
 
     final_results = {}
+    start = time()
+    
     for defense_name, df_protected in datasets_to_test.items():
+        print(f"\nEvaluating defense: {defense_name}")
+        
         if 'index' in df_protected.columns:
             df_protected = df_protected.rename(columns={'index': 'Linkage_Index'})
-        else:
-            df_protected['Linkage_Index'] = df_protected.index
-        weights = calculate_weights(df_protected, quasi_identifiers)
+        elif 'Linkage_Index' not in df_protected.columns:
+            df_protected['Linkage_Index'] = df_original.index 
+
+        # n_sample = 1000
+        # if len(df_protected) > n_sample:
+        #     df_protected_sample = df_protected.sample(n=n_sample, random_state=42).copy()
+        # else:
+        #     df_protected_sample = df_protected.copy()
+        df_protected_sample = df_protected.copy()
+        attacker_indices = df_protected_sample['Linkage_Index'].sample(n=300, random_state=123)
         
-        results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
+        df_attacker = df_original[df_original['Linkage_Index'].isin(attacker_indices)].copy()
         
-        hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
+
+        weights = calculate_weights(df_protected_sample, quasi_identifiers)
+        
+        results = perform_attack(df_protected_sample, df_attacker, quasi_identifiers, weights)
+        
+        hit_accuracy = evaluate_attack(results, df_attacker, df_protected_sample, defense_name)
         final_results[defense_name] = hit_accuracy
-        
+
+    plot_results(final_results)
+    end = time()
+    print(f"Total execution time: {end - start} seconds")

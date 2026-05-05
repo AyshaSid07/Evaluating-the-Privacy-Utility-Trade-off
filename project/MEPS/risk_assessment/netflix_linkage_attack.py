@@ -1,3 +1,5 @@
+from time import time
+
 import pandas as pd
 from math import log
 import numpy as np
@@ -101,43 +103,53 @@ def plot_results(results_dict):
         
     plt.xticks(rotation=10, ha='right', fontsize=10)    
     plt.ylabel('Re-identification Rate (%)', fontsize=10)
-    plt.xlabel('De-identification Method', fontsize=10)
-    plt.title('Netflix Attack Re-Identification Rate on anonymized data with k-anonymity and l-diversity using the ARX tool on the ACS Income Dataset', fontsize=10)
+    plt.xlabel('k-Anonymity Value', fontsize=10)
+    plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the MEPS Dataset', fontsize=10)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/netflix_attack_accuracy_income.png", dpi=300)
+    plt.savefig("../plots/netflix_attack_accuracy_meps.png", dpi=300)
     plt.show()
+
 if __name__ == "__main__":
     df_original = pd.read_csv('../datasets/MEPS.csv')
 
     df_original['Linkage_Index'] = df_original.index
 
-    quasi_identifiers = ["AGE", "RACE", "MARRY"]
+    quasi_identifiers = ["AGE", "RACE", "MARRY", "SEX"]
 
 
-
-    df_original = df_original.sample(n=2000, random_state=123).copy() 
-    df_attacker = df_original.sample(n=100, random_state=123).copy()
-   
     datasets_to_test = {
-        "No anonymization (Baseline)": df_original,
-        "Anjana Bank Marketing k = 2": pd.read_csv('../datasets/anjana_meps_k=5.csv'),
+        "No anonymization (Baseline)": df_original.copy(), 
+        "ARX MEPS k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
+        "ARX MEPS k = 10": pd.read_csv('../datasets/ARX_meps_k=10.csv'),
+        "ARX MEPS k = 20": pd.read_csv('../datasets/ARX_meps_k=20.csv'),
     }
 
     final_results = {}
+    start = time()
+    
     for defense_name, df_protected in datasets_to_test.items():
-        if defense_name != "Baseline (no anonymization)":
-            df_protected = df_protected.sample(n=2000, random_state=123).copy()
-        print(f"Evaluating defense: {defense_name}")
+        print(f"\nEvaluating defense: {defense_name}")
+        
         if 'index' in df_protected.columns:
             df_protected = df_protected.rename(columns={'index': 'Linkage_Index'})
-        else:
-            df_protected['Linkage_Index'] = df_protected.index
-        weights = calculate_weights(df_protected, quasi_identifiers)
-        print(f"Weights done for {defense_name}")
-        results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
-        print(f"Attack done for {defense_name}")
-        hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
+        elif 'Linkage_Index' not in df_protected.columns:
+            df_protected['Linkage_Index'] = df_original.index 
+
+        df_protected_sample = df_protected.copy()
+        attacker_indices = df_protected_sample['Linkage_Index'].sample(n=150, random_state=123)
+        
+        df_attacker = df_original[df_original['Linkage_Index'].isin(attacker_indices)].copy()
+        
+
+        weights = calculate_weights(df_protected_sample, quasi_identifiers)
+        
+        results = perform_attack(df_protected_sample, df_attacker, quasi_identifiers, weights)
+        
+        hit_accuracy = evaluate_attack(results, df_attacker, df_protected_sample, defense_name)
         final_results[defense_name] = hit_accuracy
+
     plot_results(final_results)
+    end = time()
+    print(f"Total execution time: {end - start} seconds")

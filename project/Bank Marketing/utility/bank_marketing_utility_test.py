@@ -1,92 +1,97 @@
-import pandas as pd 
-
-data=pd.read_csv('../data/bank-additional-full.csv', sep = ';')
-# data=pd.read_csv('bank_marketing_k=2.csv')
-if 'index' in data.columns:
-    student = data.drop(columns=['index'])
-data.drop_duplicates(keep='first',inplace=True)
-
-from sklearn.preprocessing import LabelEncoder
-LE=LabelEncoder()
-cat_var=['age', 'job', 'marital', 'education', 'default', 'housing', 'loan','contact', 'month', 'day_of_week','poutcome','y']
-# cat_var=['age', 'campaign', 'pdays', 'previous','job', 'marital', 'education', 'loan', 'contact', 'month', 'day_of_week', 'poutcome', 'emp.var.rate', 'cons.price.idx', 'cons.conf.idx', 'euribor3m', 'nr.employed', 'y']
-for i in cat_var:
-    data[i]=LE.fit_transform(data[i])
-    
+import pandas as pd
+pd.set_option('future.no_silent_downcasting', True) # removes errors
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
-from sklearn.preprocessing import StandardScaler
-import xgboost as xgb
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-X = data.drop(columns=['y'])
-y = data['y']
+# datasets_to_test = {
+#     "No anonymization (Baseline)": pd.read_csv('../datasets/bank-additional-full.csv', sep=';'),
+#     "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
+#     "ARX Bank Marketing k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k=10.csv', sep=';'),
+#     "ARX Bank Marketing k = 20": pd.read_csv('../datasets/ARX_bank_marketing_k=20.csv', sep=';'),
+# }
+datasets_to_test = {
+    "No anonymization (Baseline)": pd.read_csv('../datasets/bank-additional-full.csv', sep=';'),
+    "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
+    "ARX Bank_marketing k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=2.csv', sep=';'),
+    "ARX Bank_marketing k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=3.csv', sep=';'),
+    "ARX Bank_marketing k = 5, t = 0.2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.2.csv', sep=';'),
+    "ARX Bank_marketing k = 5, t = 0.1": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.1.csv', sep=';'),
+}
 
-sc=StandardScaler()
-sc.fit_transform(X)
+TARGET_COLUMN = 'y' 
 
+results = []
 
+for name, df in datasets_to_test.items():
+    if 'index' in df.columns:
+        df = df.drop(columns=['index'])
+    df.drop_duplicates(keep='first', inplace=True)
+    
+    df = df[df[TARGET_COLUMN].astype(str) != '*'].copy()
+    
+    df[TARGET_COLUMN] = df[TARGET_COLUMN].replace({'yes': 1, 'no': 0})
+    y = df[TARGET_COLUMN].astype(int).values
+    
+    X = df.drop(columns=[TARGET_COLUMN])
+    
+    X = X.astype(str)
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=2)
+    
+    model = Pipeline([
+        ('encoder', OneHotEncoder(handle_unknown='ignore', sparse_output=True)),
+        ('classifier', RandomForestClassifier(n_jobs=-1, random_state=2, class_weight='balanced'))
+    ])
+    
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    
+    results.append({
+        'Dataset': name,
+        'Accuracy': accuracy_score(y_test, y_pred),
+        'F1-Score': f1_score(y_test, y_pred, zero_division=0),
+        'Precision': precision_score(y_test, y_pred, zero_division=0),
+        'Recall': recall_score(y_test, y_pred, zero_division=0)
+    })
 
+results_df = pd.DataFrame(results)
 
-X_train,X_test,y_train,y_test=train_test_split(X, y,test_size=0.25,random_state=2)
+def plot_utility_results(results_df):
+    plt.figure(figsize=(14, 7)) 
+    
+    methods = results_df['Dataset'].tolist()
+    metrics = ['Accuracy', 'F1-Score', 'Precision', 'Recall']
+    
+    x = np.arange(len(methods))
+    width = 0.2  
+    colors = ['#0072B2', '#E69F00', '#56B4E9', '#009E73']
+    
+    for i, metric in enumerate(metrics):
+        offset = (i - 1.5) * width 
+        values = results_df[metric].tolist()
+        
+        bars = plt.bar(x + offset, values, width, label=metric, color=colors[i], edgecolor='black')
+        
+        for j, val in enumerate(values):
+            plt.text(x[j] + offset, val + 0.01, f"{val:.2f}", ha='center', va='bottom', fontsize=9)
+            
+    plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
+    plt.ylabel('Score (0.0 - 1.0)', fontsize=10)
+    plt.xlabel('Anonymization Value', fontsize=10)
+    
+    plt.title('Utility Evaluation on the Bank Marketing Data (Random Forest)', fontsize=12)
 
-# Dataset is huge, so we will only run the Random forest classifier for the sake of time. The other models are commented out but can be run if needed.
+    plt.ylim(0, 1.1)
+    plt.legend(loc='lower right', framealpha=1.0)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    
+    plt.savefig("../plots/utility_bank_marketing.png", dpi=300)
+    plt.show()
 
-# # ## Logistic Regression
-
-# lr=LogisticRegression(penalty = 'l1',solver = 'liblinear')
-# lr.fit(X_train,y_train.values.ravel())
-# pred_lr=lr.predict(X_test)
-# score_lr= accuracy_score(y_test,pred_lr)
-# print("Accuracy Score for Logistic Regression is: ", score_lr)
-# print("F1 Score for Logistic Regression is: ", f1_score(y_test,pred_lr))
-
-
-# # ## KNN
-
-# knn=KNeighborsClassifier()
-# knn.fit(X_train,y_train.values.ravel())
-# pred_knn=knn.predict(X_test)
-# print("Accuracy Score for KNN is: ", accuracy_score(y_test,pred_knn))
-# print("F1 Score for KNN is: ", f1_score(y_test,pred_knn))
-
-
-# # ## Decision Tree Classifier
-
-# dt=DecisionTreeClassifier()
-# dt.fit(X_train,y_train.values.ravel())
-# pred_dt=dt.predict(X_test)
-# #accuracy score:
-# print("Accuracy Score for Decision Tree is: ", accuracy_score(y_test,pred_dt))
-# print("F1 Score for Decision Tree is: ", f1_score(y_test,pred_dt))
-
-# # ## Random Forest Classifier
-
-rf=RandomForestClassifier()
-rf.fit(X_train,y_train.values.ravel())
-pred_rf=rf.predict(X_test)
-
-print("Accuracy Score for Random Forest is: ", accuracy_score(y_test,pred_rf))
-print("Precision Score for Random Forest is: ", precision_score(y_test,pred_rf))
-print("Recall Score for Random Forest is: ", recall_score(y_test,pred_rf))
-print("F1 Score for Random Forest is: ", f1_score(y_test,pred_rf))
-
-
-# # ## XGBoost Classifier
-
-
-# xgb_clf= xgb.XGBClassifier()
-# xgb_clf.fit(X_train,y_train.values.ravel())
-# pred_xgb=xgb_clf.predict(X_test)
-# print("Accuracy Score for XGBoost is: ", accuracy_score(y_test,pred_xgb))
-# print("F1 Score for XGBoost is: ", f1_score(y_test,pred_xgb))
-
-
-
-
-
-
+plot_utility_results(results_df)

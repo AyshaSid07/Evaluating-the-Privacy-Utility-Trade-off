@@ -1,12 +1,12 @@
 import pandas as pd
-from anjana.anonymity import k_anonymity, utils
+from anjana.anonymity import k_anonymity, l_diversity, t_closeness, utils
 import pycanon
 import time
 import numpy as np
 import pandas as pd
 
 
-data=pd.read_csv('../data/bank-additional-full.csv', sep = ';')
+data=pd.read_csv('../datasets/bank-additional-full.csv', sep = ';')
 
 data.columns = data.columns.str.strip()
 if 'duration' in data.columns:
@@ -18,7 +18,7 @@ for col in integer_cols:
         data[col] = data[col].astype(float).astype(int).astype(str)
 
 # Ensure categorical QIs are cleanly formatted as strings
-other_cols = ['job', 'marital', 'education', 'housing', 'loan', 'contact', 'month', 'day_of_week', 'poutcome', 'emp.var.rate', 'cons.price.idx', 'cons.conf.idx', 'euribor3m', 'nr.employed']
+other_cols = ['job', 'education', 'housing', 'loan', 'contact', 'month', 'day_of_week', 'poutcome', 'emp.var.rate', 'cons.price.idx', 'cons.conf.idx', 'euribor3m', 'nr.employed']
 for col in other_cols:
     if col in data.columns:
         data[col] = data[col].astype(str).str.strip()
@@ -27,6 +27,8 @@ quasi_ident = integer_cols + other_cols
 
 
 k = 2
+l = 2
+t = 0.2
 supp_level = 5
 
 def load_hierarchy(filename):
@@ -41,7 +43,7 @@ def load_hierarchy(filename):
 hierarchies = {
     "age": load_hierarchy("hierarchies/age.csv"),
     "job": load_hierarchy("hierarchies/job.csv"),
-    "marital": load_hierarchy("hierarchies/marital.csv"),
+    # "marital": load_hierarchy("hierarchies/marital.csv"),
     "education": load_hierarchy("hierarchies/education.csv"),
     "housing": load_hierarchy("hierarchies/binary_bank.csv"),
     "loan": load_hierarchy("hierarchies/binary_bank.csv"),
@@ -60,10 +62,10 @@ hierarchies = {
 }
 # we can only have 1 sensitive attribute with anjana to when applying l-diversity and T-closeness
 # sensitive = "default.payment.next.month"
-# sensitive = 'default'
+sensitive = 'marital'
 # other attributes we drop:
-other_sensitive = ["'default'"]
-data = data.drop(columns=other_sensitive, errors='ignore') # Using reassignment instead of inplace
+# other_sensitive = ["'default'"]
+# data = data.drop(columns=other_sensitive, errors='ignore') # Using reassignment instead of inplace
 
 # 6. Run Anjana
 print(f"Starting Anjana with k={k} on {len(data)} rows...")
@@ -71,12 +73,18 @@ start = time.time()
 
 # Passed empty list [] for direct identifiers
 data_anon = k_anonymity(data, [], quasi_ident, k, supp_level, hierarchies)
+data_anon = l_diversity(
+    data_anon, [], quasi_ident, sensitive, k, l, supp_level, hierarchies
+)
+# data_anon = t_closeness(
+#     data_anon, [], quasi_ident, sensitive, k, t, supp_level, hierarchies
+# )
 end = time.time()
 
 print(f"Elapsed time: {end-start:.2f} seconds")
-print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon, quasi_ident)}")
 
-data_anon.to_csv("bank_marketing_k=2.csv", index=False)
+data_anon.to_csv("../datasets/bank_marketing_k=2_l=2_test.csv", index=False)
+# data_anon.to_csv("../datasets/bank_marketing_k=2_t=0.20_test.csv", index=False)
 
 records_suppressed = len(data) - len(data_anon)
 print(f"Number of records suppressed: {records_suppressed}")

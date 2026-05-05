@@ -1,12 +1,12 @@
 import pandas as pd
-from anjana.anonymity import k_anonymity, utils
+from anjana.anonymity import k_anonymity, t_closeness, utils
 import pycanon
 import time
 
-data = pd.read_csv("../folktables_income_RAW.csv")
+data = pd.read_csv("../datasets/folktables_income_RAW.csv")
 data.columns = data.columns.str.strip()
 
-cols = ["AGEP", "SCHL", "COW", "MAR", "RAC1P", "RELP", "WKHP", "POBP", "OCCP"]
+cols = ["AGEP", "SCHL", "COW", "MAR", "RELP", "WKHP", "POBP", "OCCP"]
 
 # Fix the floats ("30.0" -> "30") in the dataset
 for col in cols:
@@ -14,9 +14,10 @@ for col in cols:
 
 # Drop these as they are highly identifieable and we do not have hierarchies for them.
 
-quasi_ident = ["AGEP","SCHL", "COW", "MAR", "RAC1P", "RELP", "WKHP", "POBP", "OCCP"]
-k = 5
-supp_level = 20
+quasi_ident = ["AGEP","SCHL", "COW", "MAR", "RELP", "WKHP", "POBP", "OCCP"]
+k = 10
+t=0.10
+supp_level = 5
 
 def load_hierarchy(filename):
     df = pd.read_csv(filename, header=None, dtype=str)
@@ -28,15 +29,14 @@ def load_hierarchy(filename):
     return dict(df)
 
 hierarchies = {
-    "AGEP": load_hierarchy("../../hierarchies/agep.csv"),
-    "SCHL": load_hierarchy("../../hierarchies/schl.csv"),
-    "COW": load_hierarchy("../../hierarchies/cow.csv"),
-    "MAR": load_hierarchy("../../hierarchies/mar.csv"),
-    "RAC1P": load_hierarchy("../../hierarchies/rac1p.csv"),
-    "RELP" : load_hierarchy("../../hierarchies/relp.csv"),
-    "WKHP" : load_hierarchy("../../hierarchies/wkhp.csv"),
-    "POBP" : load_hierarchy("../../hierarchies/pobp.csv"),
-    "OCCP" : load_hierarchy("../../hierarchies/occp.csv")
+    "AGEP": load_hierarchy("hierarchies/agep.csv"),
+    "SCHL": load_hierarchy("hierarchies/schl.csv"),
+    "COW": load_hierarchy("hierarchies/cow.csv"),
+    "MAR": load_hierarchy("hierarchies/mar.csv"),
+    "RELP" : load_hierarchy("hierarchies/relp.csv"),
+    "WKHP" : load_hierarchy("hierarchies/wkhp.csv"),
+    "POBP" : load_hierarchy("hierarchies/pobp.csv"),
+    "OCCP" : load_hierarchy("hierarchies/occp.csv")
 }
 
 # Race is considered sensitive according to GDPR
@@ -48,12 +48,13 @@ start = time.time()
 
 # Passed empty list [] for direct identifiers
 data_anon = k_anonymity(data, [], quasi_ident, k, supp_level, hierarchies)
+# data_anon = t_closeness(data, [], quasi_ident, sensitive, k, t, supp_level, hierarchies)
 end = time.time()
 
 print(f"Elapsed time: {end-start:.2f} seconds")
 print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon, quasi_ident)}")
 
-data_anon.to_csv("income_k=5.csv", index=False)
+data_anon.to_csv("../datasets/income_k=10.csv", index=False)
 
 records_suppressed = len(data) - len(data_anon)
 print(f"Number of records suppressed: {records_suppressed}")

@@ -1,30 +1,65 @@
 import pandas as pd
 from pycanon import anonymity
 
-df_anon = pd.read_csv('../datasets/folktables_income_RAW.csv')
+datasets_to_test = {    
+    "No anonymization (Baseline)": pd.read_csv('../datasets/folktables_income_RAW.csv'),
+    "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+    "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
+    "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
+}
 
-quasi_identifiers = ['AGEP', 'COW', 'SCHL', 'MAR', 'SEX']
+QUASI_IDENTIFIERS = ['AGEP', 'SCHL', 'MAR', 'COW', 'OCCP', 'POBP', 'RELP', 'RAC1P']
+SENSITIVE_ATTRIBUTE = ['SEX'] 
 
-sensitive_attribute = ['RAC1P']
+results = []
 
-k_value = anonymity.k_anonymity(df_anon, quasi_identifiers)
-l_value = anonymity.l_diversity(df_anon, quasi_identifiers, sensitive_attribute)
-t_value = anonymity.t_closeness(df_anon, quasi_identifiers, sensitive_attribute)
+print("Calculating theoretical anonymity metrics...")
 
-class_sizes = df_anon.groupby(quasi_identifiers).size()
+for name, df in datasets_to_test.items():
+    if 'Unnamed: 0' in df.columns:
+        df = df.drop(columns=['Unnamed: 0'])
+    if 'index' in df.columns:
+        df = df.drop(columns=['index'])
+        
+    for col in QUASI_IDENTIFIERS + SENSITIVE_ATTRIBUTE:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.strip()
+            df.loc[df[col] == 'nan', col] = '*' 
+            
+    try:
+        k_val = anonymity.k_anonymity(df, QUASI_IDENTIFIERS)
+        l_val = anonymity.l_diversity(df, QUASI_IDENTIFIERS, SENSITIVE_ATTRIBUTE)
+        t_val = anonymity.t_closeness(df, QUASI_IDENTIFIERS, SENSITIVE_ATTRIBUTE)
+    except Exception as e:
+        print(f"Error on {name}: {e}")
+        k_val, l_val, t_val = 0, 0, 1.0 
+    
+    id_risk = f"{(1 / k_val)*100:.2f}%" if k_val > 0 else "100%"
 
-avg_class_size = class_sizes.mean()
-max_class_size = class_sizes.max()
+    results.append({
+        'Dataset': name,
+        'k-Anonymity': k_val,
+        'l-Diversity': l_val,
+        't-Closeness': round(t_val, 4),
+        'Identity Risk': id_risk
+    })
 
-print(f"Average class size   : {avg_class_size:.2f} rows, (the goal was {k_value})")
-print(f"Largest class size   : {max_class_size} rows")
+results_df = pd.DataFrame(results)
 
-# Identity Disclosure risk is usually 1/k .
-theoretical_risk = (1 / k_value) * 100
+def create_markdown_table(df):
+    header = "| " + " | ".join(df.columns) + " |\n"
+    separator = "|-" + "-|-".join(["-" * len(col) for col in df.columns]) + "-|\n"
+    rows = ""
+    for _, row in df.iterrows():
+        rows += "| " + " | ".join(str(val) for val in row.values) + " |\n"
+    return header + separator + rows
 
-print("-" * 40)
-print(f"k-anonymity : k = {k_value}")
-print(f"l-diversity : l = {l_value}")
-print(f"T-closeness : t = {t_value:.4f}")
-print(f"Theoretical Identity Risk (1/k): {theoretical_risk:.2f}%")
-print("-" * 40)
+markdown_table = create_markdown_table(results_df)
+
+print("\n=== Theoretical Privacy Assessment ===")
+print(markdown_table)
+
+save_path = "../plots/theoretical_privacy_assessment.md"
+with open(save_path, "w", encoding="utf-8") as f:
+    f.write("### Theoretical Privacy Assessment\n\n")
+    f.write(markdown_table)

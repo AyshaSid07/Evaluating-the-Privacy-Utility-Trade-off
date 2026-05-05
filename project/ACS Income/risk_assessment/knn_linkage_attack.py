@@ -7,40 +7,29 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 def align_attacker_data(df_protected, df_attacker, quasi_identifiers):
-    """
-    Hackern anpassar sin exakta data till de intervaller som Anjana har skapat i det skyddade datasetet.
-    """
     df_attacker_aligned = df_attacker.copy()
     
     for col in quasi_identifiers:
-        # Om kolumnen i protected-datan innehåller Anjana-intervaller (typ string)
         if df_protected[col].dtype == object:
-            # Hämta alla unika strängar från det skyddade datasetet (t.ex. '[20, 40[', '*')
+            df_attacker_aligned[col] = df_attacker_aligned[col].astype(object)
             unique_protected_vals = df_protected[col].unique()
             
             for index, row in df_attacker_aligned.iterrows():
                 val_a = row[col]
                 
-                # Försök matcha hackerns exakta värde mot Anjanas intervaller
                 for val_p in unique_protected_vals:
                     str_p = str(val_p).strip()
                     
-                    if str_p.startswith('[') and str_p.endswith('['):
-                        try:
-                            bounds = str_p[1:-1].split(',')
-                            lower = float(bounds[0].strip())
-                            upper = float(bounds[1].strip())
-                            val_a_float = float(val_a)
-                            
-                            # Om hackerns värde ligger i intervallet, ersätt hackerns värde med intervallet!
-                            if lower <= val_a_float < upper:
-                                df_attacker_aligned.at[index, col] = str_p
-                                break # Gå till nästa person
-                        except ValueError:
-                            pass
+                    if str_p.startswith('[') and str_p.endswith('[') or str_p.startswith('[') and str_p.endswith(']'):
+                        bounds = str_p[1:-1].split(',')
+                        lower = float(bounds[0].strip())
+                        upper = float(bounds[1].strip())
+                        val_a_float = float(val_a)
+                        
+                        if lower <= val_a_float < upper:
+                            df_attacker_aligned.at[index, col] = str_p
+                            break
                     elif str_p == '*':
-                        # Om datan är helt maskerad kan hackern inte göra mycket mer än att
-                        # gissa. I en smart attack lämnar vi detta eller mappar till en okänd kategori.
                         pass
                         
     return df_attacker_aligned
@@ -48,7 +37,6 @@ def align_attacker_data(df_protected, df_attacker, quasi_identifiers):
 def perform_attack(df_protected, df_attacker, quasi_identifiers, k):
     df_attacker = align_attacker_data(df_protected, df_attacker, quasi_identifiers)
 
-    # can include the outcommonted ones to make it more dynamic
     numerical_cols = df_protected[quasi_identifiers].select_dtypes(include=['number']).columns.tolist()
     text_cols = [col for col in quasi_identifiers if col not in numerical_cols]
 
@@ -115,13 +103,13 @@ def plot_results(results_dict, k):
         
     plt.xticks(rotation=10, ha='right', fontsize=10)    
     plt.ylabel('Re-identification Rate (%)', fontsize=10)
-    plt.xlabel('De-identification Method', fontsize=10)
-    plt.title(f'K-Nearest Neighbors with k={k} Re-Identification Rate Across De-identified Datasets on the "Sensitive telecom attributes" Dataset', fontsize=9)
+    plt.xlabel('k-Anonymity Value', fontsize=10)
+    plt.title(f'K-Nearest Neighbors Re-Identification Rate Across different k-values of k-Anonymity\n on the ACS Income Dataset', fontsize=9)
         
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/KNN_attack_accuracy_telecom.png", dpi=300)
+    plt.savefig("../plots/KNN_attack_accuracy_income.png", dpi=300)
     plt.show()
 
 if __name__ == "__main__":
@@ -134,9 +122,13 @@ if __name__ == "__main__":
     sample_size = 2000 
     df_attacker = df_original.sample(n=sample_size, random_state=123).copy()
 
-    datasets_to_test = {
-        "No Defense (Baseline)": df_original,
-        # "Anjana (k=2)": pd.read_csv('../datasets/.csv'),
+    datasets_to_test = {    
+    "No anonymization (Baseline)": df_original,
+    "ARX Income k = 2": pd.read_csv('../datasets/ARX_income_k=2.csv'),
+    "ARX Income k = 5": pd.read_csv('../datasets/ARX_income_k=5.csv'),
+    "ARX Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+    "ARX Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
+    "ARX Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
     }
 
     final_results = {}
@@ -153,4 +145,4 @@ if __name__ == "__main__":
 
         final_results[defense_name] = hit_accuracy
         
-    # plot_results(final_results, k)
+    plot_results(final_results, k)
