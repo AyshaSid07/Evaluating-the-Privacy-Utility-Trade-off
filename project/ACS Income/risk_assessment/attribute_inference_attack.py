@@ -28,11 +28,11 @@ def plot_results(results_df):
     plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
     plt.ylabel('Re-identification Rate (Accuracy)', fontsize=10)
     plt.xlabel('Anonymization Value', fontsize=10)
-    plt.title('Attribute Inference Attack Results on different anonymization values on the ACS Income Data', fontsize=10)
+    plt.title('Attribute Inference Attack Results on different anonymization values on the ACS Income', fontsize=10)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/attribute_inference_income.png", dpi=300)
+    plt.savefig("../plots/attribute_inference_income_DP.png", dpi=300)
     plt.show()
 
 # 1. Define Datasets and Targets
@@ -44,11 +44,19 @@ def plot_results(results_df):
 #     "ARX Income k = 10, t = 0.10": pd.read_csv('../datasets/ARX_income_k=10_t=0.1.csv'),
 #     "ARX Income k = 10, t = 0.05": pd.read_csv('../datasets/ARX_income_k=10_t=0.05.csv'),
 # }
-datasets_to_test = {    
+# datasets_to_test = {    
+#     "No anonymization (Baseline)": pd.read_csv('../datasets/folktables_income_RAW.csv'),
+#     "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+#     "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
+#     "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
+# }
+datasets_to_test = {
     "No anonymization (Baseline)": pd.read_csv('../datasets/folktables_income_RAW.csv'),
-    "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
-    "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
-    "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
+    "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/income_dp_epsilon_0_1.csv'),
+    "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/income_dp_epsilon_0_5.csv'),
+    "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/income_dp_epsilon_1_0.csv'),
+    "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/income_dp_epsilon_5_0.csv'),
+    "DP Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_epsilon_10_0.csv'),
 }
 
 PREDICTION_TARGET = 'PINCP'
@@ -89,7 +97,12 @@ for name, df in datasets_to_test.items():
         ]
     )
     
-    # Fit and transform the features into a purely numeric array
+    # Fit and transform the features into a puredatasets_to_test = {    
+#     "No anonymization (Baseline)": pd.read_csv('../datasets/folktables_income_RAW.csv'),
+#     "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+#     "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
+#     "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
+# }ly numeric array
     X_processed = preprocessor.fit_transform(X_raw)
     
     # 3. Train / Test Split
@@ -120,7 +133,12 @@ for name, df in datasets_to_test.items():
     #     attack_feature=0,      
     #     is_continuous=False    
     # )
-    # baseline_attack.fit(x=X_train_with_sens) 
+    # baseline_attack.fit(x=X_train_with_sens) datasets_to_test = {    
+#     "No anonymization (Baseline)": pd.read_csv('../datasets/folktables_income_RAW.csv'),
+#     "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+#     "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
+#     "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
+# }
     
     # 7. Execute Black-Box Attack (Potent)
     print("Training Black-Box Attack Model...")

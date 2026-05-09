@@ -9,9 +9,12 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 
 datasets_to_test = {
     "No anonymization (Baseline)": pd.read_csv('../datasets/folktables_income_RAW.csv'),
-    "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
-    "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
-    "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
+    "DP Income, epsilon = 1.0": pd.read_csv('../datasets/income_dp_eps_1.0.csv'),
+    "DP Income, epsilon = 5.0": pd.read_csv('../datasets/income_dp_eps_5.0.csv'),
+    "DP Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_eps_10.0.csv'),
+    # "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+    # "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
+    # "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
     # "ARX Income k = 10": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
     # "ARX Income k = 10, l = 2": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
     # "ARX Income k = 10, t = 0.2": pd.read_csv('../datasets/ARX_income_k=10_t=0.2.csv'),
@@ -24,6 +27,8 @@ TARGET_COLUMN = 'PINCP'
 results = []
 
 for name, df in datasets_to_test.items():
+    if 'index' in df.columns:
+        df = df.drop(columns=['index'])
     df = df[df[TARGET_COLUMN].astype(str) != '*'].copy()
     
     y = df[TARGET_COLUMN].astype(int).values

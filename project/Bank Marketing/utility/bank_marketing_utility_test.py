@@ -21,6 +21,9 @@ datasets_to_test = {
     "ARX Bank_marketing k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=3.csv', sep=';'),
     "ARX Bank_marketing k = 5, t = 0.2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.2.csv', sep=';'),
     "ARX Bank_marketing k = 5, t = 0.1": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.1.csv', sep=';'),
+    # "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
+    # "ARX Bank Marketing k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k=10.csv', sep=';'),
+    # "ARX Bank Marketing k = 20": pd.read_csv('../datasets/ARX_bank_marketing_k=20.csv', sep=';'),
 }
 
 TARGET_COLUMN = 'y' 

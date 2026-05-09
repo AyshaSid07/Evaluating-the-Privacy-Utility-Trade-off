@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
-from art.attacks.inference.attribute_inference import AttributeInferenceBaseline, AttributeInferenceBlackBox
+from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox
 
 def plot_results(results_df):
     plt.figure(figsize=(12, 6)) 

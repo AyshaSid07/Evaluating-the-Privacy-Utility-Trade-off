@@ -102,13 +102,15 @@ def plot_results(results_dict):
         plt.text(methods[i], accuracies[i], f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
         
     plt.xticks(rotation=10, ha='right', fontsize=10)    
-    plt.ylabel('Re-identification Rate (%)', fontsize=10)
-    plt.xlabel('k-Anonymity Value', fontsize=10)
-    plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the ACS Employment Dataset', fontsize=10)
+    plt.xlabel('Epsilon Value', fontsize=10)
+    # plt.xlabel('k-Anonymity Value', fontsize=10)
+    plt.title('Netflix Attack Re-Identification Rate Across different epsilon values of Differential Privacy\n on the ACS Employment Dataset', fontsize=10)
+    # plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the ACS Employment Dataset', fontsize=10)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/netflix_attack_accuracy_acs_employment.png", dpi=300)
+    # plt.savefig("../plots/netflix_attack_accuracy_acs_employment_ARX.png", dpi=300)
+    plt.savefig("../plots/netflix_attack_accuracy_acs_employment_DP.png", dpi=300)
     plt.show()
 
 if __name__ == "__main__":
@@ -120,9 +122,12 @@ if __name__ == "__main__":
 
     datasets_to_test = {
         "No anonymization (Baseline)": df_original,
-        "ARX ACS Employment k = 10": pd.read_csv('../datasets/ARX_employment_k=10.csv'),
-        "ARX ACS Employment k = 20": pd.read_csv('../datasets/ARX_employment_k=20.csv'),
-        "ARX ACS Employment k = 50": pd.read_csv('../datasets/ARX_employment_k=50.csv'),
+        # "ARX ACS Employment k = 10": pd.read_csv('../datasets/ARX_employment_k=10.csv'),
+        # "ARX ACS Employment k = 20": pd.read_csv('../datasets/ARX_employment_k=20.csv'),
+        # "ARX ACS Employment k = 50": pd.read_csv('../datasets/ARX_employment_k=50.csv'),
+        "DP ACS Employment, epsilon = 10.0": pd.read_csv('../datasets/employment_dp_epsilon_10_0.csv'),
+        "DP ACS Employment, epsilon = 5.0":  pd.read_csv('../datasets/employment_dp_epsilon_5_0.csv'),
+        "DP ACS Employment, epsilon = 1.0":  pd.read_csv('../datasets/employment_dp_epsilon_1_0.csv'),
     }
 
     final_results = {}

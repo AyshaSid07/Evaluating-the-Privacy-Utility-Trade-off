@@ -91,7 +91,6 @@ def evaluate_attack(results, df_attacker, df_protected, defense_name):
     hit_precision = (correct_links / total_attacks) * 100
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
-
 def plot_results(results_dict):
     plt.figure(figsize=(10, 6)) 
     methods = list(results_dict.keys())
@@ -103,12 +102,15 @@ def plot_results(results_dict):
         
     plt.xticks(rotation=10, ha='right', fontsize=10)    
     plt.ylabel('Re-identification Rate (%)', fontsize=10)
-    plt.xlabel('k-Anonymity Value', fontsize=10)
-    plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the Credit Card Clients Dataset', fontsize=10)
+    plt.xlabel('Epsilon Value', fontsize=10)
+    # plt.xlabel('k-Anonymity Value', fontsize=10)
+    plt.title('Netflix Attack Re-Identification Rate Across different epsilon values of Differential Privacy\n on the MEPS Dataset', fontsize=10)
+    # plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the MEPS Dataset', fontsize=10)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/netflix_attack_accuracy_credit_card.png", dpi=300)
+    # plt.savefig("../plots/netflix_attack_accuracy_meps_ARX.png", dpi=300)
+    plt.savefig("../plots/netflix_attack_accuracy_meps_DP.png", dpi=300)
     plt.show()
 
 if __name__ == "__main__":
@@ -121,9 +123,12 @@ if __name__ == "__main__":
 
     datasets_to_test = {
         "No anonymization (Baseline)": df_original.copy(), 
-        "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-        "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
-        "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
+        # "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
+        # "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
+        # "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
+        "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/credit_card_clients_dp_epsilon_10_0.csv'),
+        "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_5_0.csv'),
+        "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_1_0.csv'),
     }
 
     final_results = {}
