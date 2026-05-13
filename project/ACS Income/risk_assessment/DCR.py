@@ -49,7 +49,7 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
 
     # 4. Use kNN to efficiently find the shortest distance (DCR)
     # DCR uses euclidan distance
-    knn = NearestNeighbors(n_neighbors=1, algorithm='auto', metric='euclidean')
+    knn = NearestNeighbors(n_neighbors=1, algorithm='auto', metric='euclidean', n_jobs=-1)
     knn.fit(X_orig)
     
     # distances will be an array with the shortest distance for each evaluated row
@@ -77,7 +77,7 @@ def plot_results(results_dict):
     plt.xlabel('Anonymization Value', fontsize=10)
 
     # plt.title('Average Distance to Closest Record (Mean DCR) \nAcross different epsilon values of Differential Privacy on the ACS Income Dataset', fontsize=13, pad=15)
-    plt.title('Average Distance to Closest Record (Mean DCR) \nAcross different k-values of k-Anonymity on the ACS Income Dataset', fontsize=10)
+    plt.title('Average Distance to Closest Record (Mean DCR) \nAcross different k-valuses of k-Anonymity on the ACS Income Dataset', fontsize=10)
     # plt.title('Average Distance to Closest Record (Mean DCR) \nAcross different k-, l- and t-values of k-Anonymity, l-Diversity and t-Closeness on the ACS Income Dataset', fontsize=10)
     plt.grid(axis='y', linestyle='--', alpha=0.7, zorder=0)
     # plt.ylim(0, 1)
@@ -93,19 +93,19 @@ df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_st
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_test_real,  # signals: use X_train_real directly
-    # "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
-    # "ARX ACS Income k = 10, l = 2": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
-    # "ARX ACS Income k = 10, t = 0.2": pd.read_csv('../datasets/ARX_income_k=10_t=0.2.csv'),
-    # "ARX ACS Income k = 10, t = 0.10": pd.read_csv('../datasets/ARX_income_k=10_t=0.1.csv'),
-    # "ARX ACS Income k = 10, t = 0.05": pd.read_csv('../datasets/ARX_income_k=10_t=0.05.csv'),
     "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
     "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
     "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
-    # "DP ACS Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_epsilon_10_0.csv'),
-    # "DP ACS Income, epsilon = 5.0":  pd.read_csv('../datasets/income_dp_epsilon_5_0.csv'),
-    # "DP ACS Income, epsilon = 1.0":  pd.read_csv('../datasets/income_dp_epsilon_1_0.csv'),
-    # "DP ACS Income, epsilon = 0.5":  pd.read_csv('../datasets/income_dp_epsilon_0_5.csv'),
-    # "DP ACS Income, epsilon = 0.1":  pd.read_csv('../datasets/income_dp_epsilon_0_1.csv'),
+    # "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
+    "ARX ACS Income k = 10, l = 2": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
+    "ARX ACS Income k = 10, t = 0.2": pd.read_csv('../datasets/ARX_income_k=10_t=0.2.csv'),
+    "ARX ACS Income k = 10, t = 0.10": pd.read_csv('../datasets/ARX_income_k=10_t=0.1.csv'),
+    "ARX ACS Income k = 10, t = 0.05": pd.read_csv('../datasets/ARX_income_k=10_t=0.05.csv'),
+    "DP ACS Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_epsilon_10_0.csv'),
+    "DP ACS Income, epsilon = 5.0":  pd.read_csv('../datasets/income_dp_epsilon_5_0.csv'),
+    "DP ACS Income, epsilon = 1.0":  pd.read_csv('../datasets/income_dp_epsilon_1_0.csv'),
+    "DP ACS Income, epsilon = 0.5":  pd.read_csv('../datasets/income_dp_epsilon_0_5.csv'),
+    "DP ACS Income, epsilon = 0.1":  pd.read_csv('../datasets/income_dp_epsilon_0_1.csv'),
 }
 
 results = {}
@@ -117,5 +117,14 @@ for name, df in datasets_to_test.items():
     print(f"Median DCR: {results[name]['median_distance']:.4f}")
     print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
     print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
+df_results = pd.DataFrame.from_dict(results, orient='index')
 
-plot_results({k: v['mean_distance'] for k, v in results.items()})
+# 2. Döp om index-kolumnen så det ser snyggt ut i CSV:n
+df_results.index.name = 'Anonymization_Configuration'
+
+# 3. Definiera var du vill spara filen (skapa en mapp som heter "results" om du inte har det)
+csv_filepath = "../plots/dcr_results_acs_income.csv" 
+
+# 4. Spara till CSV
+df_results.to_csv(csv_filepath)
+# plot_results({k: v['mean_distance'] for k, v in results.items()})

@@ -89,19 +89,19 @@ df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_st
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_test_real,  # signals: use X_train_real directly
-    # "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=2.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=3.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, t = 0.2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.2.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, t = 0.1": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.1.csv', sep=';'),
     "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
     "ARX Bank Marketing k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k=10.csv', sep=';'),
     "ARX Bank Marketing k = 20": pd.read_csv('../datasets/ARX_bank_marketing_k=20.csv', sep=';'),
-    # "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/bank_marketing_dp_epsilon_10_0.csv'),
-    # "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_5_0.csv'),
-    # "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_1_0.csv'),
-    # "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_5.csv'),
-    # "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_1.csv'),
+    "ARX Bank_marketing k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=2.csv', sep=';'),
+    "ARX Bank_marketing k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=3.csv', sep=';'),
+    "ARX Bank_marketing k = 5, t = 0.2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.2.csv', sep=';'),
+    "ARX Bank_marketing k = 5, t = 0.1": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.1.csv', sep=';'),
+    # "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
+    "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/bank_marketing_dp_epsilon_10_0.csv'),
+    "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_5_0.csv'),
+    "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_1_0.csv'),
+    "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_5.csv'),
+    "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_1.csv'),
 }
 
 results = {}
@@ -114,4 +114,14 @@ for name, df in datasets_to_test.items():
     print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
     print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
 
-plot_results({k: v['mean_distance'] for k, v in results.items()})
+df_results = pd.DataFrame.from_dict(results, orient='index')
+
+# 2. Döp om index-kolumnen så det ser snyggt ut i CSV:n
+df_results.index.name = 'Anonymization_Configuration'
+
+# 3. Definiera var du vill spara filen (skapa en mapp som heter "results" om du inte har det)
+csv_filepath = "../plots/dcr_results_bank_marketing.csv" 
+
+# 4. Spara till CSV
+df_results.to_csv(csv_filepath)
+# plot_results({k: v['mean_distance'] for k, v in results.items()})

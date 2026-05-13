@@ -91,18 +91,18 @@ df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_st
 datasets_to_test = {
     "No anonymization (Baseline)": df_test_real,  # signals: use X_train_real directly
     # "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-    # "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=2.csv'),
-    # "ARX Credit Card Clients, k = 5, l = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=3.csv'),
-    # "ARX Credit Card Clients, k = 5, t = 0.20": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.2.csv'),
-    # "ARX Credit Card Clients, k = 5, t = 0.10": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.1.csv'),
-    "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
     "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
     "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
-    # "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/credit_card_clients_dp_epsilon_10_0.csv'),
-    # "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_5_0.csv'),
-    # "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_3_0.csv'),
-    # "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_1_0.csv'),
-    # "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_0_5.csv'),
+    "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=2.csv'),
+    "ARX Credit Card Clients, k = 5, l = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=3.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.20": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.2.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.10": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.1.csv'),
+    # "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
+    "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/credit_card_clients_dp_epsilon_10_0.csv'),
+    "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_5_0.csv'),
+    "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_3_0.csv'),
+    "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_1_0.csv'),
+    "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_0_5.csv'),
 }
 
 results = {}
@@ -115,4 +115,14 @@ for name, df in datasets_to_test.items():
     print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
     print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
 
-plot_results({k: v['mean_distance'] for k, v in results.items()})
+df_results = pd.DataFrame.from_dict(results, orient='index')
+
+# 2. Döp om index-kolumnen så det ser snyggt ut i CSV:n
+df_results.index.name = 'Anonymization_Configuration'
+
+# 3. Definiera var du vill spara filen (skapa en mapp som heter "results" om du inte har det)
+csv_filepath = "../plots/dcr_results_credit_card_clients.csv" 
+
+# 4. Spara till CSV
+df_results.to_csv(csv_filepath)
+# plot_results({k: v['mean_distance'] for k, v in results.items()})

@@ -56,7 +56,7 @@ for epsilon in epsilons:
 
     synth.fit(
         df_original,
-        categorical_columns=categorical_cols, # <-- DU MISSADE DENNA RAD
+        categorical_columns=categorical_cols, 
         continuous_columns=continuous_cols,
         preprocessor_eps=epsilon * 0.1
     )

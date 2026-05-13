@@ -94,18 +94,18 @@ df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_st
 datasets_to_test = {
     "No anonymization (Baseline)": df_test_real,  # signals: use X_train_real directly
     "ARX ACS Employment k = 10": pd.read_csv('../datasets/ARX_employment_k=10.csv'),
+    "ARX ACS Employment k = 20": pd.read_csv('../datasets/ARX_employment_k=20.csv'),
+    "ARX ACS Employment k = 50": pd.read_csv('../datasets/ARX_employment_k=50.csv'),
     "ARX ACS Employment k = 10, l = 2": pd.read_csv('../datasets/ARX_employment_k=10_l=2.csv'),
     "ARX ACS Employment k = 10, t = 0.45": pd.read_csv('../datasets/ARX_employment_k=10_t=0.45.csv'),
     "ARX ACS Employment k = 10, t = 0.3": pd.read_csv('../datasets/ARX_employment_k=10_t=0.3.csv'),
     "ARX ACS Employment k = 10, t = 0.2": pd.read_csv('../datasets/ARX_employment_k=10_t=0.2.csv'),
     # "ARX ACS Employment k = 10": pd.read_csv('../datasets/ARX_employment_k=10.csv'),
-    # "ARX ACS Employment k = 20": pd.read_csv('../datasets/ARX_employment_k=20.csv'),
-    # "ARX ACS Employment k = 50": pd.read_csv('../datasets/ARX_employment_k=50.csv'),
-    # "DP ACS Employment, epsilon = 10.0": pd.read_csv('../datasets/employment_dp_epsilon_10_0.csv'),
-    # "DP ACS Employment, epsilon = 5.0":  pd.read_csv('../datasets/employment_dp_epsilon_5_0.csv'),
-    # "DP ACS Employment, epsilon = 1.0":  pd.read_csv('../datasets/employment_dp_epsilon_1_0.csv'),
-    # "DP ACS Employment, epsilon = 0.5":  pd.read_csv('../datasets/employment_dp_epsilon_0_5.csv'),
-    # "DP ACS Employment, epsilon = 0.1":  pd.read_csv('../datasets/employment_dp_epsilon_0_1.csv'),
+    "DP ACS Employment, epsilon = 10.0": pd.read_csv('../datasets/employment_dp_epsilon_10_0.csv'),
+    "DP ACS Employment, epsilon = 5.0":  pd.read_csv('../datasets/employment_dp_epsilon_5_0.csv'),
+    "DP ACS Employment, epsilon = 1.0":  pd.read_csv('../datasets/employment_dp_epsilon_1_0.csv'),
+    "DP ACS Employment, epsilon = 0.5":  pd.read_csv('../datasets/employment_dp_epsilon_0_5.csv'),
+    "DP ACS Employment, epsilon = 0.1":  pd.read_csv('../datasets/employment_dp_epsilon_0_1.csv'),
 }
 
 results = {}
@@ -117,5 +117,14 @@ for name, df in datasets_to_test.items():
     print(f"Median DCR: {results[name]['median_distance']:.4f}")
     print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
     print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
+df_results = pd.DataFrame.from_dict(results, orient='index')
 
-plot_results({k: v['mean_distance'] for k, v in results.items()})
+# 2. Döp om index-kolumnen så det ser snyggt ut i CSV:n
+df_results.index.name = 'Anonymization_Configuration'
+
+# 3. Definiera var du vill spara filen (skapa en mapp som heter "results" om du inte har det)
+csv_filepath = "../plots/dcr_results_acs_employment.csv" 
+
+# 4. Spara till CSV
+df_results.to_csv(csv_filepath)
+# plot_results({k: v['mean_distance'] for k, v in results.items()})
