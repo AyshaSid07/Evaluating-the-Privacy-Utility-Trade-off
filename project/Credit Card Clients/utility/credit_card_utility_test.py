@@ -8,16 +8,28 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 datasets_to_test = {
-    "No anonymization (Baseline)": pd.read_csv('../datasets/credit-card-clients.csv'),
-    "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-    "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=2.csv'),
-    "ARX Credit Card Clients, k = 5, l = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=3.csv'),
-    "ARX Credit Card Clients, k = 5, t = 0.20": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.2.csv'),
-    "ARX Credit Card Clients, k = 5, t = 0.10": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.1.csv'),
-    # "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-    # "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
-    # "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
+    "No anonymization (Baseline)": None,  
+    "ARX Credit Card Clients, k = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k3.csv'),
+    "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k5.csv'),
+    "ARX Credit Card Clients, k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k10.csv'),
+    "ARX Credit Card Clients, k = 15": pd.read_csv('../datasets/ARX_credit_card_clients_k15.csv'),
+    "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l2.csv'),
+    "ARX Credit Card Clients, k = 5, l = 4": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l4.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.3.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.15.csv'),
+    "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/DP_credit_card_clients_epsilon_10_0.csv'),
+    "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_5_0.csv'),
+    "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_3_0.csv'),
+    "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_1_0.csv'),
+    "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_0_5.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_credit_card_clients.csv'),
 }
+
 
 TARGET_COLUMN = 'default payment'
 

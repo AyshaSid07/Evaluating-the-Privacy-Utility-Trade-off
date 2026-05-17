@@ -122,13 +122,26 @@ if __name__ == "__main__":
 
 
     datasets_to_test = {
-        "No anonymization (Baseline)": df_original.copy(), 
-        # "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-        # "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
-        # "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
-        "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/credit_card_clients_dp_epsilon_10_0.csv'),
-        "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_5_0.csv'),
-        "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_1_0.csv'),
+        "No anonymization (Baseline)": df_original,
+        "ARX Credit Card Clients, k = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k3.csv'),
+        "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k5.csv'),
+        # "ARX Credit Card Clients, k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k10.csv'),
+        # "ARX Credit Card Clients, k = 15": pd.read_csv('../datasets/ARX_credit_card_clients_k15.csv'),
+        # "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l2.csv'),
+        "ARX Credit Card Clients, k = 5, l = 4": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l4.csv'),
+        # "ARX Credit Card Clients, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.3.csv'),
+        "ARX Credit Card Clients, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.15.csv'),
+        "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/DP_credit_card_clients_epsilon_10_0.csv'),
+        # "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_5_0.csv'),
+        # "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_3_0.csv'),
+        "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_1_0.csv'),
+        "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_0_5.csv'),
+        "Combined Credit Card Clients, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_credit_card_clients.csv'),
+        "Combined Credit Card Clients, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_credit_card_clients.csv'),
+        # "Combined Credit Card Clients, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_credit_card_clients.csv'),
+        "Combined Credit Card Clients, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_credit_card_clients.csv'),
+        "Combined Credit Card Clients, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_credit_card_clients.csv'),
+        # "Combined Credit Card Clients, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_credit_card_clients.csv'),
     }
 
     final_results = {}
@@ -160,6 +173,9 @@ if __name__ == "__main__":
         hit_accuracy = evaluate_attack(results, df_attacker, df_protected_sample, defense_name)
         final_results[defense_name] = hit_accuracy
 
-    plot_results(final_results)
+    # plot_results(final_results)
     end = time()
     print(f"Total execution time: {end - start} seconds")
+    data = [{'Dataset': name, 'Hit_Precision': precision} for name, precision in final_results.items()]
+    df_results = pd.DataFrame(data)
+    df_results.to_csv("../plots/linkage/linkage_attack_results_credit_card_clients.csv", index=False)

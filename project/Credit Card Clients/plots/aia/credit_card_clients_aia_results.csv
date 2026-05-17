@@ -1,0 +1,21 @@
+Dataset,BlackBox_Accuracy,BlackBox_Balanced_Accuracy
+No anonymization (Baseline),0.5946666666666667,0.5733847960824706
+"ARX Credit Card Clients, k = 3",0.9853333333333333,0.9843684846339297
+"ARX Credit Card Clients, k = 5",0.982,0.9811023815073828
+"ARX Credit Card Clients, k = 10",0.979,0.9782926972511059
+"ARX Credit Card Clients, k = 15",0.9772222222222222,0.9764043131357187
+"ARX Credit Card Clients, k = 5, l = 2",0.9822222222222222,0.9812717719823474
+"ARX Credit Card Clients, k = 5, l = 4",0.975,0.974314381672045
+"ARX Credit Card Clients, k = 5, t = 0.3",0.979,0.9777697621609357
+"ARX Credit Card Clients, k = 5, t = 0.15",0.97,0.968276221659927
+"DP Credit Card Clients, epsilon = 10.0",0.26055555555555554,0.24431421655192193
+"DP Credit Card Clients, epsilon = 5.0",0.25066666666666665,0.23216080794556831
+"DP Credit Card Clients, epsilon = 3.0",0.32166666666666666,0.3020131351235821
+"DP Credit Card Clients, epsilon = 1.0",0.2876666666666667,0.26416735719909035
+"DP Credit Card Clients, epsilon = 0.5",0.25377777777777777,0.23965389521564512
+"Combined Credit Card Clients, k = 3 + epsilon = 0.5",0.2031111111111111,0.19222468800887116
+"Combined Credit Card Clients, k = 3 + epsilon = 1.0",0.3426666666666667,0.32220787678518215
+"Combined Credit Card Clients, k = 3 + epsilon = 3.0",0.3238888888888889,0.30260333465040884
+"Combined Credit Card Clients, k = 5 + epsilon = 0.5",0.206,0.19549267202768894
+"Combined Credit Card Clients, k = 5 + epsilon = 1.0",0.3487777777777778,0.3329025632422079
+"Combined Credit Card Clients, k = 5 + epsilon = 3.0",0.3342222222222222,0.3114630147881718

@@ -23,20 +23,26 @@ X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
 )
 
 datasets_to_test = {
-    "No anonymization (Baseline)": None,  # signals: use X_train_real directly
-    "ARX Income k = 10": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
-    "ARX Income k = 10, l = 2": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
-    "ARX Income k = 10, t = 0.2": pd.read_csv('../datasets/ARX_income_k=10_t=0.2.csv'),
-    "ARX Income k = 10, t = 0.10": pd.read_csv('../datasets/ARX_income_k=10_t=0.1.csv'),
-    "ARX Income k = 10, t = 0.05": pd.read_csv('../datasets/ARX_income_k=10_t=0.05.csv'),
-    # "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
-    # "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
-    # "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
-    # "DP Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_epsilon_10_0.csv'),
-    # "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/income_dp_epsilon_5_0.csv'),
-    # "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/income_dp_epsilon_1_0.csv'),
-    # "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/income_dp_epsilon_0_5.csv'),
-    # "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/income_dp_epsilon_0_1.csv'),
+    "No anonymization (Baseline)": None,
+    "ARX Income, k = 3": pd.read_csv('../datasets/ARX_acs_income_k3.csv'),
+    "ARX Income, k = 5": pd.read_csv('../datasets/ARX_acs_income_k5.csv'),
+    "ARX Income, k = 10": pd.read_csv('../datasets/ARX_acs_income_k10.csv'),
+    "ARX Income, k = 15": pd.read_csv('../datasets/ARX_acs_income_k15.csv'),
+    "ARX Income, k = 5, l = 3": pd.read_csv('../datasets/ARX_acs_income_k5_l3.csv'),
+    "ARX Income, k = 5, l = 5": pd.read_csv('../datasets/ARX_acs_income_k5_l5.csv'),
+    "ARX Income, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_acs_income_k5_t0.3.csv'),
+    "ARX Income, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_income_k5_t0.15.csv'),
+    "DP Income, epsilon = 10.0": pd.read_csv('../datasets/DP_income_epsilon_10_0.csv'),
+    "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/DP_income_epsilon_5_0.csv'),
+    "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/DP_income_epsilon_1_0.csv'),
+    "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/DP_income_epsilon_0_5.csv'),
+    "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/DP_income_epsilon_0_1.csv'),
+    "Combined Income, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_income.csv'),
+    "Combined Income, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_income.csv'),
+    "Combined Income, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_income.csv'),
+    "Combined Income, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_income.csv'),
+    "Combined Income, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_income.csv'),
+    "Combined Income, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_income.csv'),
 }
 
 results = []
@@ -78,6 +84,8 @@ for name, df in datasets_to_test.items():
     })
 
 results_df = pd.DataFrame(results)
+print(results_df)
+results_df.to_csv('../plots/utility/acs_income_utility_results.csv', index=False)
 
 def plot_utility_results(results_df):
     plt.figure(figsize=(14, 7)) 
@@ -114,4 +122,4 @@ def plot_utility_results(results_df):
     plt.savefig("../plots/utility_income_TSTR_DP.png", dpi=300)
     plt.show()
 
-plot_utility_results(results_df)
+# plot_utility_results(results_df)

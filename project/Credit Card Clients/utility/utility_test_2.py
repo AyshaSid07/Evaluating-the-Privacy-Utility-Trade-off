@@ -11,7 +11,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 TARGET_COLUMN = 'default payment'
 RANDOM_STATE = 123
 
-df_real = pd.read_csv('../datasets/credit-card-clients.csv')
+df_real = pd.read_csv('../datasets/credit_card_clients_binned.csv')
 
 if 'ID' in df_real.columns:
     df_real = df_real.drop(columns=['ID'])
@@ -26,7 +26,7 @@ if 'SEX' in df_real.columns:
 
 FEATURE_COLS = [c for c in df_real.columns if c != TARGET_COLUMN]
 
-NUMERIC_COLS = ['LIMIT_BAL', 'BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 
+NUMERIC_COLS = ['BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 
                 'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
 
 CATEGORICAL_COLS = [c for c in FEATURE_COLS if c not in NUMERIC_COLS]
@@ -39,20 +39,26 @@ X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
 )
 
 datasets_to_test = {
-    "No anonymization (Baseline)": None,  # signals: use X_train_real directly
-    # "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-    # "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=2.csv'),
-    # "ARX Credit Card Clients, k = 5, l = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=3.csv'),
-    # "ARX Credit Card Clients, k = 5, t = 0.20": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.2.csv'),
-    # "ARX Credit Card Clients, k = 5, t = 0.10": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.1.csv'),
-    # "ARX Credit Card Clients k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-    # "ARX Credit Card Clients k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k=10.csv'),
-    # "ARX Credit Card Clients k = 20": pd.read_csv('../datasets/ARX_credit_card_clients_k=20.csv'),
-    "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/credit_card_clients_dp_epsilon_10_0.csv'),
-    "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_5_0.csv'),
-    "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_3_0.csv'),
-    "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_1_0.csv'),
-    "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_0_5.csv'),
+    "No anonymization (Baseline)": None,  
+    "ARX Credit Card Clients, k = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k3.csv'),
+    "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k5.csv'),
+    "ARX Credit Card Clients, k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k10.csv'),
+    "ARX Credit Card Clients, k = 15": pd.read_csv('../datasets/ARX_credit_card_clients_k15.csv'),
+    "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l2.csv'),
+    "ARX Credit Card Clients, k = 5, l = 4": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l4.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.3.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.15.csv'),
+    "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/DP_credit_card_clients_epsilon_10_0.csv'),
+    "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_5_0.csv'),
+    "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_3_0.csv'),
+    "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_1_0.csv'),
+    "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_0_5.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_credit_card_clients.csv'),
 }
 
 results = []
@@ -65,12 +71,11 @@ for name, df in datasets_to_test.items():
     else:
         if 'index' in df.columns:
             df = df.set_index('index')
+            surviving_train_indices = X_train_real.index.intersection(df.index)
+            df_train = df.loc[surviving_train_indices].copy()
         else:
-            df.index = df_real.index 
-        
-        surviving_train_indices = X_train_real.index.intersection(df.index)
-        
-        df_train = df.loc[surviving_train_indices].copy()
+            df = df.reset_index(drop=True)
+            df_train = df.copy()
         
         df_train = df_train[df_train[TARGET_COLUMN].astype(str) != '*'].copy()
         if 'SEX' in df_train.columns:
@@ -116,7 +121,8 @@ for name, df in datasets_to_test.items():
     })
 
 results_df = pd.DataFrame(results)
-
+print(results_df)
+results_df.to_csv("../plots/utility/credit_card_clients_utility_results.csv", index=False)
 def plot_utility_results(results_df):
     plt.figure(figsize=(14, 7)) 
     
@@ -152,4 +158,4 @@ def plot_utility_results(results_df):
     plt.savefig("../plots/utility_credit_card_clients_TSTR_DP.png", dpi=300)
     plt.show()
 
-plot_utility_results(results_df)
+# plot_utility_results(results_df)

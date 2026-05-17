@@ -120,14 +120,27 @@ if __name__ == "__main__":
 
     quasi_identifiers = ['AGEP', 'COW', 'SCHL', 'MAR', 'SEX']
 
-    datasets_to_test = {    
+    datasets_to_test = {
         "No anonymization (Baseline)": df_original,
-        # "ARX ACS Income k = 10": pd.read_csv('../datasets/ARX_income_k=10.csv'),
-        # "ARX ACS Income k = 20": pd.read_csv('../datasets/ARX_income_k=20.csv'),
-        # "ARX ACS Income k = 50": pd.read_csv('../datasets/ARX_income_k=50.csv'),
-        "DP ACS Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_epsilon_10_0.csv'),
-        "DP ACS Income, epsilon = 5.0":  pd.read_csv('../datasets/income_dp_epsilon_5_0.csv'),
-        "DP ACS Income, epsilon = 1.0":  pd.read_csv('../datasets/income_dp_epsilon_1_0.csv'),
+        "ARX Income, k = 3": pd.read_csv('../datasets/ARX_acs_income_k3.csv'),
+        "ARX Income, k = 5": pd.read_csv('../datasets/ARX_acs_income_k5.csv'),
+        # "ARX Income, k = 10": pd.read_csv('../datasets/ARX_acs_income_k10.csv'),
+        # "ARX Income, k = 15": pd.read_csv('../datasets/ARX_acs_income_k15.csv'),
+        # "ARX Income, k = 5, l = 3": pd.read_csv('../datasets/ARX_acs_income_k5_l3.csv'),
+        "ARX Income, k = 5, l = 5": pd.read_csv('../datasets/ARX_acs_income_k5_l5.csv'),
+        # "ARX Income, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_acs_income_k5_t0.3.csv'),
+        "ARX Income, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_income_k5_t0.15.csv'),
+        "DP Income, epsilon = 10.0": pd.read_csv('../datasets/DP_income_epsilon_10_0.csv'),
+        # "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/DP_income_epsilon_5_0.csv'),
+        "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/DP_income_epsilon_1_0.csv'),
+        "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/DP_income_epsilon_0_5.csv'),
+        # "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/DP_income_epsilon_0_1.csv'),
+        "Combined Income, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_income.csv'),
+        "Combined Income, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_income.csv'),
+        # "Combined Income, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_income.csv'),
+        "Combined Income, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_income.csv'),
+        "Combined Income, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_income.csv'),
+        # "Combined Income, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_income.csv'),
     }
 
     final_results = {}
@@ -141,24 +154,24 @@ if __name__ == "__main__":
         elif 'Linkage_Index' not in df_protected.columns:
             df_protected['Linkage_Index'] = df_original.index 
 
-        n_sample = 15000
-        if len(df_protected) > n_sample:
-            df_protected_sample = df_protected.sample(n=n_sample, random_state=42).copy()
-        else:
-            df_protected_sample = df_protected.copy()
-        attacker_indices = df_protected_sample['Linkage_Index'].sample(n=1500, random_state=123)
-        
+        # n_sample = 15000
+        # if len(df_protected) > n_sample:
+        #     df_protected_sample = df_protected.sample(n=n_sample, random_state=42).copy()
+        # else:
+        #     df_protected_sample = df_protected.copy()
+        # adversary has access to 1% of the original data and the QIs as background knowledge
+        attacker_indices = df_protected['Linkage_Index'].sample(n=1950, random_state=123)
         df_attacker = df_original[df_original['Linkage_Index'].isin(attacker_indices)].copy()
         
-
-        weights = calculate_weights(df_protected_sample, quasi_identifiers)
-        
-        results = perform_attack(df_protected_sample, df_attacker, quasi_identifiers, weights)
-        
-        hit_accuracy = evaluate_attack(results, df_attacker, df_protected_sample, defense_name)
+        weights = calculate_weights(df_protected, quasi_identifiers)
+        results = perform_attack(df_protected, df_attacker, quasi_identifiers, weights)
+        hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
         final_results[defense_name] = hit_accuracy
 
-    plot_results(final_results)
+    # plot_results(final_results)
     end = time()
     print(f"Total execution time: {end - start} seconds")
+    data = [{'Dataset': name, 'Hit_Precision': precision} for name, precision in final_results.items()]
+    df_results = pd.DataFrame(data)
+    df_results.to_csv("../plots/linkage/linkage_attack_results_acs_income.csv", index=False)
 

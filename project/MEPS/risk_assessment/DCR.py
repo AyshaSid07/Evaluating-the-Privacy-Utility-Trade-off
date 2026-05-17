@@ -45,7 +45,7 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
 
     # 4. Use kNN to efficiently find the shortest distance (DCR)
     # DCR uses euclidan distance
-    knn = NearestNeighbors(n_neighbors=1, algorithm='auto', metric='euclidean')
+    knn = NearestNeighbors(n_neighbors=1, algorithm='auto', metric='euclidean', n_jobs=-1)
     knn.fit(X_orig)
     
     # distances will be an array with the shortest distance for each evaluated row
@@ -53,10 +53,26 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
     min_distances = distances.flatten()
 
     return {
-        'mean_distance':    float(min_distances.mean()),
-        'median_distance':  float(np.median(min_distances)),
-        'exact_matches_%':  float((min_distances == 0).mean() * 100),   # % perfect copies
-        'near_matches_1pct_%': float((min_distances < 0.01).mean() * 100) # % very close (threshold)
+        'mean_distance':        float(np.mean(min_distances)),
+        'median_distance':      float(np.median(min_distances)),
+        
+        'min_distance':         float(np.min(min_distances)),
+        'max_distance':         float(np.max(min_distances)),
+        'std_distance':         float(np.std(min_distances)), # Hur utspritt är bruset?
+        
+        'percentile_1st':       float(np.percentile(min_distances, 1)),  # De 1% mest sårbara
+        'percentile_5th':       float(np.percentile(min_distances, 5)),
+        'percentile_10th':      float(np.percentile(min_distances, 10)),
+        'percentile_25th':      float(np.percentile(min_distances, 25)),
+        'percentile_75th':      float(np.percentile(min_distances, 75)),
+        'percentile_90th':      float(np.percentile(min_distances, 90)),
+        'percentile_95th':      float(np.percentile(min_distances, 95)),
+        'percentile_99th':      float(np.percentile(min_distances, 99)), # De 1% bäst skyddade
+        
+        'exact_matches_%':      float((min_distances == 0).mean() * 100),
+        'near_matches_1pct_%':  float((min_distances < 0.01).mean() * 100),
+        'near_matches_5pct_%':  float((min_distances < 0.05).mean() * 100),
+        'near_matches_10pct_%': float((min_distances < 0.10).mean() * 100)
     }
 
 def plot_results(results_dict):
@@ -88,19 +104,25 @@ df_real = pd.read_csv('../datasets/MEPS.csv')
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 datasets_to_test = {
     "No anonymization (Baseline)": df_test_real,  # attacker has real data — upper bound
-    "ARX MEPS k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
-    "ARX MEPS k = 10": pd.read_csv('../datasets/ARX_meps_k=10.csv'),
-    "ARX MEPS k = 20": pd.read_csv('../datasets/ARX_meps_k=20.csv'),
-    # "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
-    "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k=5_l=2.csv'),
-    "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k=5_l=3.csv'),
-    "ARX MEPS, k = 5, t = 0.2": pd.read_csv('../datasets/ARX_meps_k=5_t=0.2.csv'),
-    "ARX MEPS, k = 5, t = 0.1": pd.read_csv('../datasets/ARX_meps_k=5_t=0.1.csv'),
-    "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/meps_dp_epsilon_10_0.csv'),
-    "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/meps_dp_epsilon_5_0.csv'),
-    "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/meps_dp_epsilon_3_0.csv'),
-    "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/meps_dp_epsilon_1_0.csv'),
-    "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/meps_dp_epsilon_0_5.csv'),
+    "ARX MEPS, k = 3": pd.read_csv('../datasets/ARX_meps_k3.csv'),
+    "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k5.csv'),
+    "ARX MEPS, k = 10": pd.read_csv('../datasets/ARX_meps_k10.csv'),
+    "ARX MEPS, k = 15": pd.read_csv('../datasets/ARX_meps_k15.csv'),
+    "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k5_l2.csv'),
+    "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k5_l3.csv'),
+    "ARX MEPS, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_meps_k5_t0.3.csv'),
+    "ARX MEPS, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_meps_k5_t0.15.csv'),
+    "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/DP_meps_epsilon_10_0.csv'),
+    "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/DP_meps_epsilon_5_0.csv'),
+    "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/DP_meps_epsilon_3_0.csv'),
+    "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/DP_meps_epsilon_1_0.csv'),
+    "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/DP_meps_epsilon_0_5.csv'),
+    "Combined MEPS, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_meps.csv'),
+    "Combined MEPS, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_meps.csv'),
+    "Combined MEPS, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_meps.csv'),
 }
 
 results = {}
@@ -108,10 +130,10 @@ results = {}
 for name, df in datasets_to_test.items():
     print(f"\n--- Evaluating DCR for: {name} ---")
     results[name] = dcr(df_orig_raw=df_train_real, df_anon_raw=df, numeric_cols=['AGE', 'PCS42', 'MCS42', 'K6SUM42', 'PHQ242'])
-    print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
-    print(f"Median DCR: {results[name]['median_distance']:.4f}")
-    print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
-    print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
+    # print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
+    # print(f"Median DCR: {results[name]['median_distance']:.4f}")
+    # print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
+    # print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
 
 # plot_DP_mean_dcr({k: v['mean_distance'] for k, v in results.items()})
 df_results = pd.DataFrame.from_dict(results, orient='index')
@@ -120,8 +142,9 @@ df_results = pd.DataFrame.from_dict(results, orient='index')
 df_results.index.name = 'Anonymization_Configuration'
 
 # 3. Definiera var du vill spara filen (skapa en mapp som heter "results" om du inte har det)
-csv_filepath = "../plots/dcr_results_meps.csv" 
+csv_filepath = "../plots/dcr/dcr_results_meps.csv" 
 
 # 4. Spara till CSV
 df_results.to_csv(csv_filepath)
+print(df_results)
 # plot_results({k: v['mean_distance'] for k, v in results.items()})

@@ -3,14 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
 from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox
 
 PREDICTION_TARGET = 'PUBCOV'
-SENSITIVE_ATTR    = 'ESR'
+SENSITIVE_ATTR    = 'RAC1P'
 RANDOM_STATE      = 123
 
 # ── Step 1: Split real data once — test set is locked ─────────────────────────
@@ -44,8 +44,10 @@ def plot_results(results_df):
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig("../plots/attribute_inference_public_coverage_ARX.png", dpi=300)
+    # plt.savefig("../plots/attribute_inference_public_coverage_ARX.png", dpi=300)
     # plt.savefig("../plots/attribute_inference_public_coverage_DP.png", dpi=300)
+    plt.savefig("../plots/attribute_inference_public_coverage_test.png", dpi=300)
+    
     plt.show()
 def preprocess(df, preprocessor=None, fit=False):
     y_raw = df[PREDICTION_TARGET].astype(str).str.strip().str.lower()
@@ -78,7 +80,7 @@ X_train_real, y_train_real, sens_train_real, preprocessor = preprocess(df_train_
 X_test_real,  y_test_real,  sens_test_real,  _            = preprocess(df_test_real, preprocessor=preprocessor)
 
 X_train_with_sens = np.column_stack((sens_train_real, X_train_real))
-target_model = RandomForestClassifier(n_estimators=50, random_state=RANDOM_STATE)
+target_model = RandomForestClassifier(n_estimators=50, random_state=RANDOM_STATE, n_jobs=-1)
 target_model.fit(X_train_with_sens, y_train_real)
 art_classifier = SklearnClassifier(model=target_model)
 
@@ -92,17 +94,27 @@ print(f"Target model trained on {len(X_train_real)} real records\n")
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
-    # "DP Public Coverage, epsilon = 10.0": pd.read_csv('../datasets/public_coverage_dp_epsilon_10_0.csv'),
-    # "DP Public Coverage, epsilon = 5.0":  pd.read_csv('../datasets/public_coverage_dp_epsilon_5_0.csv'),
-    # "DP Public Coverage, epsilon = 1.0":  pd.read_csv('../datasets/public_coverage_dp_epsilon_1_0.csv'),
-    # "DP Public Coverage, epsilon = 0.5":  pd.read_csv('../datasets/public_coverage_dp_epsilon_0_5.csv'),
-    # "DP Public Coverage, epsilon = 0.1":  pd.read_csv('../datasets/public_coverage_dp_epsilon_0_1.csv'),
-    "ARX Public Coverage, k=10": pd.read_csv('../datasets/ARX_public_coverage_k=10.csv'),
-    "ARX Public Coverage, k=10, l=2": pd.read_csv('../datasets/ARX_public_coverage_k=10_l=2.csv'),
-    "ARX Public Coverage, k=10, l=3": pd.read_csv('../datasets/ARX_public_coverage_k=10_l=3.csv'),
-    "ARX Public Coverage, k=10, t=0.7": pd.read_csv('../datasets/ARX_public_coverage_k=10_t=0.7.csv'),
-    "ARX Public Coverage, k=10, t=0.6": pd.read_csv('../datasets/ARX_public_coverage_k=10_t=0.6.csv'),
+    "ARX Public Coverage, k = 3": pd.read_csv('../datasets/ARX_acs_public_coverage_k3.csv'),
+    "ARX Public Coverage, k = 5": pd.read_csv('../datasets/ARX_acs_public_coverage_k5.csv'),
+    "ARX Public Coverage, k = 10": pd.read_csv('../datasets/ARX_acs_public_coverage_k10.csv'),
+    "ARX Public Coverage, k = 15": pd.read_csv('../datasets/ARX_acs_public_coverage_k15.csv'),
+    "ARX Public Coverage, k = 5, l = 3": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_l3.csv'),
+    "ARX Public Coverage, k = 5, l = 5": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_l5.csv'),
+    "ARX Public Coverage, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_t0.3.csv'),
+    "ARX Public Coverage, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_t0.15.csv'),
+    "DP Public Coverage, epsilon = 10.0": pd.read_csv('../datasets/DP_public_coverage_epsilon_10_0.csv'),
+    "DP Public Coverage, epsilon = 5.0":  pd.read_csv('../datasets/DP_public_coverage_epsilon_5_0.csv'),
+    "DP Public Coverage, epsilon = 1.0":  pd.read_csv('../datasets/DP_public_coverage_epsilon_1_0.csv'),
+    "DP Public Coverage, epsilon = 0.5":  pd.read_csv('../datasets/DP_public_coverage_epsilon_0_5.csv'),
+    "DP Public Coverage, epsilon = 0.1":  pd.read_csv('../datasets/DP_public_coverage_epsilon_0_1.csv'),
+    "Combined Public Coverage, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_public_coverage.csv'),
+    "Combined Public Coverage, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_public_coverage.csv'),
+    "Combined Public Coverage, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_public_coverage.csv'),
+    "Combined Public Coverage, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_public_coverage.csv'),
+    "Combined Public Coverage, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_public_coverage.csv'),
+    "Combined Public Coverage, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_public_coverage.csv'),
 }
+
 
 results = []
 
@@ -148,12 +160,16 @@ for name, df_adv in datasets_to_test.items():
         values=possible_values
     )
 
-    acc = balanced_accuracy_score(sens_test_real, inferred)
-    print(f"  Balanced Accuracy: {acc:.4f}\n")
+    acc = accuracy_score(sens_test_real, inferred)
+    balanced_acc = balanced_accuracy_score(sens_test_real, inferred)
+    print(f"  Accuracy: {acc:.4f}")
+    print(f"  Balanced Accuracy: {balanced_acc:.4f}\n")
 
-    results.append({'Dataset': name, 'BlackBox_Accuracy': acc})
+    results.append({'Dataset': name, 'BlackBox_Accuracy': acc, 'BlackBox_Balanced_Accuracy': balanced_acc})
 
 results_df = pd.DataFrame(results)
 print("=== Final Results ===")
 print(results_df)
-plot_results(results_df)
+results_df.to_csv("../plots/aia/public_coverage_aia_results.csv", index=False)
+
+# plot_results(results_df)

@@ -3,15 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
 from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox
-from sympy import Add
 
 PREDICTION_TARGET = 'y'
-SENSITIVE_ATTR    = 'marital'
+SENSITIVE_ATTR    = 'housing'
 RANDOM_STATE      = 123
 
 # ── Step 1: Split real data once — test set is locked ─────────────────────────
@@ -64,10 +63,9 @@ def preprocess(df, preprocessor=None, fit=False):
         'true': 1, 'false': 0
     }
     sens_map = {
-        'married': 0, 
-        'single': 1, 
-        'divorced': 2, 
-        'unknown': 3
+        'no': 0, 
+        'yes': 1, 
+        'unknown': 2
     }
     y = y_raw.map(target_map).fillna(0).astype(int).values
     sens_raw = df[SENSITIVE_ATTR].astype(str).str.strip().str.lower()
@@ -105,16 +103,25 @@ print(f"Target model trained on {len(X_train_real)} real records\n")
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
-    # "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/bank_marketing_dp_epsilon_10_0.csv'),
-    # "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_5_0.csv'),
-    # "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_1_0.csv'),
-    # "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_5.csv'),
-    # "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_1.csv'),
-    "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
-    "ARX Bank_marketing k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=2.csv', sep=';'),
-    "ARX Bank_marketing k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=3.csv', sep=';'),
-    "ARX Bank_marketing k = 5, t = 0.2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.2.csv', sep=';'),
-    "ARX Bank_marketing k = 5, t = 0.1": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.1.csv', sep=';'),
+    "ARX Bank Marketing, k = 3": pd.read_csv('../datasets/ARX_bank_marketing_k3.csv'),
+    "ARX Bank Marketing, k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k5.csv'),
+    "ARX Bank Marketing, k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k10.csv'),
+    "ARX Bank Marketing, k = 15": pd.read_csv('../datasets/ARX_bank_marketing_k15.csv'),
+    "ARX Bank Marketing, k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k5_l2.csv'),
+    "ARX Bank Marketing, k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k5_l3.csv'),
+    "ARX Bank Marketing, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.3.csv'),
+    "ARX Bank Marketing, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.15.csv'),
+    "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/DP_bank_marketing_epsilon_10_0.csv'),
+    "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_5_0.csv'),
+    "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_1_0.csv'),
+    "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_5.csv'),
+    "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_1.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_bank_marketing.csv'),
 }
 
 results = []
@@ -163,12 +170,15 @@ for name, df_adv in datasets_to_test.items():
         values=possible_values
     )
 
-    acc = balanced_accuracy_score(sens_test_real, inferred)
-    print(f"  Balanced Accuracy: {acc:.4f}\n")
-
-    results.append({'Dataset': name, 'BlackBox_Accuracy': acc})
+    acc = accuracy_score(sens_test_real, inferred)
+    balanced_acc = balanced_accuracy_score(sens_test_real, inferred)
+    print(f"  Accuracy: {acc:.4f}")
+    print(f"  Balanced Accuracy: {balanced_acc:.4f}\n")
+    
+    results.append({'Dataset': name, 'BlackBox_Accuracy': acc, 'BlackBox_Balanced_Accuracy': balanced_acc})
 
 results_df = pd.DataFrame(results)
 print("=== Final Results ===")
 print(results_df)
-plot_results(results_df)
+results_df.to_csv("../plots/aia/bank_marketing_aia_results.csv", index=False)
+# plot_results(results_df)

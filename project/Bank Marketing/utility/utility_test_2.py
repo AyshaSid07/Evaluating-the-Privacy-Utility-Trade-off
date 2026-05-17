@@ -29,20 +29,26 @@ X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
 )
 
 datasets_to_test = {
-    "No anonymization (Baseline)": None,  # signals: use X_train_real directly
-    # "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=2.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k=5_l=3.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, t = 0.2": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.2.csv', sep=';'),
-    # "ARX Bank_marketing k = 5, t = 0.1": pd.read_csv('../datasets/ARX_bank_marketing_k=5_t=0.1.csv', sep=';'),
-    # "ARX Bank_marketing k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k=5.csv', sep=';'),
-    # "ARX Bank Marketing k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k=10.csv', sep=';'),
-    # "ARX Bank Marketing k = 20": pd.read_csv('../datasets/ARX_bank_marketing_k=20.csv', sep=';'),
-    "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/bank_marketing_dp_epsilon_10_0.csv'),
-    "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_5_0.csv'),
-    "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_1_0.csv'),
-    "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_5.csv'),
-    "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/bank_marketing_dp_epsilon_0_1.csv'),
+    "No anonymization (Baseline)": None,  
+    "ARX Bank Marketing, k = 3": pd.read_csv('../datasets/ARX_bank_marketing_k3.csv'),
+    "ARX Bank Marketing, k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k5.csv'),
+    "ARX Bank Marketing, k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k10.csv'),
+    "ARX Bank Marketing, k = 15": pd.read_csv('../datasets/ARX_bank_marketing_k15.csv'),
+    "ARX Bank Marketing, k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k5_l2.csv'),
+    "ARX Bank Marketing, k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k5_l3.csv'),
+    "ARX Bank Marketing, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.3.csv'),
+    "ARX Bank Marketing, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.15.csv'),
+    "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/DP_bank_marketing_epsilon_10_0.csv'),
+    "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_5_0.csv'),
+    "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_1_0.csv'),
+    "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_5.csv'),
+    "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_1.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_bank_marketing.csv'),
 }
 
 results = []
@@ -88,6 +94,8 @@ for name, df in datasets_to_test.items():
     })
 
 results_df = pd.DataFrame(results)
+print(results_df)
+results_df.to_csv("../plots/utility/bank_marketing_utility_results.csv", index=False)
 
 def plot_utility_results(results_df):
     plt.figure(figsize=(14, 7)) 
@@ -124,4 +132,4 @@ def plot_utility_results(results_df):
     plt.savefig("../plots/utility_bank_marketing_TSTR_DP.png", dpi=300)
     plt.show()
 
-plot_utility_results(results_df)
+# plot_utility_results(results_df)

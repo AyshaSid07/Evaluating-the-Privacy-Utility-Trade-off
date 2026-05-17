@@ -30,20 +30,26 @@ X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
     X_real, y_real, test_size=0.2, random_state=RANDOM_STATE
 )
 datasets_to_test = {
-    "No anonymization (Baseline)": None,  # signals: use X_train_real directly
-    # "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
-    # "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k=5_l=2.csv'),
-    # "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k=5_l=3.csv'),
-    # "ARX MEPS, k = 5, t = 0.2": pd.read_csv('../datasets/ARX_meps_k=5_t=0.2.csv'),
-    # "ARX MEPS, k = 5, t = 0.1": pd.read_csv('../datasets/ARX_meps_k=5_t=0.1.csv'),
-    "ARX MEPS k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
-    "ARX MEPS k = 10": pd.read_csv('../datasets/ARX_meps_k=10.csv'),
-    "ARX MEPS k = 20": pd.read_csv('../datasets/ARX_meps_k=20.csv'),
-    # "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/meps_dp_epsilon_10_0.csv'),
-    # "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/meps_dp_epsilon_5_0.csv'),
-    # "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/meps_dp_epsilon_3_0.csv'),
-    # "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/meps_dp_epsilon_1_0.csv'),
-    # "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/meps_dp_epsilon_0_5.csv'),
+    "No anonymization (Baseline)": None,
+    "ARX MEPS, k = 3": pd.read_csv('../datasets/ARX_meps_k3.csv'),
+    "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k5.csv'),
+    "ARX MEPS, k = 10": pd.read_csv('../datasets/ARX_meps_k10.csv'),
+    "ARX MEPS, k = 15": pd.read_csv('../datasets/ARX_meps_k15.csv'),
+    "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k5_l2.csv'),
+    "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k5_l3.csv'),
+    "ARX MEPS, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_meps_k5_t0.3.csv'),
+    "ARX MEPS, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_meps_k5_t0.15.csv'),
+    "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/DP_meps_epsilon_10_0.csv'),
+    "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/DP_meps_epsilon_5_0.csv'),
+    "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/DP_meps_epsilon_3_0.csv'),
+    "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/DP_meps_epsilon_1_0.csv'),
+    "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/DP_meps_epsilon_0_5.csv'),
+    "Combined MEPS, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_meps.csv'),
+    "Combined MEPS, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_meps.csv'),
+    "Combined MEPS, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_meps.csv'),
 }
 
 results = []
@@ -55,16 +61,17 @@ for name, df in datasets_to_test.items():
         y_train = y_train_real
     else:
         if 'index' in df.columns:
+            # ARX dataset — align by saved index
             df = df.set_index('index')
+            surviving_train_indices = X_train_real.index.intersection(df.index)
+            df_train = df.loc[surviving_train_indices].copy()
         else:
-            df.index = df_real.index 
-        
-        surviving_train_indices = X_train_real.index.intersection(df.index)
-        
-        df_train = df.loc[surviving_train_indices].copy()
-        
+            # DP or combined — no row correspondence, use all rows
+            df = df.reset_index(drop=True)
+            df_train = df.copy()
+
         df_train = df_train[df_train[TARGET_COLUMN].astype(str) != '*'].copy()
-        
+
         if 'SEX' in df_train.columns:
             df_train['SEX'] = ["Female" if str(v) == '2' else "Male" for v in df_train['SEX']]
 
@@ -107,6 +114,10 @@ for name, df in datasets_to_test.items():
     })
 
 results_df = pd.DataFrame(results)
+print(results_df)
+results_df.to_csv("../plots/utility/meps_utility_results.csv", index=False)
+
+
 
 def plot_utility_results(results_df):
     plt.figure(figsize=(14, 7)) 
@@ -143,4 +154,4 @@ def plot_utility_results(results_df):
     # plt.savefig("../plots/utility_meps_TSTR_DP.png", dpi=300)
     plt.show()
 
-plot_utility_results(results_df)
+# plot_utility_results(results_df)

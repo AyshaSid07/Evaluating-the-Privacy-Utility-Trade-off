@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
@@ -13,14 +13,12 @@ PREDICTION_TARGET = 'UTILIZATION'
 SENSITIVE_ATTR    = 'INSCOV'
 RANDOM_STATE      = 123
 
-# ── Step 1: Split real data once — test set is locked ─────────────────────────
 df_real = pd.read_csv('../datasets/MEPS.csv')
 if 'index' in df_real.columns:
     df_real = df_real.drop(columns=['index'])
 df_real = df_real[df_real[SENSITIVE_ATTR].astype(str) != '*'].copy()
 df_real = df_real[df_real[PREDICTION_TARGET].astype(str) != '*'].copy()
 
-# This test set represents real people — never used for training anything
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 
 def plot_results(results_df):
@@ -42,12 +40,14 @@ def plot_results(results_df):
     plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
     plt.ylabel('Re-identification Rate (Accuracy)', fontsize=10)
     plt.xlabel('Anonymization Value', fontsize=10)
-    plt.title('Attribute Inference Attack Results on different anonymization values on the Bank Marketing Data', fontsize=10)
+    plt.title('Attribute Inference Attack Results on different anonymization values on the MEPS Data', fontsize=10)
 
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    # plt.savefig("../plots/attribute_inference_bank_marketing_ARX.png", dpi=300)
-    plt.savefig("../plots/attribute_inference_bank_marketing_DP.png", dpi=300)
+    # plt.savefig("../plots/attribute_inference_MEPS_ARX.png", dpi=300)
+    # plt.savefig("../plots/attribute_inference_MEPS_DP.png", dpi=300)
+    plt.savefig("../plots/attribute_inference_MEPS_ALL.png", dpi=300)
+
     plt.show()
 
 def preprocess(df, preprocessor=None, fit=False):
@@ -92,16 +92,25 @@ print(f"Target model trained on {len(X_train_real)} real records\n")
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
-    # "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
-    # "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k=5_l=2.csv'),
-    # "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k=5_l=3.csv'),
-    # "ARX MEPS, k = 5, t = 0.2": pd.read_csv('../datasets/ARX_meps_k=5_t=0.2.csv'),
-    # "ARX MEPS, k = 5, t = 0.1": pd.read_csv('../datasets/ARX_meps_k=5_t=0.1.csv'),
-    "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/meps_dp_epsilon_10_0.csv'),
-    "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/meps_dp_epsilon_5_0.csv'),
-    "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/meps_dp_epsilon_3_0.csv'),
-    "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/meps_dp_epsilon_1_0.csv'),
-    "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/meps_dp_epsilon_0_5.csv'),
+    "ARX MEPS, k = 3": pd.read_csv('../datasets/ARX_meps_k3.csv'),
+    "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k5.csv'),
+    "ARX MEPS, k = 10": pd.read_csv('../datasets/ARX_meps_k10.csv'),
+    "ARX MEPS, k = 15": pd.read_csv('../datasets/ARX_meps_k15.csv'),
+    "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k5_l2.csv'),
+    "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k5_l3.csv'),
+    "ARX MEPS, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_meps_k5_t0.3.csv'),
+    "ARX MEPS, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_meps_k5_t0.15.csv'),
+    "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/DP_meps_epsilon_10_0.csv'),
+    "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/DP_meps_epsilon_5_0.csv'),
+    "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/DP_meps_epsilon_3_0.csv'),
+    "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/DP_meps_epsilon_1_0.csv'),
+    "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/DP_meps_epsilon_0_5.csv'),
+    "Combined MEPS, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_meps.csv'),
+    "Combined MEPS, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_meps.csv'),
+    "Combined MEPS, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_meps.csv'),
+    "Combined MEPS, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_meps.csv'),
 }
 
 results = []
@@ -113,11 +122,10 @@ for name, df_adv in datasets_to_test.items():
     else:
         if 'index' in df_adv.columns:
             df_adv = df_adv.set_index('index')
+            surviving_train_indices = df_train_real.index.intersection(df_adv.index)
+            df_adv = df_adv.loc[surviving_train_indices].copy()
         else:
-            df_adv.index = df_real.index
-            
-        surviving_train_indices = df_train_real.index.intersection(df_adv.index)
-        df_adv = df_adv.loc[surviving_train_indices].copy()
+            df_adv = df_adv.reset_index(drop=True)
    
     df_adv = df_adv[df_adv[SENSITIVE_ATTR].astype(str) != '*'].copy()
     df_adv = df_adv[df_adv[PREDICTION_TARGET].astype(str) != '*'].copy()
@@ -157,12 +165,15 @@ for name, df_adv in datasets_to_test.items():
         values=possible_values
     )
 
-    acc = balanced_accuracy_score(sens_test_real, inferred)
-    print(f"  Balanced Accuracy: {acc:.4f}\n")
+    acc = accuracy_score(sens_test_real, inferred)
+    balanced_acc = balanced_accuracy_score(sens_test_real, inferred)
+    print(f"  Accuracy: {acc:.4f}")
+    print(f"  Balanced Accuracy: {balanced_acc:.4f}\n")
 
-    results.append({'Dataset': name, 'BlackBox_Accuracy': acc})
+    results.append({'Dataset': name, 'BlackBox_Accuracy': acc, 'BlackBox_Balanced_Accuracy': balanced_acc})
 
 results_df = pd.DataFrame(results)
 print("=== Final Results ===")
 print(results_df)
-plot_results(results_df)
+results_df.to_csv("../plots/aia/meps_aia_results.csv", index=False)
+# plot_results(results_df)

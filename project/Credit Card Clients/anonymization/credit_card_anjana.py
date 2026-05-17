@@ -1,30 +1,30 @@
 import pandas as pd
-from anjana.anonymity import k_anonymity, utils
+from anjana.anonymity import k_anonymity, l_diversity, t_closeness, utils
 import pycanon
 import time
 import numpy as np
 import pandas as pd
 
 
-data = pd.read_csv("../credit-card-clients.csv")
+data = pd.read_csv("../datasets/bin_limit_bal.csv")
 data.columns = data.columns.str.strip()
 
 financial_and_age_cols = [
-    'LIMIT_BAL', 'AGE', 
-    'BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6',
-    'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6'
+    'AGE'
 ]
 for col in financial_and_age_cols:
     data[col] = np.round(data[col]).astype(int).astype(str)
 
 # Ensure categorical codes are strings (no ".0")
-cat_cols = ['SEX', 'EDUCATION', 'MARRIAGE', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
+cat_cols = ['SEX', 'EDUCATION', 'MARRIAGE']
 for col in cat_cols:
     data[col] = data[col].astype(float).astype(int).astype(str)
 
 quasi_ident = cat_cols + financial_and_age_cols
 
-k = 2
+k = 5
+l = [3, 4]
+t = [0.15, 0.3]
 supp_level = 5
 
 def load_hierarchy(filename):
@@ -69,26 +69,39 @@ hierarchies = {
 }
 # we can only have 1 sensitive attribute with anjana to when applying l-diversity and T-closeness
 # sensitive = "default.payment.next.month"
-sensitive = "MARRIAGE"
+sensitive = "LIMIT_BAL_Binned"
 # other attributes we drop:
 # other_sensitive = ["default.payment.next.month"]
 # data = data.drop(columns=other_sensitive, errors='signore') # Using reassignment instead of inplace
-
+data_anon_k = k_anonymity(data, [], quasi_ident,k, supp_level, hierarchies)
+# print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_k, quasi_ident)}")
+data_anon_k.to_csv(f"../datasets/anjana_credit_card_binned_k={k}.csv", index=False)
 # 6. Run Anjana
-print(f"Starting Anjana with k={k} on {len(data)} rows...")
-start = time.time()
+for l_val in l:
+    print(f"Running l-diversity with l={l_val}...")
+    data_anon_l = l_diversity(data, [], quasi_ident, sensitive, k, l_val, supp_level, hierarchies)
+    print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_l, quasi_ident)}")
+    data_anon_l.to_csv(f"../datasets/anjana_credit_card_binned_k={k}_l={l_val}.csv", index=False)
+for t_val in t:
+    print(f"Running T-closeness with t={t_val}...")
+    data_anon_t = t_closeness(data, [], quasi_ident, sensitive, k, t_val, supp_level, hierarchies)
+    print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon_t, quasi_ident)}")
+    data_anon_t.to_csv(f"../datasets/anjana_credit_card_binned_k={k}_t={t_val}.csv", index=False)
+# # 6. Run Anjana
+# print(f"Starting Anjana with k={k} on {len(data)} rows...")
+# start = time.time()
 
-# Passed empty list [] for direct identifiers
-data_anon = k_anonymity(data, [], quasi_ident, k, supp_level, hierarchies)
-end = time.time()
+# # Passed empty list [] for direct identifiers
+# data_anon = k_anonymity(data, [], quasi_ident, k, supp_level, hierarchies)
+# end = time.time()
 
-print(f"Elapsed time: {end-start:.2f} seconds")
-print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon, quasi_ident)}")
+# print(f"Elapsed time: {end-start:.2f} seconds")
+# print(f"Value of k calculated: {pycanon.anonymity.k_anonymity(data_anon, quasi_ident)}")
 
-data_anon.to_csv("../datasets/credit_card_k=2.csv", index=False)
+# data_anon.to_csv("../datasets/credit_card_k=2.csv", index=False)
 
-records_suppressed = len(data) - len(data_anon)
-print(f"Number of records suppressed: {records_suppressed}")
-print(f"Percentage of records suppressed: {100 * records_suppressed / len(data):.2f} %")
+# records_suppressed = len(data) - len(data_anon)
+# print(f"Number of records suppressed: {records_suppressed}")
+# print(f"Percentage of records suppressed: {100 * records_suppressed / len(data):.2f} %")
 
-print(utils.get_transformation(data_anon, quasi_ident, hierarchies))
+# print(utils.get_transformation(data_anon, quasi_ident, hierarchies))

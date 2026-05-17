@@ -53,10 +53,26 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
     min_distances = distances.flatten()
 
     return {
-        'mean_distance':    float(min_distances.mean()),
-        'median_distance':  float(np.median(min_distances)),
-        'exact_matches_%':  float((min_distances == 0).mean() * 100),   # % perfect copies
-        'near_matches_1pct_%': float((min_distances < 0.01).mean() * 100) # % very close (threshold)
+        'mean_distance':        float(np.mean(min_distances)),
+        'median_distance':      float(np.median(min_distances)),
+        
+        'min_distance':         float(np.min(min_distances)),
+        'max_distance':         float(np.max(min_distances)),
+        'std_distance':         float(np.std(min_distances)), # Hur utspritt är bruset?
+        
+        'percentile_1st':       float(np.percentile(min_distances, 1)),  # De 1% mest sårbara
+        'percentile_5th':       float(np.percentile(min_distances, 5)),
+        'percentile_10th':      float(np.percentile(min_distances, 10)),
+        'percentile_25th':      float(np.percentile(min_distances, 25)),
+        'percentile_75th':      float(np.percentile(min_distances, 75)),
+        'percentile_90th':      float(np.percentile(min_distances, 90)),
+        'percentile_95th':      float(np.percentile(min_distances, 95)),
+        'percentile_99th':      float(np.percentile(min_distances, 99)), # De 1% bäst skyddade
+        
+        'exact_matches_%':      float((min_distances == 0).mean() * 100),
+        'near_matches_1pct_%':  float((min_distances < 0.01).mean() * 100),
+        'near_matches_5pct_%':  float((min_distances < 0.05).mean() * 100),
+        'near_matches_10pct_%': float((min_distances < 0.10).mean() * 100)
     }
 
 def plot_results(results_dict):
@@ -88,40 +104,44 @@ df_real = pd.read_csv('../datasets/folktables_public_coverage_RAW.csv')
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 
 datasets_to_test = {
-    "No anonymization (Baseline)": df_test_real,  # signals: use X_train_real directly
-    # "ARX ACS Public Coverage, k = 10": pd.read_csv('../datasets/ARX_public_coverage_k=10.csv'),
-    "ARX ACS Public Coverage k = 10": pd.read_csv('../datasets/ARX_public_coverage_k=10.csv'),
-    "ARX ACS Public Coverage k = 20": pd.read_csv('../datasets/ARX_public_coverage_k=20.csv'),
-    "ARX ACS Public Coverage k = 50": pd.read_csv('../datasets/ARX_public_coverage_k=50.csv'),
-    "ARX ACS Public Coverage, k = 10, l = 2": pd.read_csv('../datasets/ARX_public_coverage_k=10_l=2.csv'),
-    "ARX ACS Public Coverage, k = 10, l = 3": pd.read_csv('../datasets/ARX_public_coverage_k=10_l=3.csv'),
-    "ARX ACS Public Coverage, k = 10, t = 0.7": pd.read_csv('../datasets/ARX_public_coverage_k=10_t=0.7.csv'),
-    "ARX ACS Public Coverage, k = 10, t = 0.6": pd.read_csv('../datasets/ARX_public_coverage_k=10_t=0.6.csv'),
-    "DP ACS Public Coverage, epsilon = 10.0": pd.read_csv('../datasets/public_coverage_dp_epsilon_10_0.csv'),
-    "DP ACS Public Coverage, epsilon = 5.0":  pd.read_csv('../datasets/public_coverage_dp_epsilon_5_0.csv'),
-    "DP ACS Public Coverage, epsilon = 1.0":  pd.read_csv('../datasets/public_coverage_dp_epsilon_1_0.csv'),
-    "DP ACS Public Coverage, epsilon = 0.5":  pd.read_csv('../datasets/public_coverage_dp_epsilon_0_5.csv'),
-    "DP ACS Public Coverage, epsilon = 0.1":  pd.read_csv('../datasets/public_coverage_dp_epsilon_0_1.csv'),
+    "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
+    "ARX Public Coverage, k = 3": pd.read_csv('../datasets/ARX_acs_public_coverage_k3.csv'),
+    "ARX Public Coverage, k = 5": pd.read_csv('../datasets/ARX_acs_public_coverage_k5.csv'),
+    "ARX Public Coverage, k = 10": pd.read_csv('../datasets/ARX_acs_public_coverage_k10.csv'),
+    "ARX Public Coverage, k = 15": pd.read_csv('../datasets/ARX_acs_public_coverage_k15.csv'),
+    "ARX Public Coverage, k = 5, l = 3": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_l3.csv'),
+    "ARX Public Coverage, k = 5, l = 5": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_l5.csv'),
+    "ARX Public Coverage, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_t0.3.csv'),
+    "ARX Public Coverage, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_public_coverage_k5_t0.15.csv'),
+    "DP Public Coverage, epsilon = 10.0": pd.read_csv('../datasets/DP_public_coverage_epsilon_10_0.csv'),
+    "DP Public Coverage, epsilon = 5.0":  pd.read_csv('../datasets/DP_public_coverage_epsilon_5_0.csv'),
+    "DP Public Coverage, epsilon = 1.0":  pd.read_csv('../datasets/DP_public_coverage_epsilon_1_0.csv'),
+    "DP Public Coverage, epsilon = 0.5":  pd.read_csv('../datasets/DP_public_coverage_epsilon_0_5.csv'),
+    "DP Public Coverage, epsilon = 0.1":  pd.read_csv('../datasets/DP_public_coverage_epsilon_0_1.csv'),
+    "Combined Public Coverage, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_public_coverage.csv'),
+    "Combined Public Coverage, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_public_coverage.csv'),
+    "Combined Public Coverage, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_public_coverage.csv'),
+    "Combined Public Coverage, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_public_coverage.csv'),
+    "Combined Public Coverage, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_public_coverage.csv'),
+    "Combined Public Coverage, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_public_coverage.csv'),
 }
 
 results = {}
 
-for name, df in datasets_to_test.items():
-    print(f"\n--- Evaluating DCR for: {name} ---")
-    results[name] = dcr(df_orig_raw=df_train_real, df_anon_raw=df, numeric_cols=NUMERIC_COLS)
-    print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
-    print(f"Median DCR: {results[name]['median_distance']:.4f}")
-    print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
-    print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
+# for name, df in datasets_to_test.items():
+#     print(f"\n--- Evaluating DCR for: {name} ---")
+#     results[name] = dcr(df_orig_raw=df_train_real, df_anon_raw=df, numeric_cols=NUMERIC_COLS)
+#     print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
+#     print(f"Median DCR: {results[name]['median_distance']:.4f}")
+#     print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
+#     print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
 
 df_results = pd.DataFrame.from_dict(results, orient='index')
 
-# 2. Döp om index-kolumnen så det ser snyggt ut i CSV:n
 df_results.index.name = 'Anonymization_Configuration'
 
-# 3. Definiera var du vill spara filen (skapa en mapp som heter "results" om du inte har det)
-csv_filepath = "../plots/dcr_results_acs_public_coverage.csv" 
+csv_filepath = "../plots/dcr/dcr_results_acs_public_coverage.csv" 
 
-# 4. Spara till CSV
 df_results.to_csv(csv_filepath)
+print(df_results)
 # plot_results({k: v['mean_distance'] for k, v in results.items()})

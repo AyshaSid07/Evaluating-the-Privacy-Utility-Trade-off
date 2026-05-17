@@ -3,17 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
 from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox
 
 PREDICTION_TARGET = 'default payment'
-SENSITIVE_ATTR    = 'MARRIAGE'
+SENSITIVE_ATTR    = 'LIMIT_CATEGORY'
 RANDOM_STATE      = 123
 
-df_real = pd.read_csv('../datasets/credit-card-clients.csv', low_memory=False)
+# df_real = pd.read_csv('../datasets/credit-card-clients.csv', low_memory=False)
+df_real = pd.read_csv('../datasets/credit_card_clients_binned.csv', low_memory=False)
+df_real.columns = df_real.columns.str.strip()
 
 if 'ID' in df_real.columns:
     df_real = df_real.drop(columns=['ID'])
@@ -32,7 +34,7 @@ def plot_results(results_df):
     blackbox_acc = results_df['BlackBox_Accuracy'].tolist()
     
     x = np.arange(len(methods))
-    width = 0.7  # Bredden på staplarna
+    width = 0.7 
     
     colors = [plt.cm.Set3(i) for i in range(len(methods))]
     
@@ -49,7 +51,8 @@ def plot_results(results_df):
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
     # plt.savefig("../plots/attribute_inference_credit_card_clients_ARX.png", dpi=300)
-    plt.savefig("../plots/attribute_inference_credit_card_clients_DP.png", dpi=300)
+    # plt.savefig("../plots/attribute_inference_credit_card_clients_DP.png", dpi=300)
+    plt.savefig("../plots/attribute_inference_credit_card_clients_test.png", dpi=300)
     plt.show()
 
 def preprocess(df, preprocessor=None, fit=False):
@@ -61,13 +64,14 @@ def preprocess(df, preprocessor=None, fit=False):
         '1.0': 1, '0.0': 0,
         'true': 1, 'false': 0
     }
+
     y = y_raw.map(target_map).fillna(0).astype(int).values
     
-    sens = df[SENSITIVE_ATTR].astype(float).astype(int).values
+    sens = df[SENSITIVE_ATTR].fillna(0).astype(int).values
     
     X_raw = df.drop(columns=[PREDICTION_TARGET, SENSITIVE_ATTR]).copy()
 
-    NUMERIC_COLS = ['LIMIT_BAL', 'BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 
+    NUMERIC_COLS = ['BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 
                     'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
     
     CATEGORICAL_COLS = [c for c in X_raw.columns if c not in NUMERIC_COLS]
@@ -107,16 +111,25 @@ print(f"Target model trained on {len(X_train_real)} real records\n")
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
-    # "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k=5.csv'),
-    # "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=2.csv'),
-    # "ARX Credit Card Clients, k = 5, l = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_l=3.csv'),
-    # "ARX Credit Card Clients, k = 5, t = 0.20": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.2.csv'),
-    # "ARX Credit Card Clients, k = 5, t = 0.10": pd.read_csv('../datasets/ARX_credit_card_clients_k=5_t=0.1.csv'),
-    "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/credit_card_clients_dp_epsilon_10_0.csv'),
-    "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_5_0.csv'),
-    "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_3_0.csv'),
-    "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_1_0.csv'),
-    "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/credit_card_clients_dp_epsilon_0_5.csv'),
+    "ARX Credit Card Clients, k = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k3.csv'),
+    "ARX Credit Card Clients, k = 5": pd.read_csv('../datasets/ARX_credit_card_clients_k5.csv'),
+    "ARX Credit Card Clients, k = 10": pd.read_csv('../datasets/ARX_credit_card_clients_k10.csv'),
+    "ARX Credit Card Clients, k = 15": pd.read_csv('../datasets/ARX_credit_card_clients_k15.csv'),
+    "ARX Credit Card Clients, k = 5, l = 2": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l2.csv'),
+    "ARX Credit Card Clients, k = 5, l = 4": pd.read_csv('../datasets/ARX_credit_card_clients_k5_l4.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.3.csv'),
+    "ARX Credit Card Clients, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_credit_card_clients_k5_t0.15.csv'),
+    "DP Credit Card Clients, epsilon = 10.0": pd.read_csv('../datasets/DP_credit_card_clients_epsilon_10_0.csv'),
+    "DP Credit Card Clients, epsilon = 5.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_5_0.csv'),
+    "DP Credit Card Clients, epsilon = 3.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_3_0.csv'),
+    "DP Credit Card Clients, epsilon = 1.0":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_1_0.csv'),
+    "DP Credit Card Clients, epsilon = 0.5":  pd.read_csv('../datasets/DP_credit_card_clients_epsilon_0_5.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_credit_card_clients.csv'),
+    "Combined Credit Card Clients, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_credit_card_clients.csv'),
 }
 
 results = []
@@ -128,11 +141,11 @@ for name, df_adv in datasets_to_test.items():
     else:
         if 'index' in df_adv.columns:
             df_adv = df_adv.set_index('index')
+            surviving_train_indices = df_train_real.index.intersection(df_adv.index)
+            df_adv = df_adv.loc[surviving_train_indices].copy()
         else:
-            df_adv.index = df_real.index
+            df_adv = df_adv.reset_index(drop=True)
             
-        surviving_train_indices = df_train_real.index.intersection(df_adv.index)
-        df_adv = df_adv.loc[surviving_train_indices].copy()
 
     df_adv = df_adv[df_adv[SENSITIVE_ATTR].astype(str) != '*'].copy()
     df_adv = df_adv[df_adv[PREDICTION_TARGET].astype(str) != '*'].copy()
@@ -170,12 +183,16 @@ for name, df_adv in datasets_to_test.items():
         values=possible_values
     )
 
-    acc = balanced_accuracy_score(sens_test_real, inferred)
-    print(f"  Balanced Accuracy: {acc:.4f}\n")
+    acc = accuracy_score(sens_test_real, inferred)
+    balanced_acc = balanced_accuracy_score(sens_test_real, inferred)
+    print(f"  Accuracy: {acc:.4f}\n")
+    print(f"  Balanced Accuracy: {balanced_acc:.4f}\n")
 
-    results.append({'Dataset': name, 'BlackBox_Accuracy': acc})
+    results.append({'Dataset': name, 'BlackBox_Accuracy': acc, 'BlackBox_Balanced_Accuracy': balanced_acc})
 
 results_df = pd.DataFrame(results)
 print("=== Final Results ===")
 print(results_df)
-plot_results(results_df)
+results_df.to_csv("../plots/aia/credit_card_clients_aia_results.csv", index=False)
+
+# plot_results(results_df)

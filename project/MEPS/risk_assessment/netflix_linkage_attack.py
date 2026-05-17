@@ -118,17 +118,29 @@ if __name__ == "__main__":
 
     df_original['Linkage_Index'] = df_original.index
 
-    quasi_identifiers = ["AGE", "RACE", "MARRY", "SEX"]
-
+    quasi_identifiers = ["AGE", "MARRY", "REGION", "SEX", "RACE", "ACTDTY", "EMPST", "FTSTU"]
 
     datasets_to_test = {
-        "No anonymization (Baseline)": df_original.copy(), 
-        # "ARX MEPS k = 5": pd.read_csv('../datasets/ARX_meps_k=5.csv'),
-        # "ARX MEPS k = 10": pd.read_csv('../datasets/ARX_meps_k=10.csv'),
-        # "ARX MEPS k = 20": pd.read_csv('../datasets/ARX_meps_k=20.csv'),
-        "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/meps_dp_epsilon_10_0.csv'),
-        "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/meps_dp_epsilon_5_0.csv'),
-        "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/meps_dp_epsilon_1_0.csv'),
+        "No anonymization (Baseline)": df_original,  
+        "ARX MEPS, k = 3": pd.read_csv('../datasets/ARX_meps_k3.csv'),
+        "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k5.csv'),
+        # "ARX MEPS, k = 10": pd.read_csv('../datasets/ARX_meps_k10.csv'),
+        # "ARX MEPS, k = 15": pd.read_csv('../datasets/ARX_meps_k15.csv'),
+        # "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k5_l2.csv'),
+        "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k5_l3.csv'),
+        # "ARX MEPS, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_meps_k5_t0.3.csv'),
+        "ARX MEPS, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_meps_k5_t0.15.csv'),
+        "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/DP_meps_epsilon_10_0.csv'),
+        # "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/DP_meps_epsilon_5_0.csv'),
+        "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/DP_meps_epsilon_3_0.csv'),
+        "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/DP_meps_epsilon_1_0.csv'),
+        # "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/DP_meps_epsilon_0_5.csv'),
+        "Combined MEPS, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_meps.csv'),
+        "Combined MEPS, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_meps.csv'),
+        # "Combined MEPS, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_meps.csv'),
+        "Combined MEPS, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_meps.csv'),
+        "Combined MEPS, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_meps.csv'),
+        # "Combined MEPS, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_meps.csv'),
     }
 
     final_results = {}
@@ -155,6 +167,9 @@ if __name__ == "__main__":
         hit_accuracy = evaluate_attack(results, df_attacker, df_protected_sample, defense_name)
         final_results[defense_name] = hit_accuracy
 
-    plot_results(final_results)
+    # plot_results(final_results)
     end = time()
     print(f"Total execution time: {end - start} seconds")
+    data = [{'Dataset': name, 'Hit_Precision': precision} for name, precision in final_results.items()]
+    df_results = pd.DataFrame(data)
+    df_results.to_csv("../plots/linkage/linkage_attack_results_meps.csv", index=False)

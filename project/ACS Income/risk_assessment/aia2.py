@@ -3,14 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
 from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox
 
 PREDICTION_TARGET = 'PINCP'
-SENSITIVE_ATTR    = 'SEX'
+SENSITIVE_ATTR    = 'RAC1P'
 RANDOM_STATE      = 123
 
 # ── Step 1: Split real data once — test set is locked ─────────────────────────
@@ -78,7 +78,7 @@ X_train_real, y_train_real, sens_train_real, preprocessor = preprocess(df_train_
 X_test_real,  y_test_real,  sens_test_real,  _            = preprocess(df_test_real, preprocessor=preprocessor)
 
 X_train_with_sens = np.column_stack((sens_train_real, X_train_real))
-target_model = RandomForestClassifier(n_estimators=50, random_state=RANDOM_STATE)
+target_model = RandomForestClassifier(n_estimators=50, random_state=RANDOM_STATE, n_jobs=-1)
 target_model.fit(X_train_with_sens, y_train_real)
 art_classifier = SklearnClassifier(model=target_model)
 
@@ -92,16 +92,25 @@ print(f"Target model trained on {len(X_train_real)} real records\n")
 
 datasets_to_test = {
     "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
-    "DP Income, epsilon = 10.0": pd.read_csv('../datasets/income_dp_epsilon_10_0.csv'),
-    "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/income_dp_epsilon_5_0.csv'),
-    "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/income_dp_epsilon_1_0.csv'),
-    "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/income_dp_epsilon_0_5.csv'),
-    "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/income_dp_epsilon_0_1.csv'),
-    # "ARX Income k = 10": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
-    # "ARX Income k = 10, l = 2": pd.read_csv('../datasets/ARX_income_k=10_l=2.csv'),
-    # "ARX Income k = 10, t = 0.2": pd.read_csv('../datasets/ARX_income_k=10_t=0.2.csv'),
-    # "ARX Income k = 10, t = 0.10": pd.read_csv('../datasets/ARX_income_k=10_t=0.1.csv'),
-    # "ARX Income k = 10, t = 0.05": pd.read_csv('../datasets/ARX_income_k=10_t=0.05.csv'),
+    "ARX Income, k = 3": pd.read_csv('../datasets/ARX_acs_income_k3.csv'),
+    "ARX Income, k = 5": pd.read_csv('../datasets/ARX_acs_income_k5.csv'),
+    "ARX Income, k = 10": pd.read_csv('../datasets/ARX_acs_income_k10.csv'),
+    "ARX Income, k = 15": pd.read_csv('../datasets/ARX_acs_income_k15.csv'),
+    "ARX Income, k = 5, l = 3": pd.read_csv('../datasets/ARX_acs_income_k5_l3.csv'),
+    "ARX Income, k = 5, l = 5": pd.read_csv('../datasets/ARX_acs_income_k5_l5.csv'),
+    "ARX Income, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_acs_income_k5_t0.3.csv'),
+    "ARX Income, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_income_k5_t0.15.csv'),
+    "DP Income, epsilon = 10.0": pd.read_csv('../datasets/DP_income_epsilon_10_0.csv'),
+    "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/DP_income_epsilon_5_0.csv'),
+    "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/DP_income_epsilon_1_0.csv'),
+    "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/DP_income_epsilon_0_5.csv'),
+    "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/DP_income_epsilon_0_1.csv'),
+    "Combined Income, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_income.csv'),
+    "Combined Income, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_income.csv'),
+    "Combined Income, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_income.csv'),
+    "Combined Income, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_income.csv'),
+    "Combined Income, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_income.csv'),
+    "Combined Income, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_income.csv'),
 }
 
 results = []
@@ -148,12 +157,16 @@ for name, df_adv in datasets_to_test.items():
         values=possible_values
     )
 
-    acc = balanced_accuracy_score(sens_test_real, inferred)
-    print(f"  Balanced Accuracy: {acc:.4f}\n")
+    acc = accuracy_score(sens_test_real, inferred)
+    balanced_acc = balanced_accuracy_score(sens_test_real, inferred)
+    print(f"  Accuracy: {acc:.4f}")
+    print(f"  Balanced Accuracy: {balanced_acc:.4f}\n")
 
-    results.append({'Dataset': name, 'BlackBox_Accuracy': acc})
+    results.append({'Dataset': name, 'BlackBox_Accuracy': acc, 'BlackBox_Balanced_Accuracy': balanced_acc})
 
 results_df = pd.DataFrame(results)
 print("=== Final Results ===")
 print(results_df)
-plot_results(results_df)
+# plot_results(results_df)
+results_df.to_csv("../plots/aia/income_aia_results.csv", index=False)
+
