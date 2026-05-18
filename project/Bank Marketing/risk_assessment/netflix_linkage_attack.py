@@ -149,16 +149,10 @@ if __name__ == "__main__":
     for defense_name, df_protected in datasets_to_test.items():
         print(f"\nEvaluating defense: {defense_name}")
         
-        if 'index' in df_protected.columns:
-            df_protected = df_protected.rename(columns={'index': 'Linkage_Index'})
-        elif 'Linkage_Index' not in df_protected.columns:
-            df_protected['Linkage_Index'] = df_original.index 
+        if 'Linkage_Index' not in df_protected.columns:
+            df_protected = df_protected.reset_index(drop=True)
+            df_protected['Linkage_Index'] = df_protected.index
 
-        # n_sample = 10000
-        # if len(df_protected) > n_sample:
-        #     df_protected_sample = df_protected.sample(n=n_sample, random_state=42).copy()
-        # else:
-        #     df_protected_sample = df_protected.copy()
         attacker_indices = df_protected['Linkage_Index'].sample(n=400, random_state=123)
         df_attacker = df_original[df_original['Linkage_Index'].isin(attacker_indices)].copy()
         

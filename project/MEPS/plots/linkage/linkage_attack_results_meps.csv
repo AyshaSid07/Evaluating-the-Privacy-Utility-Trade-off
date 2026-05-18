@@ -1,0 +1,15 @@
+Dataset,Hit_Precision
+No anonymization (Baseline),35.333333333333336
+"ARX MEPS, k = 3",5.333333333333334
+"ARX MEPS, k = 5",0.6666666666666667
+"ARX MEPS, k = 10",0.0
+"ARX MEPS, k = 15",0.0
+"ARX MEPS, k = 5, l = 3",0.0
+"ARX MEPS, k = 5, t = 0.15",0.0
+"DP MEPS, epsilon = 10.0",0.0
+"DP MEPS, epsilon = 3.0",0.0
+"DP MEPS, epsilon = 1.0",0.0
+"Combined MEPS, k = 3 + epsilon = 0.5",0.0
+"Combined MEPS, k = 3 + epsilon = 1.0",0.0
+"Combined MEPS, k = 5 + epsilon = 0.5",0.0
+"Combined MEPS, k = 5 + epsilon = 1.0",0.0

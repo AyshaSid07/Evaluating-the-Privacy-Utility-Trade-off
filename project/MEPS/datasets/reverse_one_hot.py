@@ -7,8 +7,6 @@ df = pd.read_csv(input_file)
 one_hot_cols = [col for col in df.columns if '=' in col]
 prefixes = set([col.split('=')[0] for col in one_hot_cols])
 
-print(f"Hittade {len(prefixes)} kategorier att baka ihop (t.ex. {list(prefixes)[:3]}...)")
-
 for prefix in prefixes:
     cols = [col for col in df.columns if col.startswith(prefix + '=')]
     
