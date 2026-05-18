@@ -135,10 +135,10 @@ results = {}
 for name, df in datasets_to_test.items():
     print(f"\n--- Evaluating DCR for: {name} ---")
     results[name] = dcr(df_orig_raw=df_train_real, df_anon_raw=df, numeric_cols=NUMERIC_COLS)
-    print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
-    print(f"Median DCR: {results[name]['median_distance']:.4f}")
-    print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
-    print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
+    # print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
+    # print(f"Median DCR: {results[name]['median_distance']:.4f}")
+    # print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
+    # print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
 df_results = pd.DataFrame.from_dict(results, orient='index')
 
 df_results.index.name = 'Anonymization_Configuration'

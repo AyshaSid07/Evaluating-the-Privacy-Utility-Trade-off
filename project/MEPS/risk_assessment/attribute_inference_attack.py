@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, balanced_accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score, precision_score, recall_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
@@ -13,42 +14,35 @@ PREDICTION_TARGET = 'UTILIZATION'
 SENSITIVE_ATTR    = 'INSCOV'
 RANDOM_STATE      = 123
 
+# Load and clean real data
 df_real = pd.read_csv('../datasets/MEPS.csv')
 if 'index' in df_real.columns:
     df_real = df_real.drop(columns=['index'])
+elif "Linkage_Index" in df_real.columns:
+    df_real = df_real.drop(columns=["Linkage_Index"])
+
 df_real = df_real[df_real[SENSITIVE_ATTR].astype(str) != '*'].copy()
 df_real = df_real[df_real[PREDICTION_TARGET].astype(str) != '*'].copy()
 
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 
-def plot_results(results_df):
-    plt.figure(figsize=(12, 6)) 
-    
-    methods = results_df['Dataset'].tolist()
-    blackbox_acc = results_df['BlackBox_Accuracy'].tolist()
-    
-    x = np.arange(len(methods))
-    width = 0.7  
-    
-    colors = [plt.cm.Set3(i) for i in range(len(methods))]
-    
-    plt.bar(x, blackbox_acc, width, color=colors, edgecolor='black')
-    
-    for i in range(len(methods)):
-        plt.text(x[i], blackbox_acc[i], f"{blackbox_acc[i]:.2f}", ha='center', va='bottom', fontsize=10)
-        
-    plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
-    plt.ylabel('Re-identification Rate (Accuracy)', fontsize=10)
-    plt.xlabel('Anonymization Value', fontsize=10)
-    plt.title('Attribute Inference Attack Results on different anonymization values on the MEPS Data', fontsize=10)
-
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    # plt.savefig("../plots/attribute_inference_MEPS_ARX.png", dpi=300)
-    # plt.savefig("../plots/attribute_inference_MEPS_DP.png", dpi=300)
-    plt.savefig("../plots/attribute_inference_MEPS_ALL.png", dpi=300)
-
-    plt.show()
+def parse_arx_bins(series):
+    # Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
+    def convert_val(val):
+        val = str(val).strip()
+        if val == '*': return 0.0
+        if val.startswith('[') and val.endswith('['):
+            parts = val[1:-1].split(',')
+            try:
+                return (float(parts[0]) + float(parts[1])) / 2.0
+            except:
+                return 0.0
+        try:
+            return float(val)
+        except:
+            return 0.0
+            
+    return series.apply(convert_val)
 
 def preprocess(df, preprocessor=None, fit=False):
     y_raw = df[PREDICTION_TARGET].astype(str).str.strip().str.lower()
@@ -63,8 +57,9 @@ def preprocess(df, preprocessor=None, fit=False):
     num_cols_present = [c for c in NUMERIC_COLS if c in X_raw.columns]
     cat_cols = [c for c in X_raw.columns if c not in num_cols_present]
 
+    # Process continuous values safely
     for col in num_cols_present:
-        X_raw[col] = pd.to_numeric(X_raw[col].astype(str).str.replace('*', 'NaN', regex=False), errors='coerce').fillna(0)
+        X_raw[col] = parse_arx_bins(X_raw[col])
     
     for col in cat_cols:
         X_raw[col] = X_raw[col].astype(str)
@@ -80,9 +75,11 @@ def preprocess(df, preprocessor=None, fit=False):
 
     return X, y, sens, preprocessor
 
+# Prepare real training data
 X_train_real, y_train_real, sens_train_real, preprocessor = preprocess(df_train_real, fit=True)
 X_test_real,  y_test_real,  sens_test_real,  _            = preprocess(df_test_real, preprocessor=preprocessor)
 
+# Train the target black-box model (the internal hospital model)
 X_train_with_sens = np.column_stack((sens_train_real, X_train_real))
 target_model = RandomForestClassifier(n_estimators=50, random_state=RANDOM_STATE)
 target_model.fit(X_train_with_sens, y_train_real)
@@ -91,7 +88,7 @@ art_classifier = SklearnClassifier(model=target_model)
 print(f"Target model trained on {len(X_train_real)} real records\n")
 
 datasets_to_test = {
-    "No anonymization (Baseline)": df_train_real,  # attacker has real data — upper bound
+    "No anonymization (Baseline)": df_train_real,  
     "ARX MEPS, k = 3": pd.read_csv('../datasets/ARX_meps_k3.csv'),
     "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k5.csv'),
     "ARX MEPS, k = 10": pd.read_csv('../datasets/ARX_meps_k10.csv'),
@@ -120,60 +117,70 @@ for name, df_adv in datasets_to_test.items():
     if name == "No anonymization (Baseline)":
         pass 
     else:
+        # Drop irrelevant identifiers for attribute inference
         if 'index' in df_adv.columns:
-            df_adv = df_adv.set_index('index')
-            surviving_train_indices = df_train_real.index.intersection(df_adv.index)
-            df_adv = df_adv.loc[surviving_train_indices].copy()
-        else:
-            df_adv = df_adv.reset_index(drop=True)
+            df_adv = df_adv.drop(columns=['index'])
+        if "Linkage_Index" in df_adv.columns:
+            df_adv = df_adv.drop(columns=["Linkage_Index"])
    
     df_adv = df_adv[df_adv[SENSITIVE_ATTR].astype(str) != '*'].copy()
     df_adv = df_adv[df_adv[PREDICTION_TARGET].astype(str) != '*'].copy()
 
-    # Preprocess adversary's data using the SAME preprocessor fitted on real data
-    # This ensures feature alignment with the target model
+    # Align adversary data format
     X_adv, y_adv, sens_adv, _ = preprocess(df_adv, preprocessor=preprocessor)
     X_adv_with_sens = np.column_stack((sens_adv, X_adv))
-
-    # Adversary queries the black-box model using their data
-    preds_adv = target_model.predict(X_adv_with_sens).reshape(-1, 1)
     
-    # Add our own attack rf model, with a set random state for reproducability and determinism in results
-    # The rf model for AttributeInferenceBlackBox is not deterministic by default
+    # Initialize shadow model
     attack_rf = RandomForestClassifier(n_estimators=50, random_state=RANDOM_STATE, n_jobs=-1)
-
     art_attack_model = SklearnClassifier(model=attack_rf)
 
-    # Train attack model on adversary's data (synthetic or anonymized)
+    # Configure and train the attack
     attack = AttributeInferenceBlackBox(
         estimator=art_classifier,
         attack_model=art_attack_model,  
         attack_feature=0,
         is_continuous=False
     )
-    attack.fit(x=X_adv_with_sens, y=y_adv)
+    
+    # Fit strictly uses x, avoiding the target variable y per the ART methodology
+    attack.fit(x=X_adv_with_sens)
 
-    # ── Test on REAL held-out records — the actual people being attacked ──────
+    # Prepare real victim data
     X_test_with_sens = np.column_stack((sens_test_real, X_test_real))
-    preds_test = target_model.predict(X_test_with_sens).reshape(-1, 1)
+    
+    # Query the target model to obtain predictions for the inference step
+    preds_test = np.array([np.argmax(arr) for arr in art_classifier.predict(X_test_with_sens)]).reshape(-1,1)
     possible_values = np.unique(sens_adv).tolist()
 
+    # Execute the attack
     inferred = attack.infer(
         x=X_test_real,
-        y=y_test_real,
         pred=preds_test,
         values=possible_values
     )
 
+    # Evaluate metrics based on the ART notebook standard
     acc = accuracy_score(sens_test_real, inferred)
     balanced_acc = balanced_accuracy_score(sens_test_real, inferred)
-    print(f"  Accuracy: {acc:.4f}")
-    print(f"  Balanced Accuracy: {balanced_acc:.4f}\n")
+    
+    # Compute precision and recall to measure attacker confidence and coverage
+    recall = recall_score(sens_test_real, inferred, average='macro', zero_division=0)
+    precision = precision_score(sens_test_real, inferred, average='macro', zero_division=0)
 
-    results.append({'Dataset': name, 'BlackBox_Accuracy': acc, 'BlackBox_Balanced_Accuracy': balanced_acc})
+    print(f"  Accuracy: {acc:.4f}")
+    print(f"  Balanced Accuracy: {balanced_acc:.4f}")
+    print(f"  Precision: {precision:.4f}")
+    print(f"  Recall: {recall:.4f}\n")
+
+    results.append({
+        'Dataset': name, 
+        'BlackBox_Accuracy': acc, 
+        'BlackBox_Balanced_Accuracy': balanced_acc, 
+        'BlackBox_Precision': precision, 
+        'BlackBox_Recall': recall
+    })
 
 results_df = pd.DataFrame(results)
 print("=== Final Results ===")
 print(results_df)
 results_df.to_csv("../plots/aia/meps_aia_results.csv", index=False)
-# plot_results(results_df)
