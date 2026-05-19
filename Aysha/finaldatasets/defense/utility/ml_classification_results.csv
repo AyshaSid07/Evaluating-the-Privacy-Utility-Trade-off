@@ -1,8 +1,0 @@
-Method,Accuracy,Precision,Recall,F1_Score,Accuracy_Change_%,k_Anon_%,Features_Suppressed
-Raw (No Defense),45.67,45.35,45.67,45.34,0.0,0.0,0
-Generalization,42.67,42.82,42.67,42.74,-6.57,97.1,0
-Attribute Suppression,55.33,55.13,55.33,54.86,21.17,97.1,6
-Cell Suppression,45.5,45.14,45.5,45.2,-0.36,87.23,0
-Data Swapping,41.17,40.48,41.17,40.73,-9.85,56.73,0
-Generalization + Suppression,55.33,55.13,55.33,54.86,21.17,100.0,4
-Row Suppression k-Anon (k=5),43.4,43.26,43.4,43.31,-4.97,100.0,0

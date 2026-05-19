@@ -1,7 +1,0 @@
-,Timestamp,MCC,MNC,PLMN,TMSI,LMSI,TLLI,LAI,RAI,Network_Type,Device_Type
-Generalization,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0
-Attribute Suppression,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0
-Cell Suppression,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0
-Data Swapping,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0
-Generalization + Suppression,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0
-Row Suppression k-Anon (k=5),0.1211,0.0128,0.0146,0.0161,0.1211,0.1211,0.1211,1.0,1.0,0.0078,0.0124
