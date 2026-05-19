@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -11,6 +10,8 @@ TARGET_COLUMN = 'y'
 RANDOM_STATE = 123
 
 df_real = pd.read_csv('../datasets/bank-additional-full.csv', sep=';')
+if 'Linkage_Index' in df_real.columns:
+    df_real = df_real.drop(columns=['Linkage_Index'])
 df_real = df_real[df_real[TARGET_COLUMN].astype(str) != '*'].copy()
 
 if 'duration' in df_real.columns:
@@ -56,34 +57,43 @@ results = []
 for name, df in datasets_to_test.items():
     print(f"Evaluating: {name}...")
 
-    # Baseline: train directly on the real training split
     if df is None:
-        X_train = X_train_real
+        X_train = X_train_real.copy().astype(str)
         y_train = y_train_real
     else:
-        if 'index' in df.columns:
-            df = df.drop(columns=['index'])
         if 'duration' in df.columns:
             df = df.drop(columns=['duration'])
-        df = df[df[TARGET_COLUMN].astype(str) != '*'].copy()
+        if 'Linkage_Index' in df.columns:
+            df = df.set_index('Linkage_Index')
+            surviving_train_indices = X_train_real.index.intersection(df.index)
+            df_train = df.loc[surviving_train_indices].copy()
+        else:
+            df_train = df.reset_index(drop=True).copy()
 
-        df[TARGET_COLUMN] = df[TARGET_COLUMN].astype(str).str.lower().map(target_map)
-        df = df.dropna(subset=[TARGET_COLUMN])
+        df_train = df_train[df_train[TARGET_COLUMN].astype(str) != '*'].copy()
 
-        # Nu stämmer FEATURE_COLS exakt överens med både tränings- och testdatan!
-        df = df[FEATURE_COLS + [TARGET_COLUMN]]
+        df_train[TARGET_COLUMN] = (
+            df_train[TARGET_COLUMN]
+            .astype(str)
+            .str.lower()
+            .map(target_map)
+        )
 
-        # Use ALL rows for training — no re-splitting needed for synthetic data
-        y_train = df[TARGET_COLUMN].astype(int).values
-        X_train = df.drop(columns=[TARGET_COLUMN]).astype(str)
+        df_train = df_train.dropna(subset=[TARGET_COLUMN])
+        df_train = df_train[FEATURE_COLS + [TARGET_COLUMN]]
+
+        y_train = df_train[TARGET_COLUMN].astype(int).values
+        X_train = df_train.drop(columns=[TARGET_COLUMN]).astype(str)
+
+    X_test = X_test_real.copy().astype(str)
 
     model = Pipeline([
         ('encoder', OneHotEncoder(handle_unknown='ignore', sparse_output=True)),
-        ('classifier', RandomForestClassifier(n_jobs=-1, random_state=2, class_weight='balanced'))
+        ('classifier', RandomForestClassifier(n_jobs=-1,random_state=2,class_weight='balanced'))
     ])
 
     model.fit(X_train, y_train)
-    y_pred = model.predict(X_test_real)
+    y_pred = model.predict(X_test)
 
     results.append({
         'Dataset': name,
@@ -96,40 +106,3 @@ for name, df in datasets_to_test.items():
 results_df = pd.DataFrame(results)
 print(results_df)
 results_df.to_csv("../plots/utility/bank_marketing_utility_results.csv", index=False)
-
-def plot_utility_results(results_df):
-    plt.figure(figsize=(14, 7)) 
-    
-    methods = results_df['Dataset'].tolist()
-    metrics = ['Accuracy', 'F1-Score', 'Precision', 'Recall']
-    
-    x = np.arange(len(methods))
-    width = 0.2  
-    
-    colors = ['#0072B2', '#E69F00', '#56B4E9', '#009E73']
-    
-    for i, metric in enumerate(metrics):
-        offset = (i - 1.5) * width 
-        values = results_df[metric].tolist()
-        
-        bars = plt.bar(x + offset, values, width, label=metric, color=colors[i], edgecolor='black')
-        
-        for j, val in enumerate(values):
-            plt.text(x[j] + offset, val + 0.01, f"{val:.2f}", ha='center', va='bottom', fontsize=9)
-            
-    plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
-    plt.ylabel('Score (0.0 - 1.0)', fontsize=10)
-    plt.xlabel('Anonymization Setting', fontsize=10)
-    plt.title('Utility Evaluation on Bank Marketing Data (Random Forest) ', fontsize=12)
-
-    plt.ylim(0, 1.1)
-    
-    plt.legend(loc='lower right', framealpha=1.0)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    # plt.savefig("../plots/utility_bank_marketing_TSTR_ARX_k_only.png", dpi=300)
-    # plt.savefig("../plots/utility_bank_marketing_TSTR_ARX_k_l_t.png", dpi=300)
-    plt.savefig("../plots/utility_bank_marketing_TSTR_DP.png", dpi=300)
-    plt.show()
-
-# plot_utility_results(results_df)

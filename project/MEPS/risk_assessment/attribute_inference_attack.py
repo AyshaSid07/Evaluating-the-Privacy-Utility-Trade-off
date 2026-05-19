@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import re
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score, precision_score, recall_score
@@ -26,23 +24,20 @@ df_real = df_real[df_real[PREDICTION_TARGET].astype(str) != '*'].copy()
 
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 
-def parse_arx_bins(series):
-    # Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
-    def convert_val(val):
-        val = str(val).strip()
-        if val == '*': return 0.0
-        if val.startswith('[') and val.endswith('['):
-            parts = val[1:-1].split(',')
-            try:
-                return (float(parts[0]) + float(parts[1])) / 2.0
-            except:
-                return 0.0
+def convert_val(val):
+# Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
+    val = str(val).strip()
+    if val == '*': return 0.0
+    if val.startswith('[') and val.endswith('['):
+        parts = val[1:-1].split(',')
         try:
-            return float(val)
+            return (float(parts[0]) + float(parts[1])) / 2.0
         except:
             return 0.0
-            
-    return series.apply(convert_val)
+    try:
+        return float(val)
+    except:
+        return 0.0
 
 def preprocess(df, preprocessor=None, fit=False):
     y_raw = df[PREDICTION_TARGET].astype(str).str.strip().str.lower()
@@ -59,7 +54,7 @@ def preprocess(df, preprocessor=None, fit=False):
 
     # Process continuous values safely
     for col in num_cols_present:
-        X_raw[col] = parse_arx_bins(X_raw[col])
+        X_raw[col] = X_raw[col].apply(convert_val)
     
     for col in cat_cols:
         X_raw[col] = X_raw[col].astype(str)

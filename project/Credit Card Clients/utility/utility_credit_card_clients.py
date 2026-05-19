@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
@@ -10,17 +9,27 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 
 TARGET_COLUMN = 'default payment'
 RANDOM_STATE = 123
-
+def convert_val(val):
+# Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
+    val = str(val).strip()
+    if val == '*': return 0.0
+    if val.startswith('[') and val.endswith('['):
+        parts = val[1:-1].split(',')
+        try:
+            return (float(parts[0]) + float(parts[1])) / 2.0
+        except:
+            return 0.0
+    try:
+        return float(val)
+    except:
+        return 0.0
 df_real = pd.read_csv('../datasets/credit_card_clients_binned.csv')
 
-if 'ID' in df_real.columns:
-    df_real = df_real.drop(columns=['ID'])
-elif 'id' in df_real.columns:
-    df_real = df_real.drop(columns=['id'])
-if 'index' in df_real.columns:
-    df_real = df_real.drop(columns=['index'])
+if 'Linkage_Index' in df_real.columns:
+    df_real = df_real.drop(columns=['Linkage_Index'])
 
 df_real = df_real[df_real[TARGET_COLUMN].astype(str) != '*'].copy()
+
 if 'SEX' in df_real.columns:
     df_real['SEX'] = ["Female" if str(v) == '2' else "Male" for v in df_real['SEX']]
 
@@ -66,11 +75,11 @@ results = []
 for name, df in datasets_to_test.items():
     print(f"Evaluating: {name}...")
     if df is None:
-        X_train = X_train_real
+        X_train = X_train_real.copy()
         y_train = y_train_real
     else:
-        if 'index' in df.columns:
-            df = df.set_index('index')
+        if 'Linkage_Index' in df.columns:
+            df = df.set_index('Linkage_Index')
             surviving_train_indices = X_train_real.index.intersection(df.index)
             df_train = df.loc[surviving_train_indices].copy()
         else:
@@ -87,16 +96,30 @@ for name, df in datasets_to_test.items():
         X_train = df_train.drop(columns=[TARGET_COLUMN]).copy()
 
     for col in NUMERIC_COLS:
-        X_train[col] = pd.to_numeric(X_train[col].astype(str).str.replace('*', 'NaN', regex=False), errors='coerce').fillna(0)
+        X_train[col] = X_train[col].apply(convert_val)
+
+        median_val = X_train[col].median()
+        if pd.isna(median_val):
+            median_val = 0.0
+
+        X_train[col] = X_train[col].fillna(median_val)
+
     for col in CATEGORICAL_COLS:
         X_train[col] = X_train[col].astype(str)
-        
-    if df is None: 
-        for col in NUMERIC_COLS:
-            X_test_real[col] = pd.to_numeric(X_test_real[col], errors='coerce').fillna(0)
-        for col in CATEGORICAL_COLS:
-            X_test_real[col] = X_test_real[col].astype(str)
 
+    X_test = X_test_real.copy()
+
+    for col in NUMERIC_COLS:
+        X_test[col] = X_test[col].apply(convert_val)
+
+        median_val = X_test[col].median()
+        if pd.isna(median_val):
+            median_val = 0.0
+
+        X_test[col] = X_test[col].fillna(median_val)
+
+    for col in CATEGORICAL_COLS:
+        X_test[col] = X_test[col].astype(str)
 
     preprocessor = ColumnTransformer(
         transformers=[
@@ -105,12 +128,12 @@ for name, df in datasets_to_test.items():
         ])
 
     model = Pipeline([
-        ('preprocessor', preprocessor),
-        ('classifier', RandomForestClassifier(class_weight='balanced', random_state=RANDOM_STATE, n_jobs=-1))
+        ('preprocessor', preprocessor), 
+        ('classifier', RandomForestClassifier(n_estimators=100, class_weight='balanced', random_state=123, n_jobs=-1))
     ])
-    
+
     model.fit(X_train, y_train)
-    y_pred = model.predict(X_test_real)
+    y_pred = model.predict(X_test)
 
     results.append({
         'Dataset': name,
@@ -123,39 +146,3 @@ for name, df in datasets_to_test.items():
 results_df = pd.DataFrame(results)
 print(results_df)
 results_df.to_csv("../plots/utility/credit_card_clients_utility_results.csv", index=False)
-def plot_utility_results(results_df):
-    plt.figure(figsize=(14, 7)) 
-    
-    methods = results_df['Dataset'].tolist()
-    metrics = ['Accuracy', 'F1-Score', 'Precision', 'Recall']
-    
-    x = np.arange(len(methods))
-    width = 0.2  
-    
-    colors = ['#0072B2', '#E69F00', '#56B4E9', '#009E73']
-    
-    for i, metric in enumerate(metrics):
-        offset = (i - 1.5) * width 
-        values = results_df[metric].tolist()
-        
-        bars = plt.bar(x + offset, values, width, label=metric, color=colors[i], edgecolor='black')
-        
-        for j, val in enumerate(values):
-            plt.text(x[j] + offset, val + 0.01, f"{val:.2f}", ha='center', va='bottom', fontsize=9)
-            
-    plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
-    plt.ylabel('Score (0.0 - 1.0)', fontsize=10)
-    plt.xlabel('Anonymization Setting', fontsize=10)
-    plt.title('Utility Evaluation on Credit Card Clients Data (Random Forest)', fontsize=12)
-
-    plt.ylim(0, 1.1)
-    
-    plt.legend(loc='lower right', framealpha=1.0)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    # plt.savefig("../plots/utility_credit_card_clients_TSTR_ARX_k_only.png", dpi=300)
-    # plt.savefig("../plots/utility_credit_card_clients_TSTR_ARX_k_l_t.png", dpi=300)
-    plt.savefig("../plots/utility_credit_card_clients_TSTR_DP.png", dpi=300)
-    plt.show()
-
-# plot_utility_results(results_df)

@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score, precision_score, recall_score
@@ -27,49 +26,20 @@ df_real = df_real[df_real[PREDICTION_TARGET].astype(str) != '*'].copy()
 # This test set represents real people — never used for training anything
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 
-def plot_results(results_df):
-    plt.figure(figsize=(12, 6)) 
-    
-    methods = results_df['Dataset'].tolist()
-    blackbox_acc = results_df['BlackBox_Accuracy'].tolist()
-    
-    x = np.arange(len(methods))
-    width = 0.7 
-    
-    colors = [plt.cm.Set3(i) for i in range(len(methods))]
-    
-    plt.bar(x, blackbox_acc, width, color=colors, edgecolor='black')
-    
-    for i in range(len(methods)):
-        plt.text(x[i], blackbox_acc[i], f"{blackbox_acc[i]:.2f}", ha='center', va='bottom', fontsize=10)
-        
-    plt.xticks(x, methods, rotation=15, ha='right', fontsize=10)    
-    plt.ylabel('Re-identification Rate (Accuracy)', fontsize=10)
-    plt.xlabel('Anonymization Value', fontsize=10)
-    plt.title('Attribute Inference Attack Results on different anonymization values on the ACS Public Coverage', fontsize=10)
-
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    plt.savefig("../plots/attribute_inference_public_coverage_test.png", dpi=300)
-    plt.show()
-
-def parse_arx_bins(series):
-    # Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
-    def convert_val(val):
-        val = str(val).strip()
-        if val == '*': return 0.0
-        if val.startswith('[') and val.endswith('['):
-            parts = val[1:-1].split(',')
-            try:
-                return (float(parts[0]) + float(parts[1])) / 2.0
-            except:
-                return 0.0
+def convert_val(val):
+# Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
+    val = str(val).strip()
+    if val == '*': return 0.0
+    if val.startswith('[') and val.endswith('['):
+        parts = val[1:-1].split(',')
         try:
-            return float(val)
+            return (float(parts[0]) + float(parts[1])) / 2.0
         except:
             return 0.0
-            
-    return series.apply(convert_val)
+    try:
+        return float(val)
+    except:
+        return 0.0
 
 def preprocess(df, preprocessor=None, fit=False):
     y_raw = df[PREDICTION_TARGET].astype(str).str.strip().str.lower()
@@ -93,7 +63,7 @@ def preprocess(df, preprocessor=None, fit=False):
 
     # Process continuous values safely
     for col in num_cols_present:
-        X_raw[col] = parse_arx_bins(X_raw[col])
+        X_raw[col] = X_raw[col].apply(convert_val)
 
     for col in cat_cols:
         X_raw[col] = X_raw[col].astype(str)

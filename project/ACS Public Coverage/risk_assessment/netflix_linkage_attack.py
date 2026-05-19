@@ -1,7 +1,6 @@
 from time import time
 import pandas as pd
 from math import log
-import matplotlib.pyplot as plt
 
 def calculate_weights(df_protected, quasi_identifiers):
     # Calculate weights based on the frequency of each value in the quasi-identifiers in the dataset
@@ -91,28 +90,6 @@ def evaluate_attack(results, df_attacker, df_protected, defense_name):
     print(f"Defense Method: {defense_name} - Hit Precision: {hit_precision:.2f}% ({correct_links}/{total_attacks} correct links)")
     return hit_precision
 
-def plot_results(results_dict):
-    plt.figure(figsize=(10, 6)) 
-    methods = list(results_dict.keys())
-    accuracies = list(results_dict.values())
-    
-    for i in range(len(methods)):
-        plt.bar(methods[i], accuracies[i], color=plt.cm.Set3(i), edgecolor='black')
-        plt.text(methods[i], accuracies[i], f"{accuracies[i]:.2f}%", ha='center', va='bottom', fontsize=10)
-        
-    plt.xticks(rotation=10, ha='right', fontsize=10)    
-    plt.ylabel('Re-identification Rate (%)', fontsize=10)
-    plt.xlabel('Epsilon Value', fontsize=10)
-    # plt.xlabel('k-Anonymity Value', fontsize=10)
-    plt.title('Netflix Attack Re-Identification Rate Across different epsilon values of Differential Privacy\n on the ACS Public Coverage Dataset', fontsize=10)
-    # plt.title('Netflix Attack Re-Identification Rate Across different k-values of k-Anonymity\n on the ACS Public Coverage Dataset', fontsize=10)
-
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    # plt.savefig("../plots/netflix_attack_accuracy_acs_public_coverage_ARX.png", dpi=300)
-    plt.savefig("../plots/netflix_attack_accuracy_acs_public_coverage_DP.png", dpi=300)
-    plt.show()
-
 if __name__ == "__main__":
     df_original = pd.read_csv('../datasets/folktables_public_coverage_RAW.csv')
 
@@ -163,7 +140,6 @@ if __name__ == "__main__":
         hit_accuracy = evaluate_attack(results, df_attacker, df_protected, defense_name)
         final_results[defense_name] = hit_accuracy
 
-    # plot_results(final_results)
     end = time()
     print(f"Total execution time: {end - start} seconds")
     data = [{'Dataset': name, 'Hit_Precision': precision} for name, precision in final_results.items()]
