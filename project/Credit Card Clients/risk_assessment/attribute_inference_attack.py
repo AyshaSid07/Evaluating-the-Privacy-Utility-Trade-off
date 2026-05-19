@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, balanced_accuracy_score, precision_score, recall_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score, precision_score, recall_score
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
@@ -193,28 +193,29 @@ for name, df_adv in datasets_to_test.items():
         values=possible_values
     )
 
-    # Evaluate metrics based on the ART notebook standard
     inferred_flat = inferred.flatten()
     actual_flat = np.around(sens_test_real, decimals=8).flatten()
     
-    acc = np.sum(inferred_flat == actual_flat) / len(inferred_flat)
+    acc = accuracy_score(actual_flat, inferred_flat)
     balanced_acc = balanced_accuracy_score(actual_flat, inferred_flat)
     
-    # Compute precision and recall to measure attacker confidence and coverage
     precision = precision_score(actual_flat, inferred_flat, average='macro', zero_division=0)
     recall = recall_score(actual_flat, inferred_flat, average='macro', zero_division=0)
-    
+    f1 = f1_score(actual_flat, inferred_flat, average='macro', zero_division=0)
+
     print(f"  Accuracy: {acc:.4f}")
     print(f"  Balanced Accuracy: {balanced_acc:.4f}")
-    print(f"  Precision: {precision:.4f}")
-    print(f"  Recall: {recall:.4f}\n")
+    print(f"  Precision (Macro): {precision:.4f}")
+    print(f"  Recall (Macro): {recall:.4f}")
+    print(f"  F1 (Macro): {f1:.4f}\n")
 
     results.append({
         'Dataset': name, 
         'BlackBox_Accuracy': acc, 
         'BlackBox_Balanced_Accuracy': balanced_acc,
-        'Precision': precision,
-        'Recall': recall
+        'BlackBox_Precision': precision,
+        'BlackBox_Recall': recall,
+        'BlackBox_F1': f1
     })
 
 results_df = pd.DataFrame(results)
