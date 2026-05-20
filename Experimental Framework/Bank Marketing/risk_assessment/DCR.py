@@ -30,7 +30,7 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
     df_anon = df_anon_raw.copy()
 
     # 1. Ensure we only have common columns and drop indices/targets
-    cols_to_use = [c for c in df_orig.columns if c not in ['index', TARGET_COL]]
+    cols_to_use = [c for c in df_orig.columns if c not in ['Linkage_Index', TARGET_COL]]
     df_orig = df_orig[cols_to_use]
     df_anon = df_anon[cols_to_use]
 
@@ -111,6 +111,7 @@ datasets_to_test = {
     "ARX Bank Marketing, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.15.csv'),
     "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/DP_bank_marketing_epsilon_10_0.csv'),
     "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_5_0.csv'),
+    "DP Bank Marketing, epsilon = 3.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_3_0.csv'),
     "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_1_0.csv'),
     "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_5.csv'),
     "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_1.csv'),
@@ -127,16 +128,12 @@ results = {}
 for name, df in datasets_to_test.items():
     print(f"\n--- Evaluating DCR for: {name} ---")
     results[name] = dcr(df_orig_raw=df_train_real, df_anon_raw=df, numeric_cols=NUMERIC_COLS)
-#     print(f"Mean DCR: {results[name]['mean_distance']:.4f}")
-#     print(f"Median DCR: {results[name]['median_distance']:.4f}")
-#     print(f"Exact Matches (%): {results[name]['exact_matches_%']:.2f}%")
-#     print(f"Near Matches <1% DCR (%): {results[name]['near_matches_1pct_%']:.2f}%")
 
 df_results = pd.DataFrame.from_dict(results, orient='index')
 
 df_results.index.name = 'Anonymization_Configuration'
 
-csv_filepath = "../plots/dcr/dcr_results_bank_marketing.csv" 
+csv_filepath = "../results/dcr/dcr_results_bank_marketing.csv" 
 
 df_results.to_csv(csv_filepath)
 print(df_results)

@@ -35,6 +35,7 @@ datasets_to_test = {
     "ARX Income, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_income_k5_t0.15.csv'),
     "DP Income, epsilon = 10.0": pd.read_csv('../datasets/DP_income_epsilon_10_0.csv'),
     "DP Income, epsilon = 5.0":  pd.read_csv('../datasets/DP_income_epsilon_5_0.csv'),
+    "DP Income, epsilon = 3.0":  pd.read_csv('../datasets/DP_income_epsilon_3_0.csv'),
     "DP Income, epsilon = 1.0":  pd.read_csv('../datasets/DP_income_epsilon_1_0.csv'),
     "DP Income, epsilon = 0.5":  pd.read_csv('../datasets/DP_income_epsilon_0_5.csv'),
     "DP Income, epsilon = 0.1":  pd.read_csv('../datasets/DP_income_epsilon_0_1.csv'),

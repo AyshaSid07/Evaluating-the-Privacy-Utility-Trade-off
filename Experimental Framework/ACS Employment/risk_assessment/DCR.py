@@ -30,7 +30,7 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
     df_anon = df_anon_raw.copy()
 
     # 1. Ensure we only have common columns and drop indices/targets
-    cols_to_use = [c for c in df_orig.columns if c not in ['index', TARGET_COL]]
+    cols_to_use = [c for c in df_orig.columns if c not in ['Linkage_Index', TARGET_COL]]
     df_orig = df_orig[cols_to_use]
     df_anon = df_anon[cols_to_use]
 
@@ -111,6 +111,7 @@ datasets_to_test = {
     "ARX Employment, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_acs_employment_k5_t0.15.csv'),
     "DP Employment, epsilon = 10.0": pd.read_csv('../datasets/DP_employment_epsilon_10_0.csv'),
     "DP Employment, epsilon = 5.0":  pd.read_csv('../datasets/DP_employment_epsilon_5_0.csv'),
+    "DP Employment, epsilon = 3.0":  pd.read_csv('../datasets/DP_employment_epsilon_3_0.csv'),
     "DP Employment, epsilon = 1.0":  pd.read_csv('../datasets/DP_employment_epsilon_1_0.csv'),
     "DP Employment, epsilon = 0.5":  pd.read_csv('../datasets/DP_employment_epsilon_0_5.csv'),
     "DP Employment, epsilon = 0.1":  pd.read_csv('../datasets/DP_employment_epsilon_0_1.csv'),

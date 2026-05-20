@@ -30,7 +30,7 @@ def dcr(df_orig_raw, df_anon_raw, numeric_cols):
     df_anon = df_anon_raw.copy()
 
     # 1. Ensure we only have common columns and drop indices/targets
-    cols_to_use = [c for c in df_orig.columns if c not in ['index', TARGET_COL]]
+    cols_to_use = [c for c in df_orig.columns if c not in ['Linkage_Index', TARGET_COL]]
     df_orig = df_orig[cols_to_use]
     df_anon = df_anon[cols_to_use]
 
