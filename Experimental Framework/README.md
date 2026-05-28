@@ -53,10 +53,16 @@ cd Evaluating-the-Privacy-Utility-Trade-off
 
 ## Python Dependencies
 
-Install all required Python libraries:
+Install the required Python libraries:
 
 ```bash
-pip install pandas numpy scikit-learn folktables snsynth aif360 adversarial-robustness-toolbox
+pip install pandas
+pip install numpy
+pip install scikit-learn
+pip install folktables
+pip install snsynth
+pip install aif360
+pip install adversarial-robustness-toolbox
 ```
 
 ------------------------------------------------------------------------
@@ -142,7 +148,7 @@ cd "ACS Employment"
 Then follow the instructions provided in:
 
 ```text
-ACS Employment/readme.md
+ACS Employment/README.md
 ```
 
 ------------------------------------------------------------------------
@@ -158,7 +164,7 @@ cd "ACS Employment"
 Follow:
 
 ```text
-ACS Employment/readme.md
+ACS Employment/README.md
 ```
 
 ------------------------------------------------------------------------
@@ -172,7 +178,7 @@ cd "ACS Income"
 Follow:
 
 ```text
-ACS Income/readme.md
+ACS Income/README.md
 ```
 
 ------------------------------------------------------------------------
@@ -186,7 +192,7 @@ cd "ACS Public Coverage"
 Follow:
 
 ```text
-ACS Public Coverage/readme.md
+ACS Public Coverage/README.md
 ```
 
 ------------------------------------------------------------------------
@@ -200,7 +206,7 @@ cd "Bank Marketing"
 Follow:
 
 ```text
-Bank Marketing/readme.md
+Bank Marketing/README.md
 ```
 
 ------------------------------------------------------------------------
@@ -214,7 +220,7 @@ cd "Credit Card Clients"
 Follow:
 
 ```text
-Credit Card Clients/readme.md
+Credit Card Clients/README.md
 ```
 
 ------------------------------------------------------------------------
@@ -228,7 +234,7 @@ cd "MEPS"
 Follow:
 
 ```text
-MEPS/readme.md
+MEPS/README.md
 ```
 
 ------------------------------------------------------------------------
