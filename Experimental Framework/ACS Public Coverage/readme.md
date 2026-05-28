@@ -1,27 +1,156 @@
-## Prediction code for "Retiring Adult: New Datasets for Fair Machine Learning", by Ding et al.
+# ACS Public Coverage
 
-[Paper Source](https://arxiv.org/pdf/2108.04884)
+This folder contains the experimental framework used for evaluating
+privacy-preserving techniques on the ACS Public Coverage dataset.
 
-[Original Github Repository](https://github.com/socialfoundations/folktables)
+------------------------------------------------------------------------
 
-Dataset Source: Can be fetched from the `folktables` library
+# Folder Structure
 
-#### Contains the dataset:
-- ACS Public Coverage: Predicting if someone has public health coverage.
+```text
+ACS Public Coverage/
+│
+├── anonymization/
+├── datasets/
+├── results/
+├── risk_assessment/
+├── utility/
+└── README.md
+```
 
-*(The ACS Public Coverage dataset are derived from the real US Census American Community Survey and use demographic sensitive features like Age, Education, Sex, Race).*
+------------------------------------------------------------------------
 
----
+# anonymization
 
-## Adaptations and changes from the original code
+This folder contains implementations for:
+- k-anonymity
+- l-diversity
+- t-closeness
+- differential privacy
 
-Original Code: Quickstart tutorial from the [folktables GitHub Repository README](https://github.com/socialfoundations/folktables/blob/main/README.md)
+Main files:
+- `add_index.py`
+- `ARX_public_coverage.java`
+- `clean_arx_data.py`
+- `coverage_dp.py`
 
-#### Code Modifications for our Study:
+------------------------------------------------------------------------
 
-We adapted the data ingestion and modeling pipeline directly from the official `folktables` documentation. To ensure our baseline matches the authors' intended usage, we kept the `ACSDataSource` API, the 80/20 train-test split, and their exact pipeline architecture (`StandardScaler` paired with `LogisticRegression`). This exact adaptation process was uniformly applied to all five ACS datasets.
+# datasets
 
-We made the following changes to fit our privacy-focused methodology:
+This folder contains dataset preparation scripts and raw datasets.
 
-1. **Removed Fairness Metrics:** The original code evaluates algorithmic bias by calculating True Positive Rates (TPR) across demographic groups to find Equality of Opportunity violations. We removed these demographic fairness checks and used the model solely to measure baseline classification accuracy before anonymization.
-2. **Data Extraction:** The original tutorial immediately converts the data into NumPy arrays for model training. To enable our privacy defense, we utilized the `df_to_pandas()` function to extract the human-readable features and labels, combined them into a single DataFrame, and exported the raw CSV file for the ARX privacy tool.
+Main file:
+- `fetch_public_coverage_data.py`
+
+Output:
+- `folktables_public_coverage_RAW.csv`
+
+------------------------------------------------------------------------
+
+# risk_assessment
+
+This folder contains privacy risk evaluation methods such as:
+- Attribute Inference Attack (AIA)
+- Linkage Attack
+- Distance to Closest Record (DCR)
+
+Main files:
+- `attribute_inference_attack.py`
+- `DCR.py`
+- `income_linkage_attack.py`
+
+------------------------------------------------------------------------
+
+# utility
+
+This folder contains utility evaluation experiments for measuring the
+performance of privacy-preserving datasets.
+
+Main file:
+- `utility_coverage.py`
+
+Evaluation metrics:
+- accuracy
+- precision
+- recall
+- F1-score
+
+------------------------------------------------------------------------
+
+# results
+
+This folder contains:
+- utility evaluation results
+- AIA results
+- DCR results
+- linkage attack results
+
+------------------------------------------------------------------------
+
+# How to Run
+
+## Step 1: Prepare Dataset
+
+```bash
+python fetch_public_coverage_data.py
+```
+
+## Step 2: Add Linkage Index
+
+```bash
+python add_index.py
+```
+
+## Step 3: Run Anonymization
+
+```bash
+javac ARX_public_coverage.java
+java ARX_public_coverage
+```
+
+## Step 4: Clean Anonymized Data
+
+```bash
+python clean_arx_data.py
+```
+
+## Step 5: Generate Differentially Private Data
+
+```bash
+python coverage_dp.py
+```
+
+## Step 6: Run Risk Assessment
+
+```bash
+python attribute_inference_attack.py
+python DCR.py
+python income_linkage_attack.py
+```
+
+## Step 7: Run Utility Evaluation
+
+```bash
+python utility_coverage.py
+```
+
+------------------------------------------------------------------------
+
+# Requirements
+
+## Python
+
+```bash
+pip install pandas numpy scikit-learn folktables snsynth adversarial-robustness-toolbox
+```
+
+## Java
+
+- Java JDK
+- ARX Data Anonymization Framework
+
+ARX website:
+https://arx.deidentifier.org/
+
+------------------------------------------------------------------------
