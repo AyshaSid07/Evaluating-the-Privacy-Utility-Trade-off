@@ -1,0 +1,15 @@
+Dataset,Hit_Precision
+No anonymization (Baseline),33.79061371841155
+"ARX Public Coverage, k = 3",0.7220216606498195
+"ARX Public Coverage, k = 5",0.21660649819494585
+"ARX Public Coverage, k = 10",0.07220216606498195
+"ARX Public Coverage, k = 15",0.0
+"ARX Public Coverage, k = 5, l = 5",0.0
+"ARX Public Coverage, k = 5, t = 0.15",0.0
+"DP Public Coverage, epsilon = 10.0",0.0
+"DP Public Coverage, epsilon = 1.0",0.0
+"DP Public Coverage, epsilon = 0.5",0.0
+"Combined Public Coverage, k = 3 + epsilon = 0.5",0.0
+"Combined Public Coverage, k = 3 + epsilon = 1.0",0.0
+"Combined Public Coverage, k = 5 + epsilon = 0.5",0.0
+"Combined Public Coverage, k = 5 + epsilon = 1.0",0.0
