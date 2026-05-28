@@ -49,53 +49,6 @@ The repository contains experiments for the following datasets:
 
 ------------------------------------------------------------------------
 
-# Repository Structure
-
-```text
-project/
-│
-├── datasets/
-│
-├── ACS_Income/
-│   ├── Datasets/
-│   ├── Anonymization/
-│   ├── Risk_Assessment/
-│   ├── Utility/
-│   └── Results/
-│
-├── ACS_Public_Coverage/
-│   ├── Datasets/
-│   ├── Anonymization/
-│   ├── Risk_Assessment/
-│   ├── Utility/
-│   └── Results/
-│
-├── Bank_Marketing/
-│   ├── Datasets/
-│   ├── Anonymization/
-│   ├── Risk_Assessment/
-│   ├── Utility/
-│   └── Results/
-│
-├── Credit_Card_Clients/
-│   ├── Dataset/
-│   ├── Anonymization/
-│   ├── Risk_Assessment/
-│   ├── Utility/
-│   └── Results/
-│
-├── MEPS/
-│   ├── Dataset/
-│   ├── Anonymization/
-│   ├── Risk_Assessment/
-│   ├── Utility/
-│   └── Results/
-│
-└── README.md
-```
-
-------------------------------------------------------------------------
-
 # Privacy Models
 
 ## k-Anonymity
