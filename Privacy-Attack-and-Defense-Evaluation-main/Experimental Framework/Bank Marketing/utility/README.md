@@ -12,7 +12,7 @@ Implements the utility evaluation pipeline.
 
 The script:
 - loads original and privacy-preserving datasets
-- trains a Logistic Regression model
+- trains a Random Forest model
 - evaluates predictive performance on real test data
 - compares anonymized, differential privacy, and combined datasets
 - stores utility evaluation results

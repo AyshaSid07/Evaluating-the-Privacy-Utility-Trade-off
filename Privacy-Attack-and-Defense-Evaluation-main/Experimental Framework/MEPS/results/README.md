@@ -6,9 +6,9 @@ This folder contains the experimental results generated during the evaluation pr
 
 ## `utility`
 
-Contains utility evaluation results for the Credit Card Clients dataset.
+Contains utility evaluation results for the MEPS dataset.
 
-### `credit_card_clients_utility_results.csv`
+### `meps_utility_results.csv`
 
 Stores:
 - accuracy
@@ -24,7 +24,7 @@ for the evaluated datasets.
 
 Contains Attribute Inference Attack (AIA) evaluation results.
 
-### `credit_card_clients_aia_results.csv`
+### `meps_aia_results.csv`
 
 Stores the Attribute Inference Attack evaluation results.
 
@@ -34,7 +34,7 @@ Stores the Attribute Inference Attack evaluation results.
 
 Contains Distance to Closest Record (DCR) evaluation results.
 
-### `dcr_results_credit_card_clients.csv`
+### `dcr_results_meps.csv`
 
 Stores the Distance to Closest Record evaluation results.
 
@@ -44,6 +44,6 @@ Stores the Distance to Closest Record evaluation results.
 
 Contains linkage attack evaluation results.
 
-### `linkage_attack_results_credit_card_clients.csv`
+### `linkage_attack_results_meps.csv`
 
 Stores the linkage attack evaluation results.

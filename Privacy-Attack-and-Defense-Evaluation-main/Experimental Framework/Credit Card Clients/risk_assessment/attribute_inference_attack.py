@@ -24,6 +24,7 @@ elif 'id' in df_real.columns:
 df_real = df_real[df_real[SENSITIVE_ATTR].astype(str) != '*'].copy()
 df_real = df_real[df_real[PREDICTION_TARGET].astype(str) != '*'].copy()
 
+# This test set represents real people — never used for training anything
 df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
 
 def convert_val(val):

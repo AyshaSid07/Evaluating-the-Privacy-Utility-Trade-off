@@ -6,6 +6,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
+# Target attribute used for prediction 
 TARGET_COLUMN = 'default payment'
 RANDOM_STATE = 123
 def convert_val(val):
@@ -23,10 +24,10 @@ def convert_val(val):
     except:
         return 0.0
 df_real = pd.read_csv('../datasets/credit_card_clients_binned.csv')
-
+# Remove linkage index column if present
 if 'Linkage_Index' in df_real.columns:
     df_real = df_real.drop(columns=['Linkage_Index'])
-
+# Remove suppressed target values
 df_real = df_real[df_real[TARGET_COLUMN].astype(str) != '*'].copy()
 
 if 'SEX' in df_real.columns:
@@ -45,7 +46,7 @@ X_real = df_real.drop(columns=[TARGET_COLUMN])
 X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
     X_real, y_real, test_size=0.2, random_state=RANDOM_STATE
 )
-
+# Load datasets for utility evaluation
 datasets_to_test = {
     "No anonymization (Baseline)": None,  
     "ARX Credit Card Clients, k = 3": pd.read_csv('../datasets/ARX_credit_card_clients_k3.csv'),
@@ -73,6 +74,8 @@ results = []
 
 for name, df in datasets_to_test.items():
     print(f"Evaluating: {name}...")
+
+    # Baseline: train directly on the real training split
     if df is None:
         X_train = X_train_real.copy()
         y_train = y_train_real

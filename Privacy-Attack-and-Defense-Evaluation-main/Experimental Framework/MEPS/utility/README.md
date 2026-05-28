@@ -1,12 +1,12 @@
 # Utility Evaluation
 
-This folder contains the utility evaluation implementation used in the Credit Card Clients experiments.
+This folder contains the utility evaluation implementation used in the MEPS experiments.
 
 The utility evaluation measures the predictive performance of privacy-preserving datasets using machine learning models.
 
 ------------------------------------------------------------------------
 
-## `utility_credit_card_clients.py`
+## `utility_meps.py`
 
 Implements the utility evaluation pipeline.
 
@@ -26,7 +26,7 @@ The script:
 ### Run
 
 ```bash
-python utility_credit_card_clients.py
+python utility_meps.py
 ```
 
 ------------------------------------------------------------------------
@@ -41,4 +41,4 @@ pip install pandas scikit-learn numpy
 
 # OUTPUT
 
-- `credit_card_clients_utility_results.csv`
+- `meps_utility_results.csv`
