@@ -5,23 +5,27 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
+# Target attribute used for prediction 
 TARGET_COLUMN = 'PUBCOV'
 RANDOM_STATE = 123
 
+#Load original dataset
 df_real = pd.read_csv('../datasets/folktables_public_coverage_RAW.csv')
+# Remove linkage index column if present
 if 'Linkage_Index' in df_real.columns:
     df_real = df_real.drop(columns=['Linkage_Index'])
+# Remove suppressed target values
 df_real = df_real[df_real[TARGET_COLUMN].astype(str) != '*'].copy()
 
 FEATURE_COLS = [c for c in df_real.columns if c != TARGET_COLUMN]
-
+# Separate features and target attribute
 y_real = df_real[TARGET_COLUMN].astype(int).values
 X_real = df_real.drop(columns=[TARGET_COLUMN]).astype(str)
 
 X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
     X_real, y_real, test_size=0.2, random_state=RANDOM_STATE
 )
-
+# Load datasets for utility evaluation
 datasets_to_test = {
     "No anonymization (Baseline)": None,  
     "ARX Public Coverage, k = 3": pd.read_csv('../datasets/ARX_acs_public_coverage_k3.csv'),

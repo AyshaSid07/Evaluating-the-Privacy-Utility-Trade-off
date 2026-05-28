@@ -17,8 +17,9 @@ df_to_test = {
 # epsilons = [0.5, 1.0, 3.0, 5.0, 10.0]
 epsilons = [0.5, 1.0, 3.0]
 
-# ── Preprocessing ─────────────────────────────────────────────────────────────
+# Preprocessing 
 # SmartNoise requires all columns to be the correct type
+# convert target column to integer type
 for dataset_name, df_original in df_to_test.items():
     continuous_cols = ['PCS42', 'MCS42', 'K6SUM42', 'PHQ242']
 
@@ -36,7 +37,7 @@ for dataset_name, df_original in df_to_test.items():
     print(f"Original dataset: {df_original.shape[0]} rows, {df_original.shape[1]} cols")
     print(f"Columns: {list(df_original.columns)}\n")
 
-    # ── Generate synthetic datasets for each epsilon ──────────────────────────────
+    # Generate synthetic datasets for each epsilon
     # We use the MST (Maximum Spanning Tree) synthesizer — it is the most
     # commonly used DP synthesizer in the privacy literature for tabular data,
     # and is the recommended default in SmartNoise for mixed categorical/continuous.

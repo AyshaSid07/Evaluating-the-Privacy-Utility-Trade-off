@@ -9,8 +9,9 @@ df_to_test = {
 }
 
 # df_original = pd.read_csv("../datasets/folktables_public_coverage_RAW.csv")
-
+# list of continuous columns
 continuous_cols  = ['PINCP']
+# list of categorical columns
 categorical_cols = ['AGEP','SCHL','MAR','SEX','DIS','ESP','CIT','MIG','MIL','ANC','NATIVITY','DEAR','DEYE','DREM','ESR','ST','FER','RAC1P','PUBCOV']
 
 # Epsilons to test — lower = stronger privacy, higher = more utility
@@ -19,13 +20,15 @@ categorical_cols = ['AGEP','SCHL','MAR','SEX','DIS','ESP','CIT','MIG','MIL','ANC
 # the tradeoff curve in your thesis.
 epsilons = [0.5, 1.0, 3.0]#[0.1, 0.5, 1.0, 5.0, 10.0]
 
-# ── Preprocessing ─────────────────────────────────────────────────────────────
-# SmartNoise requires all columns to be the correct type
-# Gör om True/False till 1/0 innan vi gör om allt till strängar
+
 for dataset_name, df_original in df_to_test.items():
+    # Preprocessing 
+    # SmartNoise requires all columns to be the correct type
+    # convert target column to integer type
     df_original[TARGET_COLUMN] = df_original[TARGET_COLUMN].astype(int) 
     for col in categorical_cols:
         df_original[col] = df_original[col].astype(str)
+        # convert categorical columns to string type and continuous column to string type
     for col in continuous_cols:
         df_original[col] = pd.to_numeric(df_original[col], errors='coerce')
 
@@ -35,7 +38,7 @@ for dataset_name, df_original in df_to_test.items():
     print(f"Original dataset: {df_original.shape[0]} rows, {df_original.shape[1]} cols")
     print(f"Columns: {list(df_original.columns)}\n")
 
-    # ── Generate synthetic datasets for each epsilon ──────────────────────────────
+    # Generate synthetic datasets for each epsilon
     # We use the MST (Maximum Spanning Tree) synthesizer — it is the most
     # commonly used DP synthesizer in the privacy literature for tabular data,
     # and is the recommended default in SmartNoise for mixed categorical/continuous.
@@ -45,7 +48,7 @@ for dataset_name, df_original in df_to_test.items():
     #   - Based on the PrivBayes/PGM framework — well studied in literature
     #   - More stable than DPGAN for small datasets
     #   - Directly cite: McKenna et al. (2021) "Winning the NIST Contest"
-
+    # Generate synthetic datasets for each epsilon value
     for epsilon in epsilons:
         print(f"Generating synthetic data with epsilon = {epsilon}...")
 

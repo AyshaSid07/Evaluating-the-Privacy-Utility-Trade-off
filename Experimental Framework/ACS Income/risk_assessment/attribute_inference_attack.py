@@ -8,7 +8,9 @@ from sklearn.preprocessing import OneHotEncoder
 from art.estimators.classification import SklearnClassifier
 from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox
 
+# Target attribute predicted by the model
 PREDICTION_TARGET = 'PINCP'
+# Sensitive attribute used for attribute inference attack 
 SENSITIVE_ATTR    = 'RAC1P'
 RANDOM_STATE      = 123
 

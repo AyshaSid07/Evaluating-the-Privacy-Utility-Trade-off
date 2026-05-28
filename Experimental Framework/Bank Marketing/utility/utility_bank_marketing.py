@@ -5,12 +5,16 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
+# Target attribute used for prediction 
 TARGET_COLUMN = 'y'
 RANDOM_STATE = 123
 
+#Load original dataset
 df_real = pd.read_csv('../datasets/bank-additional-full.csv', sep=';')
+# Remove linkage index column if present
 if 'Linkage_Index' in df_real.columns:
     df_real = df_real.drop(columns=['Linkage_Index'])
+# Remove suppressed target values
 df_real = df_real[df_real[TARGET_COLUMN].astype(str) != '*'].copy()
 
 if 'duration' in df_real.columns:
@@ -20,14 +24,14 @@ df_real[TARGET_COLUMN] = df_real[TARGET_COLUMN].astype(str).str.lower().map(targ
 
 df_real = df_real.dropna(subset=[TARGET_COLUMN]) 
 FEATURE_COLS = [c for c in df_real.columns if c != TARGET_COLUMN]
-
+# Separate features and target attribute
 y_real = df_real[TARGET_COLUMN].astype(int).values
 X_real = df_real.drop(columns=[TARGET_COLUMN]).astype(str)
 
 X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
     X_real, y_real, test_size=0.2, random_state=RANDOM_STATE
 )
-
+# Load datasets for utility evaluation
 datasets_to_test = {
     "No anonymization (Baseline)": None,  
     "ARX Bank Marketing, k = 3": pd.read_csv('../datasets/ARX_bank_marketing_k3.csv'),
@@ -56,11 +60,13 @@ results = []
 
 for name, df in datasets_to_test.items():
     print(f"Evaluating: {name}...")
-
+    
+    # Baseline: train directly on the real training split
     if df is None:
         X_train = X_train_real.copy().astype(str)
         y_train = y_train_real
     else:
+        # ARX datasets: align surviving rows with the real training split
         if 'duration' in df.columns:
             df = df.drop(columns=['duration'])
         if 'Linkage_Index' in df.columns:
@@ -68,6 +74,7 @@ for name, df in datasets_to_test.items():
             surviving_train_indices = X_train_real.index.intersection(df.index)
             df_train = df.loc[surviving_train_indices].copy()
         else:
+             # DP or combined: no row correspondence, use all generated rows
             df_train = df.reset_index(drop=True).copy()
 
         df_train = df_train[df_train[TARGET_COLUMN].astype(str) != '*'].copy()
@@ -84,7 +91,8 @@ for name, df in datasets_to_test.items():
 
         y_train = df_train[TARGET_COLUMN].astype(int).values
         X_train = df_train.drop(columns=[TARGET_COLUMN]).astype(str)
-
+    
+    # Clean copy of real test set for each configuration
     X_test = X_test_real.copy().astype(str)
 
     model = Pipeline([

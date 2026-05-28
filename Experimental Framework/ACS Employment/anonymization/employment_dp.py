@@ -7,23 +7,26 @@ df_to_test = {
     "k=3": pd.read_csv("../datasets/ARX_acs_employment_k3.csv"),
     "k=5": pd.read_csv("../datasets/ARX_acs_employment_k5.csv"),
 }
-# df_original = pd.read_csv("../datasets/folktables_employment_RAW.csv")
 
+# list of continuous columns
 continuous_cols  = []
+# list of categorical columns
 categorical_cols = ['AGEP','SCHL','MAR','RELP','DIS','ESP','CIT','MIG','MIL','ANC','NATIVITY','DEAR','DEYE','DREM','SEX','RAC1P', 'ESR']
 
-# Epsilons to test — lower = stronger privacy, higher = more utility
+# Epsilons to test : lower = stronger privacy, higher = more utility
 # In the literature, epsilon <= 1 is considered strong privacy,
 # 1-10 moderate, and >10 is weak. We test a range so you can show
 # the tradeoff curve in your thesis.
+#Epsilon values used for DP
 epsilons = [0.5, 1.0, 3.0]#[0.1, 0.5, 1.0, 5.0, 10.0]
 for dataset_name, df_original in df_to_test.items():
-    # ── Preprocessing ─────────────────────────────────────────────────────────────
+    # Preprocessing 
     # SmartNoise requires all columns to be the correct type
-    # Gör om True/False till 1/0 innan vi gör om allt till strängar
+    # convert target column to integer type
     df_original[TARGET_COLUMN] = df_original[TARGET_COLUMN].astype(int) 
+    # convert categorical columns to string type and continuous column to string type
     for col in categorical_cols:
-        df_original[col] = df_original[col].astype(str)
+        df_original[col] = df_original[col].astype(str)    
     for col in continuous_cols:
         df_original[col] = pd.to_numeric(df_original[col], errors='coerce')
 
@@ -33,7 +36,7 @@ for dataset_name, df_original in df_to_test.items():
     print(f"Original dataset: {df_original.shape[0]} rows, {df_original.shape[1]} cols")
     print(f"Columns: {list(df_original.columns)}\n")
 
-    # ── Generate synthetic datasets for each epsilon ──────────────────────────────
+    # Generate synthetic datasets for each epsilon 
     # We use the MST (Maximum Spanning Tree) synthesizer — it is the most
     # commonly used DP synthesizer in the privacy literature for tabular data,
     # and is the recommended default in SmartNoise for mixed categorical/continuous.
@@ -43,16 +46,16 @@ for dataset_name, df_original in df_to_test.items():
     #   - Based on the PrivBayes/PGM framework — well studied in literature
     #   - More stable than DPGAN for small datasets
     #   - Directly cite: McKenna et al. (2021) "Winning the NIST Contest"
-
+    # Generate synthetic datasets for each epsilon value
     for epsilon in epsilons:
         print(f"Generating synthetic data with epsilon = {epsilon}...")
-
+        # create MST synthesizer
         synth = Synthesizer.create(
             "mst",
             epsilon=epsilon,
             verbose=False
         )
-
+        # Train synthesizer on the dataset
         synth.fit(
             df_original,
             categorical_columns=categorical_cols, # <-- DU MISSADE DENNA RAD
@@ -69,7 +72,7 @@ for dataset_name, df_original in df_to_test.items():
             df_synthetic[col] = pd.to_numeric(df_synthetic[col], errors='coerce')
 
         out_path = f"{OUTPUT_DIR}{dataset_name}_epsilon_{str(epsilon).replace('.', '_')}_employment.csv"
-
+        # save synthetic data
         df_synthetic.to_csv(out_path, index=False)
         print(f"  Saved: {out_path}")
         print(f"  Shape: {df_synthetic.shape}")

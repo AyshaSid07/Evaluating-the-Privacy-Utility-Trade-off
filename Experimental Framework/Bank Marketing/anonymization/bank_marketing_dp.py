@@ -19,13 +19,13 @@ categorical_cols = ['age','job','marital', 'pdays','education','default','housin
 # the tradeoff curve in your thesis.
 epsilons = [0.5, 1.0, 3.0]#[0.1, 0.5, 1.0, 5.0, 10.0]
 
-# ── Preprocessing ─────────────────────────────────────────────────────────────
+# Preprocessing 
 # SmartNoise requires all columns to be the correct type
-# Gör om True/False till 1/0 innan vi gör om allt till strängar
+# convert target column to integer type
 target_map = {'yes': 1, 'no': 0}
 for dataset_name, df_original in df_to_test.items():
     df_original[TARGET_COLUMN] = df_original[TARGET_COLUMN].map(target_map).astype(int)
-
+    # convert categorical columns to string type and continuous column to string type
     for col in categorical_cols:
         df_original[col] = df_original[col].astype(str)
     for col in continuous_cols:
@@ -37,7 +37,7 @@ for dataset_name, df_original in df_to_test.items():
     print(f"Original dataset: {df_original.shape[0]} rows, {df_original.shape[1]} cols")
     print(f"Columns: {list(df_original.columns)}\n")
 
-    # ── Generate synthetic datasets for each epsilon ──────────────────────────────
+    # Generate synthetic datasets for each epsilon 
     # We use the MST (Maximum Spanning Tree) synthesizer — it is the most
     # commonly used DP synthesizer in the privacy literature for tabular data,
     # and is the recommended default in SmartNoise for mixed categorical/continuous.

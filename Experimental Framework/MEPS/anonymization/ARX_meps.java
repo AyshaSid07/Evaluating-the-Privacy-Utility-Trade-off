@@ -7,24 +7,24 @@ import java.nio.charset.StandardCharsets;
 
 public class ARX_meps {
     public static void main(String[] args) throws Exception {
-        
+        // path of the original income dataset
         String inputPath = "../datasets/MEPS.csv";
         String outputBasePath = "../datasets/ARX_meps_"; 
-        
+        // load the dataset into ARX
         Data data = Data.create(inputPath, StandardCharsets.UTF_8, ',');
-        
+        // list of quasi identifiers used for anonymization
         for (int i = 0; i < data.getHandle().getNumColumns(); i++) {
             String colName = data.getHandle().getAttributeName(i);
             data.getDefinition().setAttributeType(colName, AttributeType.INSENSITIVE_ATTRIBUTE);
         }
 
         String[] qis = {"AGE", "MARRY", "REGION", "SEX", "RACE", "ACTDTY", "EMPST", "FTSTU"};
-        
+        // load the hierarchy files for each quasi-identifier
         for (String qi : qis) {
             String hierarchyFileName = "hierarchies/" + qi + ".csv";
             data.getDefinition().setAttributeType(qi, Hierarchy.create(hierarchyFileName, StandardCharsets.UTF_8, ','));
         }
-        
+        // create ARX anonymizer object
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         
         // k-anonymity loop
@@ -43,7 +43,7 @@ public class ARX_meps {
 
         // for l-diversity and t-closeness, we need to set the sensitive attribute type
         data.getDefinition().setAttributeType("INSCOV", AttributeType.SENSITIVE_ATTRIBUTE);
-        
+        // Base k value used for l-diversity and t-closeness
         int baseK = 5;
         
         // l-diversity loop

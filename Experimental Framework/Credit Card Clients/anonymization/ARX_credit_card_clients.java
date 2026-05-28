@@ -7,24 +7,24 @@ import java.nio.charset.StandardCharsets;
 
 public class ARX_credit_card_clients {
     public static void main(String[] args) throws Exception {
-        
+        // path of the original income dataset
         String inputPath = "../datasets/credit_card_clients_binned.csv";
         String outputBasePath = "../datasets/ARX_credit_card_clients_"; 
-        
+        // load the dataset into ARX
         Data data = Data.create(inputPath, StandardCharsets.UTF_8, ',');
-        
+        // list of quasi identifiers used for anonymization
         for (int i = 0; i < data.getHandle().getNumColumns(); i++) {
             String colName = data.getHandle().getAttributeName(i);
             data.getDefinition().setAttributeType(colName, AttributeType.INSENSITIVE_ATTRIBUTE);
         }
 
         String[] qis = {"SEX","EDUCATION","MARRIAGE","AGE"};
-        
+        // load the hierarchy files for each quasi-identifier
         for (String qi : qis) {
             String hierarchyFileName = "hierarchies/" + qi.toLowerCase() + ".csv";
             data.getDefinition().setAttributeType(qi, Hierarchy.create(hierarchyFileName, StandardCharsets.UTF_8, ','));
         }
-        
+        // create ARX anonymizer object
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         
         // k-anonymity loop
@@ -40,9 +40,9 @@ public class ARX_credit_card_clients {
             result.getOutput(true).save(out, ',');
             data.getHandle().release();
         }
-
+        // set the sensitive attribute Limit Category
         data.getDefinition().setAttributeType("LIMIT_CATEGORY", AttributeType.SENSITIVE_ATTRIBUTE);
-        
+        // Base k value used for l-diversity and t-closeness
         int baseK = 5;
         
         // l-diversity loop
