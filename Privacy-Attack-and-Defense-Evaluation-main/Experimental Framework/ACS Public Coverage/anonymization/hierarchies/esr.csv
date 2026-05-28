@@ -1,0 +1,7 @@
+0.0,"Younger-Than-16", "Unemployed", "Unemployed", "*"
+1.0,"Employed-At-Work","Employed","Labor-Force","*"
+2.0,"Employed-Absent","Employed","Labor-Force","*"
+3.0,"Unemployed","Unemployed","Unemployed","*"
+4.0,"Armed-Forces-At-Work","Armed-Forces","Labor-Force","*"
+5.0,"Armed-Forces-Absent","Armed-Forces","Labor-Force","*"
+6.0,"Not-In-Labor-Force","Not-In-Labor-Force","Not-In-Labor-Force","*"

@@ -1,0 +1,15 @@
+Dataset,Hit_Precision
+No anonymization (Baseline),13.0
+"ARX Bank Marketing, k = 3",3.25
+"ARX Bank Marketing, k = 5",0.75
+"ARX Bank Marketing, k = 10",1.50
+"ARX Bank Marketing, k = 15",0.25
+"ARX Bank Marketing, k = 5, l = 3",0.5
+"ARX Bank Marketing, k = 5, t = 0.15",0.75
+"DP Bank Marketing, epsilon = 10.0",0.0
+"DP Bank Marketing, epsilon = 1.0",0.0
+"DP Bank Marketing, epsilon = 0.5",0.0
+"Combined Bank Marketing, k = 3 + epsilon = 0.5",0.0
+"Combined Bank Marketing, k = 3 + epsilon = 1.0",0.0
+"Combined Bank Marketing, k = 5 + epsilon = 0.5",0.0
+"Combined Bank Marketing, k = 5 + epsilon = 1.0",0.0

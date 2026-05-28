@@ -1,0 +1,4 @@
+0.0, "*", "*", "*"
+1.0,"Same-House","Non-Mover","*"
+2.0,"Outside-US/PR","Mover","*"
+3.0,"Different-House-US/PR","Mover","*"
