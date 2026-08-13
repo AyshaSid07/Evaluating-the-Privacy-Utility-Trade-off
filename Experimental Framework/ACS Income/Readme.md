@@ -105,8 +105,8 @@ python add_index.py
 ## Step 3: Run Anonymization
 
 ```bash
-javac ARX_income.java
-java ARX_income
+javac -cp ".:../../libarx.jar" ARX_income.java 
+java -cp ".:../../libarx.jar" ARX_income.java 
 ```
 
 ## Step 4: Clean Anonymized Data
