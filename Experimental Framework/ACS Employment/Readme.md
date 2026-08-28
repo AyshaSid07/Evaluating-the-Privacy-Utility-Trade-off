@@ -43,8 +43,7 @@ Main files:
 - `clean_arx_data.py`
 - `employment_dp.py`
 
-The `hierarchies` folder contains the hierarchy files used for the
-quasi-identifiers.
+The `hierarchies` folder contains the hierarchy files used for the quasi-identifiers.
 
 ------------------------------------------------------------------------
 
@@ -73,7 +72,6 @@ This folder contains privacy risk evaluation methods
 - Distance to Closest Record (DCR)
 - Netflix Linkage Attack
  
-
 Main files:
 
 - `attribute_inference_attack.py`

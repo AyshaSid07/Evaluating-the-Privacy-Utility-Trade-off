@@ -139,7 +139,7 @@ javac -cp "../../libarx.jar" ARX_employment.java
 ### Run
 
 ```bash
-java -cp "../../libarx.jar" ARX_employment
+java -cp "../../libarx.jar" ARX_employment.java
 ```
 
 To run another dataset, replace `ARX_employment` with the corresponding Java file name:
@@ -194,13 +194,14 @@ ACS Employment/README.md
 The workflow used in the experiments is:
 
 1. Prepare dataset
-2. Add linkage index
-3. Apply anonymization using ARX
-4. Clean anonymized datasets
-5. Generate differentially private datasets
-6. Perform privacy risk assessment
-7. Evaluate utility
-8. Store results
+2. Split dataset
+3. Add linkage index
+4. Apply anonymization using ARX
+5. Clean anonymized datasets
+6. Generate differentially private datasets
+7. Perform privacy risk assessment
+8. Evaluate utility
+9. Store results
 
 ------------------------------------------------------------------------
 

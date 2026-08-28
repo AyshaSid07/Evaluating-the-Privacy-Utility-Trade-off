@@ -1,6 +1,7 @@
 # Bank Marketing
 
-This folder contains the experimental framework used for evaluating
+This folder contains the experimental framework used for evaluating 
+
 privacy-preserving techniques on the Bank Marketing dataset.
 
 ------------------------------------------------------------------------
@@ -9,13 +10,19 @@ privacy-preserving techniques on the Bank Marketing dataset.
 
 ```text
 Bank Marketing/
+
 │
 ├── anonymization/
+│   └── hierarchies/
 ├── datasets/
 ├── results/
+│   ├── aia/
+│   ├── dcr/
+│   ├── linkage/
+│   └── utility/
 ├── risk_assessment/
 ├── utility/
-└── README.md
+└── readme.md
 ```
 
 ------------------------------------------------------------------------
@@ -23,55 +30,63 @@ Bank Marketing/
 # anonymization
 
 This folder contains implementations for:
+
 - k-anonymity
 - l-diversity
 - t-closeness
 - differential privacy
 
 Main files:
+
 - `add_index.py`
 - `ARX_bank_marketing.java`
 - `clean_arx_data.py`
 - `bank_marketing_dp.py`
 
+The `hierarchies` folder contains the hierarchy files used for the quasi-identifiers.
+
 ------------------------------------------------------------------------
 
 # datasets
 
-This folder contains dataset preparation scripts and raw datasets.
+This folder contains dataset preparation scripts and the original dataset.
 
-Main file:
-- `fetch_bank_marketing_data.py`
+Main files:
 
-Output:
 - `bank-additional-full.csv`
+- `split_dataset.py`
 
 ------------------------------------------------------------------------
 
 # risk_assessment
 
-This folder contains privacy risk evaluation methods such as:
+This folder contains privacy risk evaluation methods
+
 - Attribute Inference Attack (AIA)
-- Linkage Attack
 - Distance to Closest Record (DCR)
+- Netflix Linkage Attack
 
 Main files:
+
 - `attribute_inference_attack.py`
 - `DCR.py`
-- `bank_marketing_linkage_attack.py`
+- `netflix_linkage_attack.py`
 
 ------------------------------------------------------------------------
 
 # utility
 
-This folder contains utility evaluation experiments for measuring the
-performance of privacy-preserving datasets.
+This folder contains utility evaluation experiments for measuring the performance of privacy-preserving datasets.
 
 Main file:
+
 - `utility_bank_marketing.py`
 
 Evaluation metrics:
+
 - accuracy
+- balanced accuracy
+- ROC-AUC
 - precision
 - recall
 - F1-score
@@ -81,6 +96,7 @@ Evaluation metrics:
 # results
 
 This folder contains:
+
 - utility evaluation results
 - AIA results
 - DCR results
@@ -90,10 +106,10 @@ This folder contains:
 
 # How to Run
 
-## Step 1: Prepare Dataset
+## Step 1: Split Dataset
 
 ```bash
-python fetch_bank_marketing_data.py
+python split_dataset.py
 ```
 
 ## Step 2: Add Linkage Index
@@ -105,8 +121,8 @@ python add_index.py
 ## Step 3: Run Anonymization
 
 ```bash
-javac ARX_bank_marketing.java
-java ARX_bank_marketing
+javac -cp ".:../../libarx.jar" ARX_bank_marketing.java
+java -cp ".:../../libarx.jar" ARX_bank_marketing.java
 ```
 
 ## Step 4: Clean Anonymized Data
@@ -125,8 +141,10 @@ python bank_marketing_dp.py
 
 ```bash
 python attribute_inference_attack.py
+
 python DCR.py
-python bank_marketing_linkage_attack.py
+
+python netflix_linkage_attack.py
 ```
 
 ## Step 7: Run Utility Evaluation
@@ -142,7 +160,7 @@ python utility_bank_marketing.py
 ## Python
 
 ```bash
-pip install pandas numpy scikit-learn snsynth adversarial-robustness-toolbox
+pip install pandas numpy scikit-learn folktables snsynth adversarial-robustness-toolbox
 ```
 
 ## Java
@@ -151,6 +169,7 @@ pip install pandas numpy scikit-learn snsynth adversarial-robustness-toolbox
 - ARX Data Anonymization Framework
 
 ARX website:
-https://arx.deidentifier.org/
+
+[https://arx.deidentifier.org/]
 
 ------------------------------------------------------------------------
