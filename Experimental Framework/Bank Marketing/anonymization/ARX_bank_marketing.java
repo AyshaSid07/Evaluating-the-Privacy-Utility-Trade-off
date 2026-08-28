@@ -7,24 +7,28 @@ import java.nio.charset.StandardCharsets;
 
 public class ARX_bank_marketing {
     public static void main(String[] args) throws Exception {
-        // path of the original income dataset
-        String inputPath = "../datasets/bank-additional-full.csv";
+        // Path to the 80% partitioned training dataset to prevent data leakage
+        String inputPath = "../datasets/bank_marketing_train.csv";
         String outputBasePath = "../datasets/ARX_bank_marketing_"; 
-        // load the dataset into ARX
+        
+        // Load the dataset into ARX (using ';' separator for Bank Marketing)
         Data data = Data.create(inputPath, StandardCharsets.UTF_8, ';');
-        // list of quasi identifiers used for anonymization
+        
+        // List of quasi identifiers used for anonymization
         for (int i = 0; i < data.getHandle().getNumColumns(); i++) {
             String colName = data.getHandle().getAttributeName(i);
             data.getDefinition().setAttributeType(colName, AttributeType.INSENSITIVE_ATTRIBUTE);
         }
 
         String[] qis = {"age", "job", "marital", "education"};
-        // load the hierarchy files for each quasi-identifier
+        
+        // Load the hierarchy files for each quasi-identifier
         for (String qi : qis) {
             String hierarchyFileName = "hierarchies/" + qi.toLowerCase() + ".csv";
             data.getDefinition().setAttributeType(qi, Hierarchy.create(hierarchyFileName, StandardCharsets.UTF_8, ','));
         }
-        // create ARX anonymizer object
+        
+        // Create ARX anonymizer object
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         
         // k-anonymity loop
@@ -40,15 +44,14 @@ public class ARX_bank_marketing {
             result.getOutput(true).save(out, ',');
             data.getHandle().release();
         }
-        // set the sensitive attribute housing
+        
+        // Set the sensitive attribute housing
         data.getDefinition().setAttributeType("housing", AttributeType.SENSITIVE_ATTRIBUTE);
-        // Base k value used for l-diversity and t-closeness
         int baseK = 5;
         
         // l-diversity loop
         int[] lValues = {2, 3};
         for (int l : lValues) {
-            // create anonymization configuration
             ARXConfiguration configL = ARXConfiguration.create();
             configL.addPrivacyModel(new KAnonymity(baseK));
             configL.addPrivacyModel(new DistinctLDiversity("housing", l));
@@ -61,10 +64,9 @@ public class ARX_bank_marketing {
             data.getHandle().release();
         }
         
-        // t-closeness loop
-        double[] tValues = {0.15, 0.30};
+        // t-closeness loop (0.3 instead of 0.30 for filename consistency)
+        double[] tValues = {0.15, 0.3};
         for (double t : tValues) {
-            // create anonymization configuration
             ARXConfiguration configT = ARXConfiguration.create();
             configT.addPrivacyModel(new KAnonymity(baseK));
             configT.addPrivacyModel(new EqualDistanceTCloseness("housing", t));

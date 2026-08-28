@@ -7,11 +7,13 @@ import java.nio.charset.StandardCharsets;
 
 public class ARX_meps {
     public static void main(String[] args) throws Exception {
-        // path of the original income dataset
-        String inputPath = "../datasets/MEPS.csv";
+        // Path to the 80% partitioned training dataset to prevent data leakage
+        String inputPath = "../datasets/MEPS_train.csv";
         String outputBasePath = "../datasets/ARX_meps_"; 
+        
         // load the dataset into ARX
         Data data = Data.create(inputPath, StandardCharsets.UTF_8, ',');
+        
         // list of quasi identifiers used for anonymization
         for (int i = 0; i < data.getHandle().getNumColumns(); i++) {
             String colName = data.getHandle().getAttributeName(i);
@@ -19,11 +21,13 @@ public class ARX_meps {
         }
 
         String[] qis = {"AGE", "MARRY", "REGION", "SEX", "RACE", "ACTDTY", "EMPST", "FTSTU"};
+        
         // load the hierarchy files for each quasi-identifier
         for (String qi : qis) {
             String hierarchyFileName = "hierarchies/" + qi + ".csv";
             data.getDefinition().setAttributeType(qi, Hierarchy.create(hierarchyFileName, StandardCharsets.UTF_8, ','));
         }
+        
         // create ARX anonymizer object
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         
@@ -61,8 +65,8 @@ public class ARX_meps {
             data.getHandle().release();
         }
         
-        // t-closeness loop
-        double[] tValues = {0.15, 0.30};
+        // t-closeness loop (0.3 instead of 0.30 to match Python filename expectations exactly)
+        double[] tValues = {0.15, 0.3};
         for (double t : tValues) {
             ARXConfiguration configT = ARXConfiguration.create();
             configT.addPrivacyModel(new KAnonymity(baseK));

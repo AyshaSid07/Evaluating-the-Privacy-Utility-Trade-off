@@ -1,20 +1,23 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import NearestNeighbors
+import os
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+from sklearn.neighbors import NearestNeighbors
 
 TARGET_COL = 'UTILIZATION'
-RANDOM_STATE = 123
 NUMERIC_COLS = ['AGE', 'PCS42', 'MCS42', 'K6SUM42', 'PHQ242']
+DATASET_NAME = "MEPS"
 
-def convert_val(val):
-# Parse ARX intervals (e.g. "[20, 40[") into their numerical midpoint to avoid losing generalized data
+os.makedirs("../results/dcr/record_level/", exist_ok=True)
+
+def convert_arx_value(val):
+    """Convert ARX intervals to midpoints and suppressions to 0."""
     val = str(val).strip()
-    if val == '*': return 0.0
-    if val.startswith('[') and val.endswith('['):
-        parts = val[1:-1].split(',')
+    if val == "*":
+        return 0.0
+    if val.startswith("[") and val.endswith("["):
+        parts = val[1:-1].split(",")
         try:
             return (float(parts[0]) + float(parts[1])) / 2.0
         except:
@@ -24,113 +27,169 @@ def convert_val(val):
     except:
         return 0.0
 
-def dcr(df_orig_raw, df_anon_raw, numeric_cols):
-
-    df_orig = df_orig_raw.copy()
-    df_anon = df_anon_raw.copy()
-
-    # 1. Ensure we only have common columns and drop indices/targets
-    cols_to_use = [c for c in df_orig.columns if c not in ['Linkage_Index', TARGET_COL]]
-    df_orig = df_orig[cols_to_use]
-    df_anon = df_anon[cols_to_use]
-
-    # Clean numeric columns and parse ARX interval generalizations
+def prepare_dcr_data(df, target_column, numeric_cols, common_cols):
+    """Filter columns and convert ARX numeric intervals."""
+    df = df.copy()
+    df = df[[c for c in common_cols if c in df.columns]]
+    
     for col in numeric_cols:
-        df_orig[col] = df_orig[col].apply(convert_val)
-        df_anon[col] = df_anon[col].apply(convert_val)
+        if col in df.columns:
+            df[col] = df[col].apply(convert_arx_value)
+    return df
 
-        # Use original training median instead of 0 for missing/suppressed values
-        median_val = df_orig[col].median()
-
+def compute_record_level_dcr(
+    df_original_train,
+    df_protected,
+    numeric_cols,
+    categorical_cols,
+    dataset_name,
+    configuration_name,
+    run_id,
+    seed,
+    output_path
+):
+    # 1. Impute missing values with training set median
+    for col in numeric_cols:
+        median_val = df_original_train[col].median()
         if pd.isna(median_val):
             median_val = 0.0
-
-        df_orig[col] = df_orig[col].fillna(median_val)
-        df_anon[col] = df_anon[col].fillna(median_val)
-
-    # 2. Create a ColumnTransformer (OneHot + Scaling [0,1])
-    categorical_cols = [c for c in cols_to_use if c not in numeric_cols]
+        df_original_train[col] = df_original_train[col].fillna(median_val)
+        df_protected[col] = df_protected[col].fillna(median_val)
 
     for col in categorical_cols:
-        df_orig[col] = df_orig[col].astype(str)
-        df_anon[col] = df_anon[col].astype(str)
-    
+        df_original_train[col] = df_original_train[col].astype(str)
+        df_protected[col] = df_protected[col].astype(str)
+
+    # 2. Fit preprocessor on the original training data and transform both datasets
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', MinMaxScaler(), numeric_cols),
-            ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_cols)
-        ])
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), categorical_cols),
+            ("num", MinMaxScaler(), numeric_cols)
+        ],
+        remainder="drop"
+    )
 
-    # 3. Fit on the original data, transform both
-    X_orig = preprocessor.fit_transform(df_orig)
-    X_anon = preprocessor.transform(df_anon)
+    # combine the original and protected datasets to fit the preprocessor
+    combined_df = pd.concat([df_original_train, df_protected], axis=0)
+    preprocessor.fit(combined_df)
 
-    # 4. Use kNN to efficiently find the shortest distance (DCR)
-    knn = NearestNeighbors(n_neighbors=1, algorithm='auto', metric='euclidean', n_jobs=-1)
-    knn.fit(X_orig)
+    X_original = preprocessor.transform(df_original_train)
+    X_protected = preprocessor.transform(df_protected)
+
+    # 3. Find nearest neighbors (DCR)
+    nn = NearestNeighbors(n_neighbors=1, metric="euclidean", n_jobs=-1)
+    nn.fit(X_original)
+    distances, indices = nn.kneighbors(X_protected)
     
-    distances, _ = knn.kneighbors(X_anon)
-    min_distances = distances.flatten()
+    dcr_values = distances.flatten()
+    
+    # 4. Save record-level DCR for histograms
+    record_level_df = pd.DataFrame({
+        "Dataset": dataset_name,
+        "Configuration": configuration_name,
+        "Run": run_id,
+        "Seed": seed,
+        "Protected_Record_Index": np.arange(len(dcr_values)),
+        "Closest_Original_Index": indices.flatten(),
+        "DCR": dcr_values
+    })
+    record_level_df.to_csv(output_path, index=False)
 
+    # 5. Return summary metrics for tables
     return {
-        'mean_distance':        float(np.mean(min_distances)),
-        'median_distance':      float(np.median(min_distances)),
-        
-        'min_distance':         float(np.min(min_distances)),
-        'max_distance':         float(np.max(min_distances)),
-        'std_distance':         float(np.std(min_distances)),
-        
-        'percentile_1st':       float(np.percentile(min_distances, 1)),
-        'percentile_5th':       float(np.percentile(min_distances, 5)),
-        'percentile_10th':      float(np.percentile(min_distances, 10)),
-        'percentile_25th':      float(np.percentile(min_distances, 25)),
-        'percentile_75th':      float(np.percentile(min_distances, 75)),
-        'percentile_90th':      float(np.percentile(min_distances, 90)),
-        'percentile_95th':      float(np.percentile(min_distances, 95)),
-        'percentile_99th':      float(np.percentile(min_distances, 99)),
-        
-        'exact_matches_%':      float((min_distances == 0).mean() * 100),
-        'near_matches_1pct_%':  float((min_distances < 0.01).mean() * 100),
-        'near_matches_5pct_%':  float((min_distances < 0.05).mean() * 100),
-        'near_matches_10pct_%': float((min_distances < 0.10).mean() * 100)
+        "Dataset": dataset_name,
+        "Configuration": configuration_name,
+        "Run": run_id,
+        "Seed": seed,
+        "mean_distance": float(np.mean(dcr_values)),
+        "median_distance": float(np.median(dcr_values)),
+        "min_distance": float(np.min(dcr_values)),
+        "max_distance": float(np.max(dcr_values)),
+        "std_distance": float(np.std(dcr_values)),
+        "percentile_1st": float(np.percentile(dcr_values, 1)),
+        "percentile_5th": float(np.percentile(dcr_values, 5)),
+        "percentile_10th": float(np.percentile(dcr_values, 10)),
+        "percentile_25th": float(np.percentile(dcr_values, 25)),
+        "percentile_75th": float(np.percentile(dcr_values, 75)),
+        "percentile_90th": float(np.percentile(dcr_values, 90)),
+        "percentile_95th": float(np.percentile(dcr_values, 95)),
+        "percentile_99th": float(np.percentile(dcr_values, 99)),
+        "exact_matches_%": float(np.mean(dcr_values == 0) * 100),
+        "near_matches_1pct_%": float(np.mean(dcr_values < 0.01) * 100),
+        "near_matches_5pct_%": float(np.mean(dcr_values < 0.05) * 100),
+        "near_matches_10pct_%": float(np.mean(dcr_values < 0.10) * 100)
     }
 
-df_real = pd.read_csv('../datasets/MEPS.csv')
-df_train_real, df_test_real = train_test_split(df_real, test_size=0.3, random_state=RANDOM_STATE)
-datasets_to_test = {
-    "No anonymization (Baseline)": df_test_real,  # attacker has real data — upper bound
-    "ARX MEPS, k = 3": pd.read_csv('../datasets/ARX_meps_k3.csv'),
-    "ARX MEPS, k = 5": pd.read_csv('../datasets/ARX_meps_k5.csv'),
-    "ARX MEPS, k = 10": pd.read_csv('../datasets/ARX_meps_k10.csv'),
-    "ARX MEPS, k = 15": pd.read_csv('../datasets/ARX_meps_k15.csv'),
-    "ARX MEPS, k = 5, l = 2": pd.read_csv('../datasets/ARX_meps_k5_l2.csv'),
-    "ARX MEPS, k = 5, l = 3": pd.read_csv('../datasets/ARX_meps_k5_l3.csv'),
-    "ARX MEPS, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_meps_k5_t0.3.csv'),
-    "ARX MEPS, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_meps_k5_t0.15.csv'),
-    "DP MEPS, epsilon = 10.0": pd.read_csv('../datasets/DP_meps_epsilon_10_0.csv'),
-    "DP MEPS, epsilon = 5.0":  pd.read_csv('../datasets/DP_meps_epsilon_5_0.csv'),
-    "DP MEPS, epsilon = 3.0":  pd.read_csv('../datasets/DP_meps_epsilon_3_0.csv'),
-    "DP MEPS, epsilon = 1.0":  pd.read_csv('../datasets/DP_meps_epsilon_1_0.csv'),
-    "DP MEPS, epsilon = 0.5":  pd.read_csv('../datasets/DP_meps_epsilon_0_5.csv'),
-    "Combined MEPS, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_meps.csv'),
-    "Combined MEPS, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_meps.csv'),
-    "Combined MEPS, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_meps.csv'),
-    "Combined MEPS, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_meps.csv'),
-    "Combined MEPS, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_meps.csv'),
-    "Combined MEPS, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_meps.csv'),
+# --- MAIN EXECUTION ---
+seeds = [101]
+
+# Load the offline pre-partitioned 80/20 data
+df_train_real = pd.read_csv('../datasets/MEPS_train.csv')
+df_test_real = pd.read_csv('../datasets/MEPS_test.csv')
+
+selected_configs = {
+    "No anonymization (Baseline)": None, 
+    "DP MEPS, epsilon = 10.0 (r1)": pd.read_csv('../datasets/DP_epsilon_10_0_r1_meps.csv'),
+    "DP MEPS, epsilon = 10.0 (r2)": pd.read_csv('../datasets/DP_epsilon_10_0_r2_meps.csv'),
+    "DP MEPS, epsilon = 10.0 (r3)": pd.read_csv('../datasets/DP_epsilon_10_0_r3_meps.csv'),
+    "DP MEPS, epsilon = 5.0 (r1)":  pd.read_csv('../datasets/DP_epsilon_5_0_r1_meps.csv'),
+    "DP MEPS, epsilon = 5.0 (r2)":  pd.read_csv('../datasets/DP_epsilon_5_0_r2_meps.csv'),
+    "DP MEPS, epsilon = 5.0 (r3)":  pd.read_csv('../datasets/DP_epsilon_5_0_r3_meps.csv'),
+    "DP MEPS, epsilon = 3.0 (r1)":  pd.read_csv('../datasets/DP_epsilon_3_0_r1_meps.csv'),
+    "DP MEPS, epsilon = 3.0 (r2)":  pd.read_csv('../datasets/DP_epsilon_3_0_r2_meps.csv'),
+    "DP MEPS, epsilon = 3.0 (r3)":  pd.read_csv('../datasets/DP_epsilon_3_0_r3_meps.csv'),
+    "DP MEPS, epsilon = 1.0 (r1)":  pd.read_csv('../datasets/DP_epsilon_1_0_r1_meps.csv'),
+    "DP MEPS, epsilon = 1.0 (r2)":  pd.read_csv('../datasets/DP_epsilon_1_0_r2_meps.csv'),
+    "DP MEPS, epsilon = 1.0 (r3)":  pd.read_csv('../datasets/DP_epsilon_1_0_r3_meps.csv'),
+    "DP MEPS, epsilon = 0.5 (r1)":  pd.read_csv('../datasets/DP_epsilon_0_5_r1_meps.csv'),
+    "DP MEPS, epsilon = 0.5 (r2)":  pd.read_csv('../datasets/DP_epsilon_0_5_r2_meps.csv'),
+    "DP MEPS, epsilon = 0.5 (r3)":  pd.read_csv('../datasets/DP_epsilon_0_5_r3_meps.csv'),
 }
 
-results = {}
+all_summaries = []
 
-for name, df in datasets_to_test.items():
-    print(f"\n--- Evaluating DCR for: {name} ---")
-    results[name] = dcr(df_orig_raw=df_train_real, df_anon_raw=df, numeric_cols=['AGE', 'PCS42', 'MCS42', 'K6SUM42', 'PHQ242'])
+# Exclude target and identifiers from feature matrix
+exclude_cols = ["index", "Linkage_Index", TARGET_COL]
+common_cols = [c for c in df_train_real.columns if c not in exclude_cols]
+numeric_present = [c for c in NUMERIC_COLS if c in common_cols]
+categorical_cols = [c for c in common_cols if c not in numeric_present]
 
-df_results = pd.DataFrame.from_dict(results, orient='index')
+for run_id, seed in enumerate(seeds, start=1):
+    print(f"\n--- Starting DCR run {run_id} (Seed {seed}) ---", flush=True)
 
-df_results.index.name = 'Anonymization_Configuration'
+    for config_name, df_protected in selected_configs.items():
+        print(f"Evaluating: {config_name}", flush=True)
 
-csv_filepath = "../results/dcr/dcr_results_meps.csv" 
+        if df_protected is None:
+            # Baseline uses the exact test partition
+            protected_input = df_test_real.copy()
+        else:
+            protected_input = df_protected.copy()
 
-df_results.to_csv(csv_filepath)
-print(df_results)
+        original_prepared = prepare_dcr_data(df_train_real, TARGET_COL, numeric_present, common_cols)
+        protected_prepared = prepare_dcr_data(protected_input, TARGET_COL, numeric_present, common_cols)
+
+        safe_name = config_name.replace(' ', '_').replace('=', '').replace('+', 'plus').replace(',', '')
+        output_path = f"../results/dcr/record_level/meps_{safe_name}_run_{run_id}.csv"
+
+        summary = compute_record_level_dcr(
+            df_original_train=original_prepared,
+            df_protected=protected_prepared,
+            numeric_cols=numeric_present,
+            categorical_cols=categorical_cols,
+            dataset_name=DATASET_NAME,
+            configuration_name=config_name,
+            run_id=run_id,
+            seed=seed,
+            output_path=output_path
+        )
+        all_summaries.append(summary)
+
+# Save results
+summary_df = pd.DataFrame(all_summaries)
+summary_df.to_csv("../results/dcr/dcr_results_meps_all_runs.csv", index=False)
+
+agg_summary = summary_df.groupby("Configuration").agg(["mean", "std"], numeric_only=True)
+agg_summary.to_csv("../results/dcr/dcr_results_meps_summary.csv")
+
+print("\nDCR Evaluation Complete!")

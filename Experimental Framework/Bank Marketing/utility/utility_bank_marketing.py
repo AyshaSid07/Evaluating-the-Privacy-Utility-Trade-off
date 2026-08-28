@@ -1,116 +1,294 @@
 import pandas as pd
+import numpy as np
+import os
+
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, balanced_accuracy_score, roc_auc_score
 
-# Target attribute used for prediction 
-TARGET_COLUMN = 'y'
-RANDOM_STATE = 123
 
-#Load original dataset
-df_real = pd.read_csv('../datasets/bank-additional-full.csv', sep=';')
-# Remove linkage index column if present
-if 'Linkage_Index' in df_real.columns:
-    df_real = df_real.drop(columns=['Linkage_Index'])
-# Remove suppressed target values
-df_real = df_real[df_real[TARGET_COLUMN].astype(str) != '*'].copy()
+# ==============================
+# Configuration
+# ==============================
+TARGET_COLUMN = "y"
+seeds = [101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
 
-if 'duration' in df_real.columns:
-    df_real = df_real.drop(columns=['duration'])
-target_map = {'yes': 1, 'no': 0, '1': 1, '0': 0}
-df_real[TARGET_COLUMN] = df_real[TARGET_COLUMN].astype(str).str.lower().map(target_map)
+# Standard numeric columns for Bank Marketing
+NUMERIC_COLS = [
+    'age', 'campaign', 'pdays', 'previous', 'emp.var.rate', 
+    'cons.price.idx', 'cons.conf.idx', 'euribor3m', 'nr.employed'
+]
 
-df_real = df_real.dropna(subset=[TARGET_COLUMN]) 
-FEATURE_COLS = [c for c in df_real.columns if c != TARGET_COLUMN]
-# Separate features and target attribute
-y_real = df_real[TARGET_COLUMN].astype(int).values
-X_real = df_real.drop(columns=[TARGET_COLUMN]).astype(str)
+# Ensure output directory exists
+os.makedirs("../results/utility/", exist_ok=True)
 
-X_train_real, X_test_real, y_train_real, y_test_real = train_test_split(
-    X_real, y_real, test_size=0.2, random_state=RANDOM_STATE
-)
-# Load datasets for utility evaluation
-datasets_to_test = {
-    "No anonymization (Baseline)": None,  
-    "ARX Bank Marketing, k = 3": pd.read_csv('../datasets/ARX_bank_marketing_k3.csv'),
-    "ARX Bank Marketing, k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k5.csv'),
-    "ARX Bank Marketing, k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k10.csv'),
-    "ARX Bank Marketing, k = 15": pd.read_csv('../datasets/ARX_bank_marketing_k15.csv'),
-    "ARX Bank Marketing, k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k5_l2.csv'),
-    "ARX Bank Marketing, k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k5_l3.csv'),
-    "ARX Bank Marketing, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.3.csv'),
-    "ARX Bank Marketing, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.15.csv'),
-    "DP Bank Marketing, epsilon = 10.0": pd.read_csv('../datasets/DP_bank_marketing_epsilon_10_0.csv'),
-    "DP Bank Marketing, epsilon = 5.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_5_0.csv'),
-    "DP Bank Marketing, epsilon = 3.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_3_0.csv'),
-    "DP Bank Marketing, epsilon = 1.0":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_1_0.csv'),
-    "DP Bank Marketing, epsilon = 0.5":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_5.csv'),
-    "DP Bank Marketing, epsilon = 0.1":  pd.read_csv('../datasets/DP_bank_marketing_epsilon_0_1.csv'),
-    "Combined Bank Marketing, k = 3 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_bank_marketing.csv'),
-    "Combined Bank Marketing, k = 3 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_bank_marketing.csv'),
-    "Combined Bank Marketing, k = 3 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_bank_marketing.csv'),
-    "Combined Bank Marketing, k = 5 + epsilon = 0.5": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_bank_marketing.csv'),
-    "Combined Bank Marketing, k = 5 + epsilon = 1.0": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_bank_marketing.csv'),
-    "Combined Bank Marketing, k = 5 + epsilon = 3.0": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_bank_marketing.csv'),
+
+# ==============================
+# Helper functions
+# ==============================
+def convert_val(val):
+    """
+    Converts ARX interval strings (e.g. '[30, 40[') to their numerical midpoint.
+    Suppressed values ('*') and parsing failures default to 0.0.
+    """
+    val = str(val).strip()
+    if val == "*": return 0.0
+    if val.startswith("[") and val.endswith("["):
+        parts = val[1:-1].split(",")
+        try: return (float(parts[0]) + float(parts[1])) / 2.0
+        except Exception: return 0.0
+    try: return float(val)
+    except Exception: return 0.0
+
+def prepare_features(X_train, X_test, numeric_cols, categorical_cols):
+    """
+    Applies numerical conversion and median imputation dynamically per split.
+    Prevents data leakage by ensuring test set transformations do not rely on 
+    training set statistics.
+    """
+    X_train = X_train.copy()
+    X_test = X_test.copy()
+
+    for col in numeric_cols:
+        if col in X_train.columns:
+            X_train[col] = X_train[col].apply(convert_val)
+        if col in X_test.columns:
+            X_test[col] = X_test[col].apply(convert_val)
+            
+        # Compute median strictly on the training partition
+        if col in X_train.columns:
+            median_val = X_train[col].median()
+            if pd.isna(median_val): median_val = 0.0
+            
+            # Impute both train and test with the train median
+            X_train[col] = X_train[col].fillna(median_val)
+            if col in X_test.columns:
+                X_test[col] = X_test[col].fillna(median_val)
+
+    for col in categorical_cols:
+        if col in X_train.columns: X_train[col] = X_train[col].astype(str)
+        if col in X_test.columns: X_test[col] = X_test[col].astype(str)
+
+    return X_train, X_test
+
+def clean_target(y_series):
+    """Robustly maps target values to 0 and 1"""
+    y_raw = y_series.astype(str).str.strip().str.lower()
+    target_map = {'yes': 1, 'no': 0, '1': 1, '0': 0, '1.0': 1, '0.0': 0, 'true': 1, 'false': 0}
+    return y_raw.map(target_map).fillna(0).astype(int).values
+
+
+# ==============================
+# Load Offline Splits (TSTR strict isolation)
+# ==============================
+# Load pristine training and testing sets. 
+# Using sep=";" as is standard for Bank Marketing CSVs.
+df_train_real = pd.read_csv("../datasets/bank_marketing_train.csv", low_memory=False)
+df_test_real = pd.read_csv("../datasets/bank_marketing_test.csv", low_memory=False)
+
+df_train_real.columns = df_train_real.columns.str.strip()
+df_test_real.columns = df_test_real.columns.str.strip()
+
+# Drop 'index' and 'duration' (duration is highly predictive but not known in advance)
+for drop_col in ["index", "duration", "Linkage_Index"]:
+    if drop_col in df_train_real.columns:
+        df_train_real = df_train_real.drop(columns=[drop_col])
+    if drop_col in df_test_real.columns:
+        df_test_real = df_test_real.drop(columns=[drop_col])
+
+# Drop any rows where the target variable itself was suppressed or missing
+df_train_real = df_train_real[df_train_real[TARGET_COLUMN].astype(str) != "*"].copy()
+df_test_real = df_test_real[df_test_real[TARGET_COLUMN].astype(str) != "*"].copy()
+
+df_train_real = df_train_real.dropna(subset=[TARGET_COLUMN])
+df_test_real = df_test_real.dropna(subset=[TARGET_COLUMN])
+
+FEATURE_COLS = [c for c in df_train_real.columns if c != TARGET_COLUMN]
+CATEGORICAL_COLS = [c for c in FEATURE_COLS if c not in NUMERIC_COLS]
+
+
+# ==============================
+# Load fixed protected datasets
+# ==============================
+protected_datasets = {
+    "ARX Bank Marketing, k = 3": pd.read_csv('../datasets/ARX_bank_marketing_k3_cleaned.csv'),
+    "ARX Bank Marketing, k = 5": pd.read_csv('../datasets/ARX_bank_marketing_k5_cleaned.csv'),
+    "ARX Bank Marketing, k = 10": pd.read_csv('../datasets/ARX_bank_marketing_k10_cleaned.csv'),
+    "ARX Bank Marketing, k = 15": pd.read_csv('../datasets/ARX_bank_marketing_k15_cleaned.csv'),
+    "ARX Bank Marketing, k = 5, l = 2": pd.read_csv('../datasets/ARX_bank_marketing_k5_l2_cleaned.csv'),
+    "ARX Bank Marketing, k = 5, l = 3": pd.read_csv('../datasets/ARX_bank_marketing_k5_l3_cleaned.csv'),
+    "ARX Bank Marketing, k = 5, t = 0.3": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.3_cleaned.csv'),
+    "ARX Bank Marketing, k = 5, t = 0.15": pd.read_csv('../datasets/ARX_bank_marketing_k5_t0.15_cleaned.csv'),
+    
+    "DP Bank Marketing, epsilon = 10.0 (r1)": pd.read_csv('../datasets/DP_epsilon_10_0_r1_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 10.0 (r2)": pd.read_csv('../datasets/DP_epsilon_10_0_r2_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 10.0 (r3)": pd.read_csv('../datasets/DP_epsilon_10_0_r3_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 5.0 (r1)":  pd.read_csv('../datasets/DP_epsilon_5_0_r1_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 5.0 (r2)":  pd.read_csv('../datasets/DP_epsilon_5_0_r2_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 5.0 (r3)":  pd.read_csv('../datasets/DP_epsilon_5_0_r3_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 3.0 (r1)":  pd.read_csv('../datasets/DP_epsilon_3_0_r1_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 3.0 (r2)":  pd.read_csv('../datasets/DP_epsilon_3_0_r2_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 3.0 (r3)":  pd.read_csv('../datasets/DP_epsilon_3_0_r3_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 1.0 (r1)":  pd.read_csv('../datasets/DP_epsilon_1_0_r1_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 1.0 (r2)":  pd.read_csv('../datasets/DP_epsilon_1_0_r2_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 1.0 (r3)":  pd.read_csv('../datasets/DP_epsilon_1_0_r3_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 0.5 (r1)":  pd.read_csv('../datasets/DP_epsilon_0_5_r1_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 0.5 (r2)":  pd.read_csv('../datasets/DP_epsilon_0_5_r2_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 0.5 (r3)":  pd.read_csv('../datasets/DP_epsilon_0_5_r3_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 0.1 (r1)":  pd.read_csv('../datasets/DP_epsilon_0_1_r1_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 0.1 (r2)":  pd.read_csv('../datasets/DP_epsilon_0_1_r2_bank_marketing.csv'),
+    "DP Bank Marketing, epsilon = 0.1 (r3)":  pd.read_csv('../datasets/DP_epsilon_0_1_r3_bank_marketing.csv'),
+    
+    "Combined Bank Marketing, k = 3 + epsilon = 3.0 (r1)": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_r1_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 3.0 (r2)": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_r2_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 3.0 (r3)": pd.read_csv('../datasets/combined_k=3_epsilon_3_0_r3_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 1.0 (r1)": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_r1_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 1.0 (r2)": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_r2_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 1.0 (r3)": pd.read_csv('../datasets/combined_k=3_epsilon_1_0_r3_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 0.5 (r1)": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_r1_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 0.5 (r2)": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_r2_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 3 + epsilon = 0.5 (r3)": pd.read_csv('../datasets/combined_k=3_epsilon_0_5_r3_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 3.0 (r1)": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_r1_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 3.0 (r2)": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_r2_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 3.0 (r3)": pd.read_csv('../datasets/combined_k=5_epsilon_3_0_r3_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 1.0 (r1)": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_r1_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 1.0 (r2)": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_r2_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 1.0 (r3)": pd.read_csv('../datasets/combined_k=5_epsilon_1_0_r3_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 0.5 (r1)": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_r1_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 0.5 (r2)": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_r2_bank_marketing.csv'),
+    "Combined Bank Marketing, k = 5 + epsilon = 0.5 (r3)": pd.read_csv('../datasets/combined_k=5_epsilon_0_5_r3_bank_marketing.csv'),
 }
 
-results = []
+all_results = []
 
-for name, df in datasets_to_test.items():
-    print(f"Evaluating: {name}...")
-    
-    # Baseline: train directly on the real training split
-    if df is None:
-        X_train = X_train_real.copy().astype(str)
-        y_train = y_train_real
-    else:
-        # ARX datasets: align surviving rows with the real training split
-        if 'duration' in df.columns:
-            df = df.drop(columns=['duration'])
-        if 'Linkage_Index' in df.columns:
-            df = df.set_index('Linkage_Index')
-            surviving_train_indices = X_train_real.index.intersection(df.index)
-            df_train = df.loc[surviving_train_indices].copy()
+for seed in seeds:
+    run_id = seed - 100
+    print(f"\n==============================\nStarting utility run {run_id} with seed {seed}\n==============================", flush=True)
+
+    # Establish real testing ground truth (Never altered or seen during training)
+    y_test_real = clean_target(df_test_real[TARGET_COLUMN])
+    X_test_real = df_test_real.drop(columns=[TARGET_COLUMN])
+
+    datasets_to_test = {
+        "No anonymization (Baseline)": None,
+        **protected_datasets
+    }
+
+    for name, df_protected_original in datasets_to_test.items():
+        print(f"\nEvaluating: {name}", flush=True)
+
+        # Baseline: train directly on the pristine training split
+        if df_protected_original is None:
+            X_train = df_train_real.drop(columns=[TARGET_COLUMN]).copy()
+            y_train = clean_target(df_train_real[TARGET_COLUMN])
         else:
-             # DP or combined: no row correspondence, use all generated rows
-            df_train = df.reset_index(drop=True).copy()
+            df_protected = df_protected_original.copy()
+            df_protected.columns = df_protected.columns.str.strip()
 
-        df_train = df_train[df_train[TARGET_COLUMN].astype(str) != '*'].copy()
+            for drop_col in ["index", "duration"]:
+                if drop_col in df_protected.columns:
+                    df_protected = df_protected.drop(columns=[drop_col])
 
-        df_train[TARGET_COLUMN] = (
-            df_train[TARGET_COLUMN]
-            .astype(str)
-            .str.lower()
-            .map(target_map)
+            # Align protected training records with original training set indices.
+            if "Linkage_Index" in df_protected.columns:
+                df_protected = df_protected.set_index("Linkage_Index")
+                surviving_train_indices = df_train_real.index.intersection(df_protected.index)
+                df_train = df_protected.loc[surviving_train_indices].copy()
+            else:
+                # Fallback if Linkage_Index is missing (e.g., purely synthetic sets)
+                df_train = df_protected.reset_index(drop=True).copy()
+
+            # Discard records where the target variable was suppressed or missing
+            df_train = df_train[df_train[TARGET_COLUMN].astype(str) != "*"].copy()
+            df_train = df_train.dropna(subset=[TARGET_COLUMN])
+
+            if len(df_train) == 0:
+                print(f"Skipping {name}: no valid training records after filtering.", flush=True)
+                continue
+
+            # Ensure strict feature set parity before splitting
+            df_train = df_train[FEATURE_COLS + [TARGET_COLUMN]]
+
+            y_train = clean_target(df_train[TARGET_COLUMN])
+            X_train = df_train.drop(columns=[TARGET_COLUMN]).copy()
+
+        # Copy pristine test set for current evaluation iteration
+        X_test_current = X_test_real.copy()
+
+        # Apply preprocessing (midpoint numerical imputation and formatting)
+        X_train_prep, X_test_prep = prepare_features(X_train, X_test_current, NUMERIC_COLS, CATEGORICAL_COLS)
+
+        # OHE for categoricals, passthrough and scaling for continuous/midpoints
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), CATEGORICAL_COLS),
+                ("num", MinMaxScaler(), NUMERIC_COLS)
+            ]
         )
 
-        df_train = df_train.dropna(subset=[TARGET_COLUMN])
-        df_train = df_train[FEATURE_COLS + [TARGET_COLUMN]]
+        # Utilize balanced class weights to account for majority class dominance
+        model = Pipeline([
+            ("preprocessor", preprocessor),
+            ("classifier", RandomForestClassifier(n_estimators=100, class_weight="balanced", random_state=seed, n_jobs=-1))
+        ])
 
-        y_train = df_train[TARGET_COLUMN].astype(int).values
-        X_train = df_train.drop(columns=[TARGET_COLUMN]).astype(str)
-    
-    # Clean copy of real test set for each configuration
-    X_test = X_test_real.copy().astype(str)
+        # Train on protected data
+        model.fit(X_train_prep, y_train)
+        
+        # Predict on pristine real data
+        y_pred = model.predict(X_test_prep)
+        
+        if hasattr(model, "predict_proba"):
+            y_prob = model.predict_proba(X_test_prep)[:, 1]
+            roc_auc = roc_auc_score(y_test_real, y_prob)
+        else:
+            roc_auc = 0.0
 
-    model = Pipeline([
-        ('encoder', OneHotEncoder(handle_unknown='ignore', sparse_output=True)),
-        ('classifier', RandomForestClassifier(n_jobs=-1,random_state=2,class_weight='balanced'))
-    ])
+        acc = accuracy_score(y_test_real, y_pred)
+        bal_acc = balanced_accuracy_score(y_test_real, y_pred)
+        precision = precision_score(y_test_real, y_pred, zero_division=0)
+        recall = recall_score(y_test_real, y_pred, zero_division=0)
+        f1 = f1_score(y_test_real, y_pred, zero_division=0)
 
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
+        print(f"  Acc: {acc:.4f}, Bal-Acc: {bal_acc:.4f}, ROC-AUC: {roc_auc:.4f}, F1: {f1:.4f}", flush=True)
 
-    results.append({
-        'Dataset': name,
-        'Accuracy': accuracy_score(y_test_real, y_pred),
-        'F1-Score': f1_score(y_test_real, y_pred, zero_division=0),
-        'Precision': precision_score(y_test_real, y_pred, zero_division=0),
-        'Recall': recall_score(y_test_real, y_pred, zero_division=0)
+        all_results.append({
+            "Run": run_id,
+            "Seed": seed,
+            "Dataset": name,
+            "Accuracy": acc,
+            "Balanced_Accuracy": bal_acc,
+            "ROC-AUC": roc_auc,
+            "Precision": precision,
+            "Recall": recall,
+            "F1-Score": f1
+        })
+
+        pd.DataFrame(all_results).to_csv("../results/utility/bank_marketing_utility_results_all_runs_partial.csv", index=False)
+
+# ==============================
+# Save all results and mean/std summary
+# ==============================
+results_df = pd.DataFrame(all_results)
+results_df.to_csv("../results/utility/bank_marketing_utility_results_all_runs.csv", index=False)
+
+summary_df = (
+    results_df
+    .groupby("Dataset")
+    .agg({
+        "Accuracy": ["mean", "std"],
+        "Balanced_Accuracy": ["mean", "std"],
+        "ROC-AUC": ["mean", "std"],
+        "Precision": ["mean", "std"],
+        "Recall": ["mean", "std"],
+        "F1-Score": ["mean", "std"]
     })
+)
 
-results_df = pd.DataFrame(results)
-print(results_df)
-results_df.to_csv("../results/utility/bank_marketing_utility_results.csv", index=False)
+summary_df.columns = ["_".join(col).strip() for col in summary_df.columns.values]
+summary_df = summary_df.reset_index()
+summary_df.to_csv("../results/utility/bank_marketing_utility_results_summary.csv", index=False)
+
+print("\n=== Utility Evaluation Complete ===")

@@ -1,83 +1,129 @@
 import pandas as pd
 from snsynth import Synthesizer
+import os
 
-OUTPUT_DIR   = '../datasets/'
+# ==============================
+# Configuration
+# ==============================
+OUTPUT_DIR    = '../datasets/'
 TARGET_COLUMN = 'y'
+REALIZATIONS  = 3
 
-df_to_test = {
-    "k=3": pd.read_csv("../datasets/ARX_bank_marketing_k3.csv"),
-    "k=5": pd.read_csv("../datasets/ARX_bank_marketing_k5.csv"),
-}
-# df_original = pd.read_csv("../datasets/bank-additional-full.csv", sep=';')
+# Define the runs to execute: (Input File, Output Prefix, List of Epsilons, CSV Separator)
+runs = [
+    # 1. Pure Differential Privacy (using the strict partitioned training split)
+    ('../datasets/bank_marketing_train.csv', 'DP', [0.1, 0.5, 1.0, 3.0, 5.0, 10.0], ','),
+    
+    # 2. Layered Approach (k=3 + DP) using cleaned ARX output
+    ('../datasets/ARX_bank_marketing_k3_cleaned.csv', 'combined_k=3', [0.5, 1.0, 3.0], ','),
+    
+    # 3. Layered Approach (k=5 + DP) using cleaned ARX output
+    ('../datasets/ARX_bank_marketing_k5_cleaned.csv', 'combined_k=5', [0.5, 1.0, 3.0], ',')
+]
 
-continuous_cols  = ['duration', 'campaign', 'previous','emp.var.rate','cons.price.idx','cons.conf.idx','euribor3m','nr.employed']
-categorical_cols = ['age','job','marital', 'pdays','education','default','housing','loan','contact','month','day_of_week','poutcome','y']
+# Using the consistent continuous columns from the TSTR evaluations
+continuous_cols = [
+    'age', 'campaign', 'pdays', 'previous', 'emp.var.rate', 
+    'cons.price.idx', 'cons.conf.idx', 'euribor3m', 'nr.employed'
+]
 
-# Epsilons to test — lower = stronger privacy, higher = more utility
-# In the literature, epsilon <= 1 is considered strong privacy,
-# 1-10 moderate, and >10 is weak. We test a range so you can show
-# the tradeoff curve in your thesis.
-epsilons = [0.5, 1.0, 3.0]#[0.1, 0.5, 1.0, 5.0, 10.0]
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Preprocessing 
-# SmartNoise requires all columns to be the correct type
-# convert target column to integer type
-target_map = {'yes': 1, 'no': 0}
-for dataset_name, df_original in df_to_test.items():
-    df_original[TARGET_COLUMN] = df_original[TARGET_COLUMN].map(target_map).astype(int)
-    # convert categorical columns to string type and continuous column to string type
+# ==============================
+# Helper Function
+# ==============================
+def convert_val(val):
+    """
+    Safely converts strings and ARX intervals back to continuous floats
+    so MST can process them with Gaussian noise.
+    """
+    val = str(val).strip()
+    if val == "*": return 0.0
+    if val.startswith("[") and val.endswith("["):
+        parts = val[1:-1].split(",")
+        try: return (float(parts[0]) + float(parts[1])) / 2.0
+        except Exception: return 0.0
+    try: return float(val)
+    except Exception: return 0.0
+
+
+# ==============================
+# Main Generation Loop
+# ==============================
+for input_file, prefix, epsilons, sep in runs:
+    print(f"\n=======================================================")
+    print(f"Processing: {prefix} (from {input_file})")
+    print(f"=======================================================")
+    
+    df_original = pd.read_csv(input_file, sep=sep)
+    
+    # Clean up columns not needed or allowed for synthesis (e.g., duration)
+    cols_to_drop = ["Linkage_Index", "index", "duration"]
+    for col in cols_to_drop:
+        if col in df_original.columns:
+            df_original = df_original.drop(columns=[col])
+            
+    categorical_cols = [c for c in df_original.columns if c not in continuous_cols and c != TARGET_COLUMN]
+    
+    # Format target column (safely handling 'yes'/'no' or strings)
+    y_raw = df_original[TARGET_COLUMN].astype(str).str.strip().str.lower()
+    target_map = {'yes': 1, 'no': 0, '1': 1, '0': 0, '1.0': 1, '0.0': 0, 'true': 1, 'false': 0}
+    df_original[TARGET_COLUMN] = y_raw.map(target_map).fillna(0).astype(int)
+    
+    # Format categorical columns
     for col in categorical_cols:
-        df_original[col] = df_original[col].astype(str)
+        df_original[col] = df_original[col].astype(str)    
+        
+    # Format continuous columns using the ARX-safe converter
     for col in continuous_cols:
-        df_original[col] = pd.to_numeric(df_original[col], errors='coerce')
+        df_original[col] = df_original[col].apply(convert_val)
 
+    # Drop any remaining NaNs 
     df_original = df_original.dropna()
-    df_original = df_original[categorical_cols + continuous_cols].copy()
+    
+    # Ensure target column is included in categorical features for the synthesizer
+    synth_categorical_cols = categorical_cols + [TARGET_COLUMN]
+    
+    # Reorder DataFrame
+    df_original = df_original[synth_categorical_cols + continuous_cols].copy()
 
-    print(f"Original dataset: {df_original.shape[0]} rows, {df_original.shape[1]} cols")
-    print(f"Columns: {list(df_original.columns)}\n")
-
-    # Generate synthetic datasets for each epsilon 
-    # We use the MST (Maximum Spanning Tree) synthesizer — it is the most
-    # commonly used DP synthesizer in the privacy literature for tabular data,
-    # and is the recommended default in SmartNoise for mixed categorical/continuous.
-    #
-    # Why MST?
-    #   - Handles mixed data types (categorical + continuous) well
-    #   - Based on the PrivBayes/PGM framework — well studied in literature
-    #   - More stable than DPGAN for small datasets
-    #   - Directly cite: McKenna et al. (2021) "Winning the NIST Contest"
+    print(f"Prepared dataset: {df_original.shape[0]} rows, {df_original.shape[1]} cols\n")
 
     for epsilon in epsilons:
-        print(f"Generating synthetic data with epsilon = {epsilon}...")
+        for realization in range(1, REALIZATIONS + 1):
+            print(f"  Generating {prefix} | eps = {epsilon} | realization = {realization}")
+            
+            # Create a brand new Synthesizer object for EVERY realization
+            # to ensure the budget is not mutated across runs.
+            synth = Synthesizer.create(
+                "mst",
+                epsilon=epsilon,
+                verbose=False
+            )
+            
+            synth.fit(
+                df_original,
+                categorical_columns=synth_categorical_cols,
+                continuous_columns=continuous_cols,
+                preprocessor_eps=epsilon * 0.1
+            )
 
-        synth = Synthesizer.create(
-            "mst",
-            epsilon=epsilon,
-            verbose=False
-        )
+            df_synthetic = synth.sample(len(df_original))
 
-        synth.fit(
-            df_original,
-            categorical_columns=categorical_cols, # <-- DU MISSADE DENNA RAD
-            continuous_columns=continuous_cols,
-            preprocessor_eps=epsilon * 0.1
-        )
+            # Restore correct formatting for output
+            for col in synth_categorical_cols:
+                df_synthetic[col] = df_synthetic[col].astype(str)
+            for col in continuous_cols:
+                df_synthetic[col] = pd.to_numeric(df_synthetic[col], errors='coerce')
+                
+            # Create file name based on prefix
+            eps_str = str(epsilon).replace('.', '_')
+            if prefix == 'DP':
+                out_path = f"{OUTPUT_DIR}DP_epsilon_{eps_str}_r{realization}_bank_marketing.csv"
+            else:
+                out_path = f"{OUTPUT_DIR}{prefix}_epsilon_{eps_str}_r{realization}_bank_marketing.csv"
+                
+            df_synthetic.to_csv(out_path, index=False)
+            print(f"  -> Saved: {out_path}\n")
 
-        df_synthetic = synth.sample(len(df_original))
-
-        # Restore correct types
-        for col in categorical_cols:
-            df_synthetic[col] = df_synthetic[col].astype(str)
-        for col in continuous_cols:
-            df_synthetic[col] = pd.to_numeric(df_synthetic[col], errors='coerce')
-
-        out_path = f"{OUTPUT_DIR}combined_{dataset_name}_epsilon_{str(epsilon).replace('.', '_')}_bank_marketing.csv"
-        df_synthetic.to_csv(out_path, index=False)
-        print(f"  Saved: {out_path}")
-        print(f"  Shape: {df_synthetic.shape}")
-        print(f"  Sample:\n{df_synthetic.head(3)}\n")
-
-    print("Done. Generated datasets:")
-    for epsilon in epsilons:
-        print(f"  epsilon={epsilon} -> combined_{dataset_name}_epsilon_{str(epsilon).replace('.', '_')}_bank_marketing.csv")
+print("\n=== Generation Complete ===")
