@@ -1,0 +1,91 @@
+Run,Seed,Dataset,Hit_Precision
+1,101,No anonymization (Baseline),35.526315789473685
+1,101,"ARX Employment, k = 3",0.3684210526315789
+1,101,"ARX Employment, k = 5",0.18421052631578946
+1,101,"ARX Employment, k = 10",0.02631578947368421
+1,101,"ARX Employment, k = 15",0.0
+1,101,"ARX Employment, k = 5, l = 3",0.02631578947368421
+1,101,"ARX Employment, k = 5, l = 5",0.05263157894736842
+1,101,"ARX Employment, k = 5, t = 0.3",0.0
+1,101,"ARX Employment, k = 5, t = 0.15",0.0
+2,102,No anonymization (Baseline),34.421052631578945
+2,102,"ARX Employment, k = 3",0.34210526315789475
+2,102,"ARX Employment, k = 5",0.15789473684210525
+2,102,"ARX Employment, k = 10",0.0
+2,102,"ARX Employment, k = 15",0.0
+2,102,"ARX Employment, k = 5, l = 3",0.02631578947368421
+2,102,"ARX Employment, k = 5, l = 5",0.02631578947368421
+2,102,"ARX Employment, k = 5, t = 0.3",0.0
+2,102,"ARX Employment, k = 5, t = 0.15",0.0
+3,103,No anonymization (Baseline),36.63157894736842
+3,103,"ARX Employment, k = 3",0.2894736842105263
+3,103,"ARX Employment, k = 5",0.07894736842105263
+3,103,"ARX Employment, k = 10",0.0
+3,103,"ARX Employment, k = 15",0.0
+3,103,"ARX Employment, k = 5, l = 3",0.0
+3,103,"ARX Employment, k = 5, l = 5",0.0
+3,103,"ARX Employment, k = 5, t = 0.3",0.0
+3,103,"ARX Employment, k = 5, t = 0.15",0.0
+4,104,No anonymization (Baseline),34.1578947368421
+4,104,"ARX Employment, k = 3",0.6578947368421052
+4,104,"ARX Employment, k = 5",0.2631578947368421
+4,104,"ARX Employment, k = 10",0.05263157894736842
+4,104,"ARX Employment, k = 15",0.0
+4,104,"ARX Employment, k = 5, l = 3",0.02631578947368421
+4,104,"ARX Employment, k = 5, l = 5",0.0
+4,104,"ARX Employment, k = 5, t = 0.3",0.0
+4,104,"ARX Employment, k = 5, t = 0.15",0.0
+5,105,No anonymization (Baseline),34.5
+5,105,"ARX Employment, k = 3",0.42105263157894735
+5,105,"ARX Employment, k = 5",0.15789473684210525
+5,105,"ARX Employment, k = 10",0.0
+5,105,"ARX Employment, k = 15",0.0
+5,105,"ARX Employment, k = 5, l = 3",0.0
+5,105,"ARX Employment, k = 5, l = 5",0.0
+5,105,"ARX Employment, k = 5, t = 0.3",0.0
+5,105,"ARX Employment, k = 5, t = 0.15",0.0
+6,106,No anonymization (Baseline),35.18421052631579
+6,106,"ARX Employment, k = 3",0.5263157894736842
+6,106,"ARX Employment, k = 5",0.21052631578947367
+6,106,"ARX Employment, k = 10",0.0
+6,106,"ARX Employment, k = 15",0.02631578947368421
+6,106,"ARX Employment, k = 5, l = 3",0.0
+6,106,"ARX Employment, k = 5, l = 5",0.07894736842105263
+6,106,"ARX Employment, k = 5, t = 0.3",0.0
+6,106,"ARX Employment, k = 5, t = 0.15",0.0
+7,107,No anonymization (Baseline),34.94736842105263
+7,107,"ARX Employment, k = 3",0.5789473684210527
+7,107,"ARX Employment, k = 5",0.3157894736842105
+7,107,"ARX Employment, k = 10",0.0
+7,107,"ARX Employment, k = 15",0.0
+7,107,"ARX Employment, k = 5, l = 3",0.0
+7,107,"ARX Employment, k = 5, l = 5",0.05263157894736842
+7,107,"ARX Employment, k = 5, t = 0.3",0.0
+7,107,"ARX Employment, k = 5, t = 0.15",0.0
+8,108,No anonymization (Baseline),35.05263157894737
+8,108,"ARX Employment, k = 3",0.5
+8,108,"ARX Employment, k = 5",0.13157894736842105
+8,108,"ARX Employment, k = 10",0.0
+8,108,"ARX Employment, k = 15",0.0
+8,108,"ARX Employment, k = 5, l = 3",0.0
+8,108,"ARX Employment, k = 5, l = 5",0.0
+8,108,"ARX Employment, k = 5, t = 0.3",0.0
+8,108,"ARX Employment, k = 5, t = 0.15",0.0
+9,109,No anonymization (Baseline),33.44736842105263
+9,109,"ARX Employment, k = 3",0.5789473684210527
+9,109,"ARX Employment, k = 5",0.34210526315789475
+9,109,"ARX Employment, k = 10",0.02631578947368421
+9,109,"ARX Employment, k = 15",0.0
+9,109,"ARX Employment, k = 5, l = 3",0.0
+9,109,"ARX Employment, k = 5, l = 5",0.05263157894736842
+9,109,"ARX Employment, k = 5, t = 0.3",0.0
+9,109,"ARX Employment, k = 5, t = 0.15",0.0
+10,110,No anonymization (Baseline),34.89473684210526
+10,110,"ARX Employment, k = 3",0.4473684210526315
+10,110,"ARX Employment, k = 5",0.10526315789473684
+10,110,"ARX Employment, k = 10",0.0
+10,110,"ARX Employment, k = 15",0.02631578947368421
+10,110,"ARX Employment, k = 5, l = 3",0.0
+10,110,"ARX Employment, k = 5, l = 5",0.02631578947368421
+10,110,"ARX Employment, k = 5, t = 0.3",0.0
+10,110,"ARX Employment, k = 5, t = 0.15",0.0

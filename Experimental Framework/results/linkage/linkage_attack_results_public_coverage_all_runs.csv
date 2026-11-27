@@ -1,0 +1,91 @@
+Run,Seed,Dataset,Hit_Precision
+1,101,No anonymization (Baseline),40.144404332129966
+1,101,"ARX Public Coverage, k = 3",0.0
+1,101,"ARX Public Coverage, k = 5",0.0
+1,101,"ARX Public Coverage, k = 10",0.0
+1,101,"ARX Public Coverage, k = 15",0.0
+1,101,"ARX Public Coverage, k = 5, l = 3",0.0
+1,101,"ARX Public Coverage, k = 5, l = 5",0.0
+1,101,"ARX Public Coverage, k = 5, t = 0.3",0.0
+1,101,"ARX Public Coverage, k = 5, t = 0.15",0.0
+2,102,No anonymization (Baseline),37.83393501805054
+2,102,"ARX Public Coverage, k = 3",0.0
+2,102,"ARX Public Coverage, k = 5",0.0
+2,102,"ARX Public Coverage, k = 10",0.0
+2,102,"ARX Public Coverage, k = 15",0.0
+2,102,"ARX Public Coverage, k = 5, l = 3",0.0
+2,102,"ARX Public Coverage, k = 5, l = 5",0.0
+2,102,"ARX Public Coverage, k = 5, t = 0.3",0.0
+2,102,"ARX Public Coverage, k = 5, t = 0.15",0.0
+3,103,No anonymization (Baseline),35.812274368231044
+3,103,"ARX Public Coverage, k = 3",0.0
+3,103,"ARX Public Coverage, k = 5",0.0
+3,103,"ARX Public Coverage, k = 10",0.0
+3,103,"ARX Public Coverage, k = 15",0.0
+3,103,"ARX Public Coverage, k = 5, l = 3",0.0
+3,103,"ARX Public Coverage, k = 5, l = 5",0.0
+3,103,"ARX Public Coverage, k = 5, t = 0.3",0.0
+3,103,"ARX Public Coverage, k = 5, t = 0.15",0.0
+4,104,No anonymization (Baseline),38.77256317689531
+4,104,"ARX Public Coverage, k = 3",0.0
+4,104,"ARX Public Coverage, k = 5",0.0
+4,104,"ARX Public Coverage, k = 10",0.0
+4,104,"ARX Public Coverage, k = 15",0.0
+4,104,"ARX Public Coverage, k = 5, l = 3",0.0
+4,104,"ARX Public Coverage, k = 5, l = 5",0.0
+4,104,"ARX Public Coverage, k = 5, t = 0.3",0.0
+4,104,"ARX Public Coverage, k = 5, t = 0.15",0.0
+5,105,No anonymization (Baseline),38.55595667870036
+5,105,"ARX Public Coverage, k = 3",0.0
+5,105,"ARX Public Coverage, k = 5",0.0
+5,105,"ARX Public Coverage, k = 10",0.0
+5,105,"ARX Public Coverage, k = 15",0.0
+5,105,"ARX Public Coverage, k = 5, l = 3",0.0
+5,105,"ARX Public Coverage, k = 5, l = 5",0.0
+5,105,"ARX Public Coverage, k = 5, t = 0.3",0.0
+5,105,"ARX Public Coverage, k = 5, t = 0.15",0.0
+6,106,No anonymization (Baseline),38.628158844765345
+6,106,"ARX Public Coverage, k = 3",0.0
+6,106,"ARX Public Coverage, k = 5",0.0
+6,106,"ARX Public Coverage, k = 10",0.0
+6,106,"ARX Public Coverage, k = 15",0.0
+6,106,"ARX Public Coverage, k = 5, l = 3",0.0
+6,106,"ARX Public Coverage, k = 5, l = 5",0.0
+6,106,"ARX Public Coverage, k = 5, t = 0.3",0.0
+6,106,"ARX Public Coverage, k = 5, t = 0.15",0.0
+7,107,No anonymization (Baseline),39.35018050541516
+7,107,"ARX Public Coverage, k = 3",0.0
+7,107,"ARX Public Coverage, k = 5",0.0
+7,107,"ARX Public Coverage, k = 10",0.0
+7,107,"ARX Public Coverage, k = 15",0.0
+7,107,"ARX Public Coverage, k = 5, l = 3",0.0
+7,107,"ARX Public Coverage, k = 5, l = 5",0.0
+7,107,"ARX Public Coverage, k = 5, t = 0.3",0.0
+7,107,"ARX Public Coverage, k = 5, t = 0.15",0.0
+8,108,No anonymization (Baseline),38.48375451263538
+8,108,"ARX Public Coverage, k = 3",0.0
+8,108,"ARX Public Coverage, k = 5",0.0
+8,108,"ARX Public Coverage, k = 10",0.0
+8,108,"ARX Public Coverage, k = 15",0.0
+8,108,"ARX Public Coverage, k = 5, l = 3",0.0
+8,108,"ARX Public Coverage, k = 5, l = 5",0.0
+8,108,"ARX Public Coverage, k = 5, t = 0.3",0.0
+8,108,"ARX Public Coverage, k = 5, t = 0.15",0.0
+9,109,No anonymization (Baseline),36.67870036101083
+9,109,"ARX Public Coverage, k = 3",0.0
+9,109,"ARX Public Coverage, k = 5",0.0
+9,109,"ARX Public Coverage, k = 10",0.0
+9,109,"ARX Public Coverage, k = 15",0.0
+9,109,"ARX Public Coverage, k = 5, l = 3",0.0
+9,109,"ARX Public Coverage, k = 5, l = 5",0.0
+9,109,"ARX Public Coverage, k = 5, t = 0.3",0.0
+9,109,"ARX Public Coverage, k = 5, t = 0.15",0.0
+10,110,No anonymization (Baseline),37.18411552346571
+10,110,"ARX Public Coverage, k = 3",0.0
+10,110,"ARX Public Coverage, k = 5",0.0
+10,110,"ARX Public Coverage, k = 10",0.0
+10,110,"ARX Public Coverage, k = 15",0.0
+10,110,"ARX Public Coverage, k = 5, l = 3",0.0
+10,110,"ARX Public Coverage, k = 5, l = 5",0.0
+10,110,"ARX Public Coverage, k = 5, t = 0.3",0.0
+10,110,"ARX Public Coverage, k = 5, t = 0.15",0.0

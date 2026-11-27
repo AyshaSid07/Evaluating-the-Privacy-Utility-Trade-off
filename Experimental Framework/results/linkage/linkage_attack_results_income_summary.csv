@@ -1,0 +1,10 @@
+Dataset,Hit_Precision_mean,Hit_Precision_std
+"ARX Income, k = 10",0.0,0.0
+"ARX Income, k = 15",0.0,0.0
+"ARX Income, k = 3",0.05128205128205128,0.05405602837894665
+"ARX Income, k = 5",0.0,0.0
+"ARX Income, k = 5, l = 3",0.0,0.0
+"ARX Income, k = 5, l = 5",0.0,0.0
+"ARX Income, k = 5, t = 0.15",0.0,0.0
+"ARX Income, k = 5, t = 0.3",0.0,0.0
+No anonymization (Baseline),96.1076923076923,0.6338400685681401

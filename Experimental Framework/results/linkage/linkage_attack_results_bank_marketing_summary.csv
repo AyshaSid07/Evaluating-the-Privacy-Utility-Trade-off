@@ -1,0 +1,10 @@
+Dataset,Hit_Precision_mean,Hit_Precision_std
+"ARX Bank Marketing, k = 10",0.95,0.3689323936863109
+"ARX Bank Marketing, k = 15",0.85,0.3374742788552764
+"ARX Bank Marketing, k = 3",3.05,0.9632122184533259
+"ARX Bank Marketing, k = 5",1.7,0.724568837309472
+"ARX Bank Marketing, k = 5, l = 2",1.675,0.6977145229644827
+"ARX Bank Marketing, k = 5, l = 3",0.125,0.1767766952966369
+"ARX Bank Marketing, k = 5, t = 0.15",0.375,0.338501600193165
+"ARX Bank Marketing, k = 5, t = 0.3",1.6,0.6992058987801011
+No anonymization (Baseline),13.125,1.4349312798102134

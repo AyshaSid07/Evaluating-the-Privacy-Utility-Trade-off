@@ -1,0 +1,91 @@
+Run,Seed,Dataset,Hit_Precision
+1,101,No anonymization (Baseline),4.333333333333334
+1,101,"ARX Credit Card Clients, k = 3",0.33333333333333337
+1,101,"ARX Credit Card Clients, k = 5",0.0
+1,101,"ARX Credit Card Clients, k = 10",0.0
+1,101,"ARX Credit Card Clients, k = 15",0.0
+1,101,"ARX Credit Card Clients, k = 5, l = 2",0.0
+1,101,"ARX Credit Card Clients, k = 5, l = 4",0.0
+1,101,"ARX Credit Card Clients, k = 5, t = 0.3",0.0
+1,101,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+2,102,No anonymization (Baseline),3.3333333333333335
+2,102,"ARX Credit Card Clients, k = 3",0.0
+2,102,"ARX Credit Card Clients, k = 5",0.0
+2,102,"ARX Credit Card Clients, k = 10",0.0
+2,102,"ARX Credit Card Clients, k = 15",0.0
+2,102,"ARX Credit Card Clients, k = 5, l = 2",0.0
+2,102,"ARX Credit Card Clients, k = 5, l = 4",0.0
+2,102,"ARX Credit Card Clients, k = 5, t = 0.3",0.0
+2,102,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+3,103,No anonymization (Baseline),2.3333333333333335
+3,103,"ARX Credit Card Clients, k = 3",0.0
+3,103,"ARX Credit Card Clients, k = 5",0.0
+3,103,"ARX Credit Card Clients, k = 10",0.0
+3,103,"ARX Credit Card Clients, k = 15",0.0
+3,103,"ARX Credit Card Clients, k = 5, l = 2",0.0
+3,103,"ARX Credit Card Clients, k = 5, l = 4",0.0
+3,103,"ARX Credit Card Clients, k = 5, t = 0.3",0.0
+3,103,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+4,104,No anonymization (Baseline),3.3333333333333335
+4,104,"ARX Credit Card Clients, k = 3",0.33333333333333337
+4,104,"ARX Credit Card Clients, k = 5",0.0
+4,104,"ARX Credit Card Clients, k = 10",0.0
+4,104,"ARX Credit Card Clients, k = 15",0.33333333333333337
+4,104,"ARX Credit Card Clients, k = 5, l = 2",0.0
+4,104,"ARX Credit Card Clients, k = 5, l = 4",0.33333333333333337
+4,104,"ARX Credit Card Clients, k = 5, t = 0.3",0.33333333333333337
+4,104,"ARX Credit Card Clients, k = 5, t = 0.15",0.33333333333333337
+5,105,No anonymization (Baseline),4.333333333333334
+5,105,"ARX Credit Card Clients, k = 3",0.0
+5,105,"ARX Credit Card Clients, k = 5",0.0
+5,105,"ARX Credit Card Clients, k = 10",0.0
+5,105,"ARX Credit Card Clients, k = 15",0.0
+5,105,"ARX Credit Card Clients, k = 5, l = 2",0.0
+5,105,"ARX Credit Card Clients, k = 5, l = 4",0.0
+5,105,"ARX Credit Card Clients, k = 5, t = 0.3",0.33333333333333337
+5,105,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+6,106,No anonymization (Baseline),4.0
+6,106,"ARX Credit Card Clients, k = 3",0.6666666666666667
+6,106,"ARX Credit Card Clients, k = 5",0.6666666666666667
+6,106,"ARX Credit Card Clients, k = 10",0.6666666666666667
+6,106,"ARX Credit Card Clients, k = 15",0.33333333333333337
+6,106,"ARX Credit Card Clients, k = 5, l = 2",0.6666666666666667
+6,106,"ARX Credit Card Clients, k = 5, l = 4",0.33333333333333337
+6,106,"ARX Credit Card Clients, k = 5, t = 0.3",0.6666666666666667
+6,106,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+7,107,No anonymization (Baseline),3.0
+7,107,"ARX Credit Card Clients, k = 3",0.0
+7,107,"ARX Credit Card Clients, k = 5",0.0
+7,107,"ARX Credit Card Clients, k = 10",0.0
+7,107,"ARX Credit Card Clients, k = 15",0.0
+7,107,"ARX Credit Card Clients, k = 5, l = 2",0.0
+7,107,"ARX Credit Card Clients, k = 5, l = 4",0.0
+7,107,"ARX Credit Card Clients, k = 5, t = 0.3",0.0
+7,107,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+8,108,No anonymization (Baseline),4.0
+8,108,"ARX Credit Card Clients, k = 3",0.6666666666666667
+8,108,"ARX Credit Card Clients, k = 5",0.6666666666666667
+8,108,"ARX Credit Card Clients, k = 10",0.6666666666666667
+8,108,"ARX Credit Card Clients, k = 15",0.0
+8,108,"ARX Credit Card Clients, k = 5, l = 2",0.6666666666666667
+8,108,"ARX Credit Card Clients, k = 5, l = 4",0.0
+8,108,"ARX Credit Card Clients, k = 5, t = 0.3",0.33333333333333337
+8,108,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+9,109,No anonymization (Baseline),3.6666666666666665
+9,109,"ARX Credit Card Clients, k = 3",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 5",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 10",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 15",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 5, l = 2",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 5, l = 4",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 5, t = 0.3",0.33333333333333337
+9,109,"ARX Credit Card Clients, k = 5, t = 0.15",0.0
+10,110,No anonymization (Baseline),3.6666666666666665
+10,110,"ARX Credit Card Clients, k = 3",0.33333333333333337
+10,110,"ARX Credit Card Clients, k = 5",0.33333333333333337
+10,110,"ARX Credit Card Clients, k = 10",0.33333333333333337
+10,110,"ARX Credit Card Clients, k = 15",0.33333333333333337
+10,110,"ARX Credit Card Clients, k = 5, l = 2",0.33333333333333337
+10,110,"ARX Credit Card Clients, k = 5, l = 4",0.33333333333333337
+10,110,"ARX Credit Card Clients, k = 5, t = 0.3",0.0
+10,110,"ARX Credit Card Clients, k = 5, t = 0.15",0.0

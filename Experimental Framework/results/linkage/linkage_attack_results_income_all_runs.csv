@@ -1,0 +1,91 @@
+Run,Seed,Dataset,Hit_Precision
+1,101,No anonymization (Baseline),95.74358974358974
+1,101,"ARX Income, k = 3",0.0
+1,101,"ARX Income, k = 5",0.0
+1,101,"ARX Income, k = 10",0.0
+1,101,"ARX Income, k = 15",0.0
+1,101,"ARX Income, k = 5, l = 3",0.0
+1,101,"ARX Income, k = 5, l = 5",0.0
+1,101,"ARX Income, k = 5, t = 0.3",0.0
+1,101,"ARX Income, k = 5, t = 0.15",0.0
+2,102,No anonymization (Baseline),95.6923076923077
+2,102,"ARX Income, k = 3",0.0
+2,102,"ARX Income, k = 5",0.0
+2,102,"ARX Income, k = 10",0.0
+2,102,"ARX Income, k = 15",0.0
+2,102,"ARX Income, k = 5, l = 3",0.0
+2,102,"ARX Income, k = 5, l = 5",0.0
+2,102,"ARX Income, k = 5, t = 0.3",0.0
+2,102,"ARX Income, k = 5, t = 0.15",0.0
+3,103,No anonymization (Baseline),96.2051282051282
+3,103,"ARX Income, k = 3",0.05128205128205128
+3,103,"ARX Income, k = 5",0.0
+3,103,"ARX Income, k = 10",0.0
+3,103,"ARX Income, k = 15",0.0
+3,103,"ARX Income, k = 5, l = 3",0.0
+3,103,"ARX Income, k = 5, l = 5",0.0
+3,103,"ARX Income, k = 5, t = 0.3",0.0
+3,103,"ARX Income, k = 5, t = 0.15",0.0
+4,104,No anonymization (Baseline),96.41025641025641
+4,104,"ARX Income, k = 3",0.10256410256410256
+4,104,"ARX Income, k = 5",0.0
+4,104,"ARX Income, k = 10",0.0
+4,104,"ARX Income, k = 15",0.0
+4,104,"ARX Income, k = 5, l = 3",0.0
+4,104,"ARX Income, k = 5, l = 5",0.0
+4,104,"ARX Income, k = 5, t = 0.3",0.0
+4,104,"ARX Income, k = 5, t = 0.15",0.0
+5,105,No anonymization (Baseline),96.35897435897436
+5,105,"ARX Income, k = 3",0.0
+5,105,"ARX Income, k = 5",0.0
+5,105,"ARX Income, k = 10",0.0
+5,105,"ARX Income, k = 15",0.0
+5,105,"ARX Income, k = 5, l = 3",0.0
+5,105,"ARX Income, k = 5, l = 5",0.0
+5,105,"ARX Income, k = 5, t = 0.3",0.0
+5,105,"ARX Income, k = 5, t = 0.15",0.0
+6,106,No anonymization (Baseline),94.97435897435898
+6,106,"ARX Income, k = 3",0.10256410256410256
+6,106,"ARX Income, k = 5",0.0
+6,106,"ARX Income, k = 10",0.0
+6,106,"ARX Income, k = 15",0.0
+6,106,"ARX Income, k = 5, l = 3",0.0
+6,106,"ARX Income, k = 5, l = 5",0.0
+6,106,"ARX Income, k = 5, t = 0.3",0.0
+6,106,"ARX Income, k = 5, t = 0.15",0.0
+7,107,No anonymization (Baseline),96.51282051282051
+7,107,"ARX Income, k = 3",0.0
+7,107,"ARX Income, k = 5",0.0
+7,107,"ARX Income, k = 10",0.0
+7,107,"ARX Income, k = 15",0.0
+7,107,"ARX Income, k = 5, l = 3",0.0
+7,107,"ARX Income, k = 5, l = 5",0.0
+7,107,"ARX Income, k = 5, t = 0.3",0.0
+7,107,"ARX Income, k = 5, t = 0.15",0.0
+8,108,No anonymization (Baseline),95.48717948717949
+8,108,"ARX Income, k = 3",0.05128205128205128
+8,108,"ARX Income, k = 5",0.0
+8,108,"ARX Income, k = 10",0.0
+8,108,"ARX Income, k = 15",0.0
+8,108,"ARX Income, k = 5, l = 3",0.0
+8,108,"ARX Income, k = 5, l = 5",0.0
+8,108,"ARX Income, k = 5, t = 0.3",0.0
+8,108,"ARX Income, k = 5, t = 0.15",0.0
+9,109,No anonymization (Baseline),97.17948717948718
+9,109,"ARX Income, k = 3",0.15384615384615385
+9,109,"ARX Income, k = 5",0.0
+9,109,"ARX Income, k = 10",0.0
+9,109,"ARX Income, k = 15",0.0
+9,109,"ARX Income, k = 5, l = 3",0.0
+9,109,"ARX Income, k = 5, l = 5",0.0
+9,109,"ARX Income, k = 5, t = 0.3",0.0
+9,109,"ARX Income, k = 5, t = 0.15",0.0
+10,110,No anonymization (Baseline),96.51282051282051
+10,110,"ARX Income, k = 3",0.05128205128205128
+10,110,"ARX Income, k = 5",0.0
+10,110,"ARX Income, k = 10",0.0
+10,110,"ARX Income, k = 15",0.0
+10,110,"ARX Income, k = 5, l = 3",0.0
+10,110,"ARX Income, k = 5, l = 5",0.0
+10,110,"ARX Income, k = 5, t = 0.3",0.0
+10,110,"ARX Income, k = 5, t = 0.15",0.0

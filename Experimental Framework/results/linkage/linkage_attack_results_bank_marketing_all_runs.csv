@@ -1,0 +1,91 @@
+Run,Seed,Dataset,Hit_Precision
+1,101,No anonymization (Baseline),11.5
+1,101,"ARX Bank Marketing, k = 3",1.5
+1,101,"ARX Bank Marketing, k = 5",1.25
+1,101,"ARX Bank Marketing, k = 10",0.75
+1,101,"ARX Bank Marketing, k = 15",0.75
+1,101,"ARX Bank Marketing, k = 5, l = 2",1.25
+1,101,"ARX Bank Marketing, k = 5, l = 3",0.0
+1,101,"ARX Bank Marketing, k = 5, t = 0.3",1.25
+1,101,"ARX Bank Marketing, k = 5, t = 0.15",0.25
+2,102,No anonymization (Baseline),12.5
+2,102,"ARX Bank Marketing, k = 3",2.5
+2,102,"ARX Bank Marketing, k = 5",0.5
+2,102,"ARX Bank Marketing, k = 10",0.5
+2,102,"ARX Bank Marketing, k = 15",0.5
+2,102,"ARX Bank Marketing, k = 5, l = 2",0.5
+2,102,"ARX Bank Marketing, k = 5, l = 3",0.0
+2,102,"ARX Bank Marketing, k = 5, t = 0.3",0.5
+2,102,"ARX Bank Marketing, k = 5, t = 0.15",0.0
+3,103,No anonymization (Baseline),11.75
+3,103,"ARX Bank Marketing, k = 3",3.25
+3,103,"ARX Bank Marketing, k = 5",0.75
+3,103,"ARX Bank Marketing, k = 10",0.25
+3,103,"ARX Bank Marketing, k = 15",0.25
+3,103,"ARX Bank Marketing, k = 5, l = 2",0.75
+3,103,"ARX Bank Marketing, k = 5, l = 3",0.25
+3,103,"ARX Bank Marketing, k = 5, t = 0.3",0.75
+3,103,"ARX Bank Marketing, k = 5, t = 0.15",0.25
+4,104,No anonymization (Baseline),12.0
+4,104,"ARX Bank Marketing, k = 3",2.75
+4,104,"ARX Bank Marketing, k = 5",2.25
+4,104,"ARX Bank Marketing, k = 10",1.25
+4,104,"ARX Bank Marketing, k = 15",1.25
+4,104,"ARX Bank Marketing, k = 5, l = 2",2.25
+4,104,"ARX Bank Marketing, k = 5, l = 3",0.25
+4,104,"ARX Bank Marketing, k = 5, t = 0.3",2.25
+4,104,"ARX Bank Marketing, k = 5, t = 0.15",1.0
+5,105,No anonymization (Baseline),12.5
+5,105,"ARX Bank Marketing, k = 3",2.25
+5,105,"ARX Bank Marketing, k = 5",1.25
+5,105,"ARX Bank Marketing, k = 10",1.0
+5,105,"ARX Bank Marketing, k = 15",0.75
+5,105,"ARX Bank Marketing, k = 5, l = 2",1.25
+5,105,"ARX Bank Marketing, k = 5, l = 3",0.0
+5,105,"ARX Bank Marketing, k = 5, t = 0.3",1.0
+5,105,"ARX Bank Marketing, k = 5, t = 0.15",0.0
+6,106,No anonymization (Baseline),14.75
+6,106,"ARX Bank Marketing, k = 3",3.25
+6,106,"ARX Bank Marketing, k = 5",2.0
+6,106,"ARX Bank Marketing, k = 10",1.0
+6,106,"ARX Bank Marketing, k = 15",1.0
+6,106,"ARX Bank Marketing, k = 5, l = 2",2.0
+6,106,"ARX Bank Marketing, k = 5, l = 3",0.0
+6,106,"ARX Bank Marketing, k = 5, t = 0.3",2.0
+6,106,"ARX Bank Marketing, k = 5, t = 0.15",0.25
+7,107,No anonymization (Baseline),14.499999999999998
+7,107,"ARX Bank Marketing, k = 3",5.0
+7,107,"ARX Bank Marketing, k = 5",2.5
+7,107,"ARX Bank Marketing, k = 10",1.5
+7,107,"ARX Bank Marketing, k = 15",1.25
+7,107,"ARX Bank Marketing, k = 5, l = 2",2.5
+7,107,"ARX Bank Marketing, k = 5, l = 3",0.0
+7,107,"ARX Bank Marketing, k = 5, t = 0.3",2.5
+7,107,"ARX Bank Marketing, k = 5, t = 0.15",0.25
+8,108,No anonymization (Baseline),14.75
+8,108,"ARX Bank Marketing, k = 3",4.0
+8,108,"ARX Bank Marketing, k = 5",2.5
+8,108,"ARX Bank Marketing, k = 10",1.0
+8,108,"ARX Bank Marketing, k = 15",0.75
+8,108,"ARX Bank Marketing, k = 5, l = 2",2.25
+8,108,"ARX Bank Marketing, k = 5, l = 3",0.25
+8,108,"ARX Bank Marketing, k = 5, t = 0.3",2.25
+8,108,"ARX Bank Marketing, k = 5, t = 0.15",0.75
+9,109,No anonymization (Baseline),15.0
+9,109,"ARX Bank Marketing, k = 3",2.75
+9,109,"ARX Bank Marketing, k = 5",1.7500000000000002
+9,109,"ARX Bank Marketing, k = 10",1.0
+9,109,"ARX Bank Marketing, k = 15",0.75
+9,109,"ARX Bank Marketing, k = 5, l = 2",1.7500000000000002
+9,109,"ARX Bank Marketing, k = 5, l = 3",0.5
+9,109,"ARX Bank Marketing, k = 5, t = 0.3",1.5
+9,109,"ARX Bank Marketing, k = 5, t = 0.15",0.75
+10,110,No anonymization (Baseline),12.0
+10,110,"ARX Bank Marketing, k = 3",3.25
+10,110,"ARX Bank Marketing, k = 5",2.25
+10,110,"ARX Bank Marketing, k = 10",1.25
+10,110,"ARX Bank Marketing, k = 15",1.25
+10,110,"ARX Bank Marketing, k = 5, l = 2",2.25
+10,110,"ARX Bank Marketing, k = 5, l = 3",0.0
+10,110,"ARX Bank Marketing, k = 5, t = 0.3",2.0
+10,110,"ARX Bank Marketing, k = 5, t = 0.15",0.25
